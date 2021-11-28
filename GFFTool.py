@@ -28,29 +28,12 @@ window.geometry("500x250")
 window.title("GFF Tool")
 #window.configure(bg="grey")
 def fileSelect():
-     # global dbName,chrID,startList,endList
-     # dbName,chrID,startList,endList = 
-     # return dbName,chrID,startList,endList
+     
      fileSelectFunc(window)
 
 def urlEntry ():
      urlEntryFunc(window)
 
-# def region():
-#      # global chrSelected,startSelected,endSelected
-#      # chrSelected,startSelected,endSelected = 
-#      # return chrSelected,startSelected,endSelected
-#      regionFunc()
-
-# def genesExons ():
-#      #numberGenes,numberExons = 
-#      genesExonsFunc()
-     
-# def generateGraph ():
-#      generateGraphFunc()
-
-# def generateStat ():
-#      generateStatFunc()
 
 
 programFrame = tk.Frame(window)
