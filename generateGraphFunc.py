@@ -19,6 +19,30 @@ import sqlite3
 import pandas as pd
 
 def generateGraphFunc ():
-     graphWindow = tk.Tk()
-     graphWindow.geometry("500x500+700+100")
-     graphWindow.title("GFF Graphs")
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
+
+     global exonT
+     exonT= c.execute("SELECT end-start from features WHERE featuretype = 'exon'").fetchall()
+     
+     global geneT
+     geneT= c.execute("SELECT end-start from features WHERE featuretype = 'gene'").fetchall()
+     
+     global intronT
+     intronT= c.execute("SELECT end-start from features WHERE featuretype ='intron'").fetchall()
+     
+     plt.plot(exonT,label='exon')
+     plt.plot(geneT,label='gene')
+     plt.plot(intronT,label='intron')
+
+     plt.xlabel('Nombre')
+     plt.ylabel('Taille (acide nucleique)')
+     plt.title('Distribution de la taille')
+     plt.legend(ncol=3,loc='upper right')
+     #bbox_to_anchor=(0.5,-0.1)
+     plt.show()
+     co.commit()
+     c.close()
+     co.close()
+     return
+
