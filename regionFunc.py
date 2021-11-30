@@ -91,16 +91,28 @@ def regionFunc ():
           validateChr.grid(column=0,row=3,padx=20,pady=10)
 
      def save ():
-          global chrSelected
-          chrSelected = ''.join(chrChoice.get("anchor"))
 
-          startTuple = startChoice.get("anchor")
-          global startSelected
-          startSelected = startTuple[0]
           
-          endTuple = endChoice.get("anchor")
-          global endSelected
-          endSelected = endTuple[0]
+
+          if  chrChoice.get("anchor")=="" or startChoice.get("anchor")=="" or  endChoice.get("anchor")=="" :
+               selectionLabel.pack_forget()
+               selectionLabel.config(text="selectionner les 3 champs")
+
+          elif chrChoice.get("anchor")!="" and startChoice.get("anchor")!="" and  endChoice.get("anchor")!="" :
+               
+               global chrSelected
+               chrSelected = ''.join(chrChoice.get("anchor"))
+
+               startTuple = startChoice.get("anchor")
+               global startSelected
+               startSelected = startTuple[0]
+               
+               endTuple = endChoice.get("anchor")
+               global endSelected
+               endSelected = endTuple[0]
+               selectionLabel.pack_forget()
+               selectionLabel.config(text="Région sauvegardée")
+               
          
           return
 
@@ -108,3 +120,6 @@ def regionFunc ():
      SaveButton.grid(column=1,row=3,pady=10)
      regionQuitButton = tk.Button(regionWindow,text="Quitter",command=regionWindow.destroy)
      regionQuitButton.grid(column=1,row=4,pady=10)
+     global selectionLabel
+     selectionLabel = tk.Label(regionWindow,text="")
+     selectionLabel.grid(column=2,row=3,pady=10)

@@ -23,22 +23,88 @@ from fileSelectFunc import *
 def genesExonsFunc():
      
      nbrWindow = tk.Tk()
-     nbrWindow.geometry("400x100+700+100")
+     nbrWindow.geometry("400x150+700+100")
      nbrWindow.title("Region numbers")
-     
-     con = sqlite3.connect(fs.dbName)
-     cur = con.cursor()
 
-     numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     numberGenes = numberGenesList[0][0]
-     geneResult = tk.Label(nbrWindow,text="Le nombre de gènes dans cette région est : "+str(numberGenes))
-     geneResult.grid(row=0,pady=10)
+     global geneResult
+     geneResult = tk.Label(nbrWindow,text="")
+     geneResult.grid(column=0,row=1,pady=10,columnspan=3)
+     global exonResult
+     exonResult = tk.Label(nbrWindow,text="")
+     exonResult.grid(column=0,row=2,pady=10,columnspan=3)
 
-     numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     numberExons = numberExonsList[0][0]
-     exonResult = tk.Label(nbrWindow,text="Le nombre d'exons dans cette région est : "+str(numberExons))
-     exonResult.grid(row=1,pady=10)
+     def getPlus():
 
-     con.commit()
-     cur.close()
-     con.close()
+          con = sqlite3.connect(fs.dbName)
+          cur = con.cursor()
+
+          numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          numberGenes = numberGenesList[0][0]
+          geneResult.pack_forget()
+          geneResult.configure(text="Le nombre de gènes du brin + dans cette région est : "+str(numberGenes))
+          
+
+          numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          numberExons = numberExonsList[0][0]
+          exonResult.pack_forget()
+          exonResult.configure(text="Le nombre d'exons du brin + dans cette région est : "+str(numberExons))
+          
+
+          con.commit()
+          cur.close()
+          con.close()
+          return
+
+     plusButton = tk.Button(nbrWindow,text="Brin +",command=getPlus)
+     plusButton.grid(column=0,row=0,pady=10,padx=25)
+
+     def getMinus():
+
+          con = sqlite3.connect(fs.dbName)
+          cur = con.cursor()
+
+          numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          numberGenes = numberGenesList[0][0]
+          geneResult.pack_forget()
+          geneResult.configure(text="Le nombre de gènes du brin - dans cette région est : "+str(numberGenes))
+         
+
+          numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          numberExons = numberExonsList[0][0]
+          exonResult.pack_forget()
+          exonResult.configure(text="Le nombre d'exons du brin - dans cette région est : "+str(numberExons))
+         
+
+          con.commit()
+          cur.close()
+          con.close()
+          return
+
+     minusButton = tk.Button(nbrWindow,text="Brin -",command=getMinus)
+     minusButton.grid(column=1,row=0,pady=10,padx=25)
+
+     def getBoth():
+
+          con = sqlite3.connect(fs.dbName)
+          cur = con.cursor()
+          
+          numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          numberGenes = numberGenesList[0][0]
+          geneResult.pack_forget()
+          geneResult.configure(text="Le nombre total de gènes dans cette région est : "+str(numberGenes))
+          
+          
+          numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          numberExons = numberExonsList[0][0]
+          exonResult.pack_forget()
+          exonResult.configure(text="Le nombre total d'exons dans cette région est : "+str(numberExons))
+          
+          
+          con.commit()
+          cur.close()
+          con.close()
+          
+          return
+
+     bothButton = tk.Button(nbrWindow,text="2 Brins",command=getBoth)
+     bothButton.grid(column=2,row=0,pady=10,padx=25)

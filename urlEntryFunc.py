@@ -45,7 +45,9 @@ def urlEntryFunc(window):
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
                wget.download(url=urlLink)
+               print("fichier téléchargé")
                os.system("gzip -dk -f *.gz")
+               print("fichier dézippé")
                wrongUrl.config(text="fichier téléchargé et dézippé ouvrir en local")
                
      

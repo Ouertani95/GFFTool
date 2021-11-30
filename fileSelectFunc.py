@@ -28,6 +28,7 @@ def fileSelectFunc(window) :
      #créer la base de données 
           db = gffutils.create_db(window.filename, dbName)
           db = gffutils.FeatureDB(dbName)
+          print("database created")
      
      #se connecter à la base de données 
      con = sqlite3.connect(dbName)
@@ -36,12 +37,15 @@ def fileSelectFunc(window) :
      global chrID
      chrID = cur.execute("SELECT DISTINCT seqid FROM features").fetchall()
      #chrID is a list of tuples
+     print("chromosome list created")
      
      global startList
      startList = cur.execute("SELECT DISTINCT start FROM features ORDER BY start asc").fetchall()
+     print ("start list created")
      
      global endList
      endList = cur.execute("SELECT DISTINCT end FROM features ORDER BY end desc").fetchall()
+     print ("end list created")
  
 
      con.commit()
