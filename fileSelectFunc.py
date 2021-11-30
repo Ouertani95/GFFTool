@@ -35,38 +35,15 @@ def fileSelectFunc(window) :
      #créer les listes de chromosomes, start et end à partir de la base de données créée
      global chrID
      chrID = cur.execute("SELECT DISTINCT seqid FROM features").fetchall()
+     #chrID is a list of tuples
      
-     # check intrus chromosomes
-     # chrID2 = cur.execute("SELECT DISTINCT seqid FROM features").fetchall()
-     # chrID3 = []
-     # for chr in chrID2 :
-     #      if chr not in chrID :
-     #           chrID3 += chr   
-     
-     # print (chrID3)
-     print(chrID)
-     print(type(chrID))
-     print("le nombre de chromosomes est : ",len(chrID))
-     # if len(chrID) == 1 :
      global startList
      startList = cur.execute("SELECT DISTINCT start FROM features ORDER BY start asc").fetchall()
-     # print("La liste des positions start est :",startList)
-     # print(type(startList))
-     print(type(startList))
-     print("le nombre de positions start est : ",len(startList))
+     
      global endList
      endList = cur.execute("SELECT DISTINCT end FROM features ORDER BY end desc").fetchall()
-     print(type(endList))
-     print("le nombre de positions end est : ",len(endList))
-     
-     # print("La liste des positions end est :",endList)
-     # print(type(endList))
-     # else :
-     #           chrSelection = region().get("anchor")
-     #           print(chrSelection)
-     #      # startList = cur.execute("SELECT DISTINCT start FROM features WHERE seqid = %s"%chrSelection).fetchall()
-     #      # endList = cur.execute("SELECT DISTINCT end FROM features WHERE seqid = %s"%chrSelection).fetchall()
-     
+ 
+
      con.commit()
      cur.close()
      con.close()
