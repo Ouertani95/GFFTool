@@ -18,14 +18,17 @@ from gffutils.create import create_db
 from pathlib import Path
 import sqlite3
 import pandas as pd
+import tkinter.ttk as ttk 
+import ttkthemes as themes
 
 
 
 def generateGraphFunc ():
 
-     grapheWindow = tk.Tk()
-     grapheWindow.geometry("580x50+700+100")
+     grapheWindow = themes.ThemedTk(theme="radiance")
+     grapheWindow.geometry("615x55+700+100")
      grapheWindow.title("Generer Des Graphes")
+     grapheWindow.configure(bg="#F6F6F5")
 
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
@@ -63,7 +66,7 @@ def generateGraphFunc ():
           #bbox_to_anchor=(0.5,-0.1)
           plt.show()
 
-     exon_Button = tk.Button(grapheWindow,text="Graphe d'exon",command=generateGraphExon)
+     exon_Button = ttk.Button(grapheWindow,text="Graphe d'exon",command=generateGraphExon)
      exon_Button.grid(column=0,row=0,pady=10,padx=25)
 
 
@@ -95,7 +98,7 @@ def generateGraphFunc ():
           plt.legend(ncol=3,loc='upper right')
           plt.show()
 
-     gene_Button = tk.Button(grapheWindow,text="Graphe des Genes",command=generateGraphGene)
+     gene_Button = ttk.Button(grapheWindow,text="Graphe des Genes",command=generateGraphGene)
      gene_Button.grid(column=1,row=0,pady=10,padx=25)
 
      co= sqlite3.connect(fs.dbName)
@@ -126,7 +129,7 @@ def generateGraphFunc ():
           plt.legend(ncol=3,loc='upper right')
           plt.show()
 
-     intron_Button = tk.Button(grapheWindow,text="Graphe des Introns ",command=generateGraphIntron)
+     intron_Button = ttk.Button(grapheWindow,text="Graphe des Introns ",command=generateGraphIntron)
      intron_Button.grid(column=2,row=0,pady=10,padx=25)
 
      return
