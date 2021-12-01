@@ -96,7 +96,7 @@ def regionFunc ():
 
           if  chrChoice.get("anchor")=="" or startChoice.get("anchor")=="" or  endChoice.get("anchor")=="" :
                selectionLabel.pack_forget()
-               selectionLabel.config(text="selectionner les 3 champs")
+               selectionLabel.config(text="sélectionner les 3 champs")
 
           elif chrChoice.get("anchor")!="" and startChoice.get("anchor")!="" and  endChoice.get("anchor")!="" :
                

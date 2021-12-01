@@ -14,15 +14,20 @@ import sqlite3
 import pandas as pd
 
 
-def urlEntryFunc(window):
+def urlEntryFunc():
+
+     downloadWindow = tk.Toplevel()
+     downloadWindow.geometry("250x100+250+300")
+     downloadWindow.title("GFF Region")
+
      urlEntry= tk.StringVar()
-     entryLabel = tk.Label(window,text="Saisir l'url du fichier gff")
-     entryLabel.grid(column=0,row=5)
-     entryField = tk.Entry(window,textvariable=urlEntry)
-     entryField.grid(column=0,row=6) 
-     global wrongUrl
-     wrongUrl = tk.Label(window,text="")
-     wrongUrl.grid(column=0,row=8)
+     entryLabel = tk.Label(downloadWindow,text="Saisir l'url du fichier gff")
+     entryLabel.pack()
+     #.grid(column=0,row=5)
+     entryField = tk.Entry(downloadWindow,textvariable=urlEntry)
+     entryField.pack()
+     #.grid(column=0,row=6) 
+     
      def fileDownload ():
           urlLink = urlEntry.get()
           validUrl=validators.url(urlLink)
@@ -34,12 +39,14 @@ def urlEntryFunc(window):
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
                wrongUrl.config(text="Url non valide")
+               wrongUrl.pack()
           elif "gff" not in urlLink :
                #refresh entryField
                entryField.delete(0,tk.END)
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
                wrongUrl.config(text="Pas de fichier gff trouvé")
+               wrongUrl.pack()
           else :
                print(urlLink)
                #remove old text from wrongUrl Label(used thanks to global outside of function)
@@ -48,10 +55,14 @@ def urlEntryFunc(window):
                print("fichier téléchargé")
                os.system("gzip -dk -f *.gz")
                print("fichier dézippé")
-               wrongUrl.config(text="fichier téléchargé et dézippé ouvrir en local")
-               
-     
-     downloadButton = tk.Button(window,text="Telecharger",command=fileDownload)
-     downloadButton.grid(column=0,row=7)
-      
+               wrongUrl.config(text="Ouvrir fichier en local")
+               wrongUrl.pack()
 
+     
+     downloadButton = tk.Button(downloadWindow,text="Telecharger",command=fileDownload)
+     downloadButton.pack()
+     #.grid(column=0,row=7)
+     global wrongUrl
+     wrongUrl = tk.Label(downloadWindow,text="")
+     wrongUrl.pack()
+     #.grid(column=0,row=8)

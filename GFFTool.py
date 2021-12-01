@@ -19,20 +19,22 @@ from gffutils.create import create_db
 from pathlib import Path
 import sqlite3
 import pandas as pd
-
-
+# import tkinter.ttk as ttk
+# from PIL import Image 
+# from PIL import ImageTk
 
 global window
 window = tk.Tk()
-window.geometry("500x250")
+window.geometry("600x170")
 window.title("GFF Tool")
+
 #window.configure(bg="grey")
 def fileSelect():
      
      fileSelectFunc(window)
 
-def urlEntry ():
-     urlEntryFunc(window)
+# def urlEntry ():
+#      urlEntryFunc(window)
 
 
 
@@ -40,28 +42,28 @@ programFrame = tk.Frame(window)
 programFrame.grid(column=1,row=0,rowspan=20)
 
 
-programLabel = tk.Label(programFrame,text="Selectionner un outil")
-programLabel.grid(row=0,padx=50)
+programLabel = tk.Label(programFrame,text="Sélectionner un outil")
+programLabel.grid(row=0,padx=50,pady=5)
 genomicRegion = tk.Radiobutton(programFrame,text="Définir une région génomique",value=1,command=regionFunc)
-genomicRegion.grid(row=1)
+genomicRegion.grid(row=1,sticky=W,pady=5,padx=30)
 numberGenes = tk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExonsFunc) 
-numberGenes.grid(row=2)
+numberGenes.grid(row=2,sticky=W,pady=5,padx=30)
 graphGenerator = tk.Radiobutton(programFrame,text="Générer des graphiques",value=3,command=generateGraphFunc)
-graphGenerator.grid(row=3)
+graphGenerator.grid(row=3,sticky=W,pady=5,padx=30)
 statGenerator = tk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStatFunc) 
-statGenerator.grid(row=4)
+statGenerator.grid(row=4,sticky=W,pady=5,padx=30)
 
 
-selectLabel = tk.Label(window,text="Selectionner un fichier .GFF")
-selectLabel.grid(column=0,row=0,pady=5)
+selectLabel = tk.Label(window,text="Sélectionner un fichier .GFF")
+selectLabel.grid(column=0,row=0,pady=5,padx=30)
 selectLocal = tk.Button(window,text="En local",command=fileSelect)
-selectLocal.grid(column=0,row=1,pady=5)
-selectOnline = tk.Button(window,text="En ligne",command=urlEntry)
-selectOnline.grid(column=0,row=2,pady=5)
+selectLocal.grid(column=0,row=1,pady=5,padx=30)
+selectOnline = tk.Button(window,text="En ligne",command=urlEntryFunc)
+selectOnline.grid(column=0,row=2,pady=5,padx=30)
 
 
 quitButton = tk.Button(window,text="Quitter", bg="sky blue", width=15, command=window.destroy)
-quitButton.grid(column=0,row=10,pady=5)
+quitButton.grid(column=0,row=10,pady=5,padx=30)
 
 
 window.mainloop()
