@@ -18,14 +18,18 @@ from pathlib import Path
 import sqlite3
 import pandas as pd
 #import statistics
-import pymysql
+#import pymysql
 import scipy as sp 
 from scipy.stats import norm
+import tkinter.ttk as ttk 
+import ttkthemes as themes
 
 def generateStatFunc ():
-     statWindow = tk.Tk()
-     statWindow.geometry("780x200+700+100")
+     statWindow = themes.ThemedTk(theme="radiance")
+     statWindow.geometry("855x200+100+300")
      statWindow.title("GFF Stats")
+     statWindow.configure(bg="#F6F6F5")
+
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
 
@@ -50,16 +54,16 @@ def generateStatFunc ():
 
      def resultExon() :
 
-          Result = tk.Label(statWindow,text= " Taille Moyenne Des Exons : " +exonAllMean)
-          Result.grid(column=1,row=1)
+          Result = ttk.Label(statWindow,text= " Taille Moyenne Des Exons : " +exonAllMean)
+          Result.grid(column=1,row=1,sticky=W)
      
-          mini_Result = tk.Label(statWindow,text= "Taille Minimale Des Exons : " +exonMin)
-          mini_Result.grid(column=1,row=2)   
+          mini_Result = ttk.Label(statWindow,text= "Taille Minimale Des Exons : " +exonMin)
+          mini_Result.grid(column=1,row=2,sticky=W)   
 
-          max_Result = tk.Label(statWindow,text= "Taille Maximale des Exons : " +exonMax)
-          max_Result.grid(column=1,row=3) 
+          max_Result = ttk.Label(statWindow,text= "Taille Maximale des Exons : " +exonMax)
+          max_Result.grid(column=1,row=3,sticky=W) 
 
-     exon_Button = tk.Button(statWindow,text="Stat exon",command=resultExon)
+     exon_Button = ttk.Button(statWindow,text="Stat exon",command=resultExon)
      exon_Button.grid(column=1, row=0, padx=80, pady= 10)
      #padx=10,pady=10,side=LEFT
 
@@ -87,17 +91,17 @@ def generateStatFunc ():
 
      def resultGene() :
 
-          gene_Result = tk.Label(statWindow,text= "Taille Moyenne Des Genes : " +geneAllMean)
-          gene_Result.grid(column=0, row=1)
+          gene_Result = ttk.Label(statWindow,text= "Taille Moyenne Des Genes : " +geneAllMean)
+          gene_Result.grid(column=0, row=1,sticky=W)
      
 
-          geneMin_Result = tk.Label(statWindow,text=" Taille Minimale Des Genes : " +geneMin)
-          geneMin_Result.grid(column=0, row=2)
+          geneMin_Result = ttk.Label(statWindow,text=" Taille Minimale Des Genes : " +geneMin)
+          geneMin_Result.grid(column=0, row=2,sticky=W)
 
-          geneMax_Result = tk.Label(statWindow,text= "Taille Maximale Des Genes : " +geneMax)
-          geneMax_Result.grid(column=0, row=3)
+          geneMax_Result = ttk.Label(statWindow,text= "Taille Maximale Des Genes : " +geneMax)
+          geneMax_Result.grid(column=0, row=3,sticky=W)
 
-     gene_Button = tk.Button(statWindow,text="Stat Gene",command=resultGene)
+     gene_Button = ttk.Button(statWindow,text="Stat Gene",command=resultGene)
      gene_Button.grid(column=0, row=0,padx=80, pady= 10 )
 
 
@@ -123,17 +127,17 @@ def generateStatFunc ():
      co.close()
 
      def resultIntron() : 
-          intronMean_Result = tk.Label(statWindow,text= "Taille Moyenne Des Introns : " +intronAllMean)
-          intronMean_Result.grid(column=2, row=1)
+          intronMean_Result = ttk.Label(statWindow,text= "Taille Moyenne Des Introns : " +intronAllMean)
+          intronMean_Result.grid(column=2, row=1,sticky=W)
 
      
-          intronMin_Result = tk.Label(statWindow,text= "Taille Minimale Des Introns : " +intronMin)
-          intronMin_Result.grid(column=2, row=2)
+          intronMin_Result = ttk.Label(statWindow,text= "Taille Minimale Des Introns : " +intronMin)
+          intronMin_Result.grid(column=2, row=2,sticky=W)
 
-          intronMax_Result = tk.Label(statWindow,text= "Taille Maximale Des Introns : " +intronMax)
-          intronMax_Result.grid(column=2, row=3)
+          intronMax_Result = ttk.Label(statWindow,text= "Taille Maximale Des Introns : " +intronMax)
+          intronMax_Result.grid(column=2, row=3,sticky=W)
 
-     intron_Button = tk.Button(statWindow,text="Stat Intron",command=resultIntron)
+     intron_Button = ttk.Button(statWindow,text="Stat Intron",command=resultIntron)
      intron_Button.grid(column=2, row=0, padx=80, pady= 10)
 
      return    
