@@ -12,19 +12,23 @@ from gffutils.create import create_db
 from pathlib import Path
 import sqlite3
 import pandas as pd
+import tkinter.ttk as ttk 
+import ttkthemes as themes
 
 
 def urlEntryFunc():
 
      downloadWindow = tk.Toplevel()
+     #themes.ThemedTk(theme="radiance")
      downloadWindow.geometry("250x100+250+300")
      downloadWindow.title("GFF Region")
+     downloadWindow.configure(bg="#F6F6F5")
 
      urlEntry= tk.StringVar()
-     entryLabel = tk.Label(downloadWindow,text="Saisir l'url du fichier gff")
+     entryLabel = tk.Label(downloadWindow,text="Saisir l'url du fichier gff",bg="#F6F6F5")
      entryLabel.pack()
      #.grid(column=0,row=5)
-     entryField = tk.Entry(downloadWindow,textvariable=urlEntry)
+     entryField = tk.Entry(downloadWindow,textvariable=urlEntry,bg="#F6F6F5")
      entryField.pack()
      #.grid(column=0,row=6) 
      
@@ -59,10 +63,10 @@ def urlEntryFunc():
                wrongUrl.pack()
 
      
-     downloadButton = tk.Button(downloadWindow,text="Telecharger",command=fileDownload)
+     downloadButton = tk.Button(downloadWindow,text="Telecharger",command=fileDownload,bg="#F6F6F5")
      downloadButton.pack()
      #.grid(column=0,row=7)
      global wrongUrl
-     wrongUrl = tk.Label(downloadWindow,text="")
+     wrongUrl = tk.Label(downloadWindow,text="",bg="#F6F6F5")
      wrongUrl.pack()
      #.grid(column=0,row=8)

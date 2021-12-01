@@ -1,3 +1,4 @@
+from ttkthemes.themed_tk import ThemedTk
 from fileSelectFunc import *
 from urlEntryFunc import *
 from regionFunc import *
@@ -19,14 +20,17 @@ from gffutils.create import create_db
 from pathlib import Path
 import sqlite3
 import pandas as pd
+import tkinter.ttk as ttk 
+import ttkthemes as themes
 # import tkinter.ttk as ttk
 # from PIL import Image 
 # from PIL import ImageTk
 
 global window
-window = tk.Tk()
+window = themes.ThemedTk(theme="radiance")
 window.geometry("600x170")
 window.title("GFF Tool")
+window.configure(bg="#F6F6F5")
 
 #window.configure(bg="grey")
 def fileSelect():
@@ -38,31 +42,32 @@ def fileSelect():
 
 
 
-programFrame = tk.Frame(window)
+programFrame = ttk.Frame(window)
 programFrame.grid(column=1,row=0,rowspan=20)
 
 
-programLabel = tk.Label(programFrame,text="Sélectionner un outil")
+programLabel = ttk.Label(programFrame,text="Sélectionner un outil")
 programLabel.grid(row=0,padx=50,pady=5)
-genomicRegion = tk.Radiobutton(programFrame,text="Définir une région génomique",value=1,command=regionFunc)
+genomicRegion = ttk.Radiobutton(programFrame,text="Définir une région génomique",value=1,command=regionFunc)
 genomicRegion.grid(row=1,sticky=W,pady=5,padx=30)
-numberGenes = tk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExonsFunc) 
+numberGenes = ttk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExonsFunc) 
 numberGenes.grid(row=2,sticky=W,pady=5,padx=30)
-graphGenerator = tk.Radiobutton(programFrame,text="Générer des graphiques",value=3,command=generateGraphFunc)
+graphGenerator = ttk.Radiobutton(programFrame,text="Générer des graphiques",value=3,command=generateGraphFunc)
 graphGenerator.grid(row=3,sticky=W,pady=5,padx=30)
-statGenerator = tk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStatFunc) 
+statGenerator = ttk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStatFunc) 
 statGenerator.grid(row=4,sticky=W,pady=5,padx=30)
 
 
-selectLabel = tk.Label(window,text="Sélectionner un fichier .GFF")
+selectLabel = ttk.Label(window,text="Sélectionner un fichier .GFF")
 selectLabel.grid(column=0,row=0,pady=5,padx=30)
-selectLocal = tk.Button(window,text="En local",command=fileSelect)
+selectLocal = ttk.Button(window,text="En local",command=fileSelect)
 selectLocal.grid(column=0,row=1,pady=5,padx=30)
-selectOnline = tk.Button(window,text="En ligne",command=urlEntryFunc)
+selectOnline = ttk.Button(window,text="En ligne",command=urlEntryFunc)
 selectOnline.grid(column=0,row=2,pady=5,padx=30)
 
 
-quitButton = tk.Button(window,text="Quitter", bg="sky blue", width=15, command=window.destroy)
+quitButton = ttk.Button(window,text="Quitter", width=15, command=window.destroy)
+#, bg="sky blue"
 quitButton.grid(column=0,row=10,pady=5,padx=30)
 
 

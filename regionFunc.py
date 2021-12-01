@@ -17,21 +17,24 @@ from gffutils.create import create_db
 from pathlib import Path
 import sqlite3
 import pandas as pd
+import tkinter.ttk as ttk 
+import ttkthemes as themes
 
 def regionFunc ():
-     regionWindow = tk.Tk()
+     regionWindow = themes.ThemedTk(theme="radiance")
      regionWindow.geometry("650x350+700+100")
      regionWindow.title("GFF Region")
+     regionWindow.configure(bg="#F6F6F5")
 
-     chrScrollbar = tk.Scrollbar(regionWindow,orient=VERTICAL)
-     startScrollbar = tk.Scrollbar(regionWindow,orient=VERTICAL)
-     endScrollbar = tk.Scrollbar(regionWindow,orient=VERTICAL)
+     chrScrollbar = ttk.Scrollbar(regionWindow,orient=VERTICAL)
+     startScrollbar = ttk.Scrollbar(regionWindow,orient=VERTICAL)
+     endScrollbar = ttk.Scrollbar(regionWindow,orient=VERTICAL)
 
-     chrLabel = tk.Label(regionWindow,text="Chromosome")
+     chrLabel = ttk.Label(regionWindow,text="Chromosome")
      chrLabel.grid (column=0,row=0,padx=20,pady=10)
-     startLabel = tk.Label(regionWindow,text="Start")
+     startLabel = ttk.Label(regionWindow,text="Start")
      startLabel.grid (column=1,row=0,padx=20,pady=10)
-     endLabel = tk.Label(regionWindow,text="End")
+     endLabel = ttk.Label(regionWindow,text="End")
      endLabel.grid (column=2,row=0,padx=20,pady=10)
 
      
@@ -87,7 +90,7 @@ def regionFunc ():
                cur.close()
                con.close()
           
-          validateChr = tk.Button(regionWindow,text="Valider Chromosome",command=getChr)
+          validateChr = ttk.Button(regionWindow,text="Valider Chromosome",command=getChr)
           validateChr.grid(column=0,row=3,padx=20,pady=10)
 
      def save ():
@@ -116,10 +119,10 @@ def regionFunc ():
          
           return
 
-     SaveButton = tk.Button(regionWindow,text="Sauvegarder",command=save)
+     SaveButton = ttk.Button(regionWindow,text="Sauvegarder",command=save)
      SaveButton.grid(column=1,row=3,pady=10)
-     regionQuitButton = tk.Button(regionWindow,text="Quitter",command=regionWindow.destroy)
+     regionQuitButton = ttk.Button(regionWindow,text="Quitter",command=regionWindow.destroy)
      regionQuitButton.grid(column=1,row=4,pady=10)
      global selectionLabel
-     selectionLabel = tk.Label(regionWindow,text="")
+     selectionLabel = ttk.Label(regionWindow,text="")
      selectionLabel.grid(column=2,row=3,pady=10)

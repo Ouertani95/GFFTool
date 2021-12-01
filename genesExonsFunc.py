@@ -18,19 +18,22 @@ from pathlib import Path
 import sqlite3
 import pandas as pd
 from fileSelectFunc import *
+import tkinter.ttk as ttk 
+import ttkthemes as themes
 
 
 def genesExonsFunc():
      
-     nbrWindow = tk.Tk()
-     nbrWindow.geometry("400x150+700+100")
+     nbrWindow = themes.ThemedTk(theme="radiance")
+     nbrWindow.geometry("550x150+700+100")
      nbrWindow.title("Region numbers")
+     nbrWindow.configure(bg="#F6F6F5")
 
      global geneResult
-     geneResult = tk.Label(nbrWindow,text="")
+     geneResult = ttk.Label(nbrWindow,text="")
      geneResult.grid(column=0,row=1,pady=10,columnspan=3)
      global exonResult
-     exonResult = tk.Label(nbrWindow,text="")
+     exonResult = ttk.Label(nbrWindow,text="")
      exonResult.grid(column=0,row=2,pady=10,columnspan=3)
 
      def getPlus():
@@ -55,7 +58,7 @@ def genesExonsFunc():
           con.close()
           return
 
-     plusButton = tk.Button(nbrWindow,text="Brin +",command=getPlus)
+     plusButton = ttk.Button(nbrWindow,text="Brin +",command=getPlus)
      plusButton.grid(column=0,row=0,pady=10,padx=25)
 
      def getMinus():
@@ -80,7 +83,7 @@ def genesExonsFunc():
           con.close()
           return
 
-     minusButton = tk.Button(nbrWindow,text="Brin -",command=getMinus)
+     minusButton = ttk.Button(nbrWindow,text="Brin -",command=getMinus)
      minusButton.grid(column=1,row=0,pady=10,padx=25)
 
      def getBoth():
@@ -106,5 +109,5 @@ def genesExonsFunc():
           
           return
 
-     bothButton = tk.Button(nbrWindow,text="2 Brins",command=getBoth)
+     bothButton = ttk.Button(nbrWindow,text="2 Brins",command=getBoth)
      bothButton.grid(column=2,row=0,pady=10,padx=25)
