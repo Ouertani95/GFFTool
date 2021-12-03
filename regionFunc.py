@@ -22,7 +22,7 @@ import ttkthemes as themes
 
 def regionFunc ():
      regionWindow = themes.ThemedTk(theme="radiance")
-     regionWindow.geometry("650x350+700+100")
+     regionWindow.geometry("650x350+720+100")
      regionWindow.title("GFF Region")
      regionWindow.configure(bg="#F6F6F5")
 

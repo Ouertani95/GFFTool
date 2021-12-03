@@ -46,7 +46,7 @@ programFrame = ttk.Frame(window)
 programFrame.grid(column=1,row=0,rowspan=20)
 
 
-programLabel = ttk.Label(programFrame,text="Sélectionner un outil")
+programLabel = ttk.Label(programFrame,text="Sélectionner un outil",foreground="black")
 programLabel.grid(row=0,padx=50,pady=5)
 genomicRegion = ttk.Radiobutton(programFrame,text="Définir une région génomique",value=1,command=regionFunc)
 genomicRegion.grid(row=1,sticky=W,pady=5,padx=30)
@@ -58,7 +58,7 @@ statGenerator = ttk.Radiobutton(programFrame,text="Générer des statistiques",v
 statGenerator.grid(row=4,sticky=W,pady=5,padx=30)
 
 
-selectLabel = ttk.Label(window,text="Sélectionner un fichier .GFF")
+selectLabel = ttk.Label(window,text="Sélectionner un fichier .GFF",foreground="black")
 selectLabel.grid(column=0,row=0,pady=5,padx=30)
 selectLocal = ttk.Button(window,text="En local",command=fileSelect)
 selectLocal.grid(column=0,row=1,pady=5,padx=30)
