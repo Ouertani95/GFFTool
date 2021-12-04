@@ -21,7 +21,7 @@ def fileSelectFunc(window,selectedFile) :
      print(nameFile)
      #créer nom de la base de données
      selectedFile.pack_forget()
-     selectedFile.config(text=nameFile)
+     selectedFile.config(text=nameFile,foreground="#dd4814")
      global dbName
      dbName = nameFile + ".db"
      print(dbName)

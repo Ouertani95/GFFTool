@@ -117,7 +117,7 @@ def regionFunc (selectedRegion):
                selectionLabel.pack_forget()
                selectionLabel.config(text="Région sauvegardée",foreground="#dd4814")
                selectedRegion.pack_forget()
-               selectedRegion.config(text=chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]" )               
+               selectedRegion.config(text=chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]",foreground="#dd4814")               
          
           return
 

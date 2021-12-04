@@ -29,7 +29,7 @@ def urlEntryFunc():
      entryLabel = tk.Label(downloadWindow,text="Saisir l'url du fichier gff",bg="#F6F6F5")
      entryLabel.pack(pady=10)
      #.grid(column=0,row=5)
-     entryField = tk.Entry(downloadWindow,textvariable=urlEntry,bg="#F6F6F5")
+     entryField = tk.Entry(downloadWindow,textvariable=urlEntry,bg="#F6F6F5",width=35)
      entryField.pack(pady=10)
      #.grid(column=0,row=6) 
      
@@ -53,17 +53,18 @@ def urlEntryFunc():
                wrongUrl.config(text="Pas de fichier gff trouvé")
                wrongUrl.pack(pady=10)
           else :
-               print(urlLink)
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
                wrongUrl.config(text="En cours de téléchargement")
                wrongUrl.pack(pady=10)
+               print(urlLink)
+               
                wget.download(url=urlLink)
                print("fichier téléchargé")
                os.system("gzip -dk -f *.gz")
                print("fichier dézippé")
                wrongUrl.pack_forget()
-               wrongUrl.config(text="Ouvrir fichier en local")
+               wrongUrl.config(text="Ouvrir fichier en local",foreground="#dd4814")
                wrongUrl.pack(pady=10)
 
      
