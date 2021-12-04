@@ -13,13 +13,15 @@ from pathlib import Path
 import sqlite3
 import pandas as pd
 
-def fileSelectFunc(window) :
+def fileSelectFunc(window,selectedFile) :
      #Afficher la fenêtre de selection du fichier gff en local
      window.filename = filedialog.askopenfilename(initialdir="~/Desktop/projetProgrammation2021",title="Selectionner un fichier gff",filetypes=(("gff files","*.gff"),("gff3 files",".gff3"),("gtf files","*.gtf"),("all files","*.*")))
      #extraire nom de fichier sans extension  à partir du fichier séléctionner en local 
      nameFile = Path(window.filename).stem
      print(nameFile)
-     #créer nom de la base de données 
+     #créer nom de la base de données
+     selectedFile.pack_forget()
+     selectedFile.config(text="Fichier Sélectionné : "+nameFile)
      global dbName
      dbName = nameFile + ".db"
      print(dbName)

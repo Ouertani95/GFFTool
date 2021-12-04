@@ -1,3 +1,4 @@
+from typing import Text
 import fileSelectFunc as fs
 import urlEntryFunc as ue
 import genesExonsFunc as ge
@@ -20,7 +21,7 @@ import pandas as pd
 import tkinter.ttk as ttk 
 import ttkthemes as themes
 
-def regionFunc ():
+def regionFunc (selectedRegion):
      regionWindow = themes.ThemedTk(theme="radiance")
      regionWindow.geometry("650x350+720+100")
      regionWindow.title("GFF Region")
@@ -115,7 +116,8 @@ def regionFunc ():
                endSelected = endTuple[0]
                selectionLabel.pack_forget()
                selectionLabel.config(text="Région sauvegardée")
-               
+               selectedRegion.pack_forget()
+               selectedRegion.config(text="Région sélectionnée : "+chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]" )               
          
           return
 
