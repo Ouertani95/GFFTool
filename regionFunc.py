@@ -100,7 +100,7 @@ def regionFunc (selectedRegion):
 
           if  chrChoice.get("anchor")=="" or startChoice.get("anchor")=="" or  endChoice.get("anchor")=="" :
                selectionLabel.pack_forget()
-               selectionLabel.config(text="sélectionner les 3 champs")
+               selectionLabel.config(text="Sélectionner les 3 champs",foreground="black")
 
           elif chrChoice.get("anchor")!="" and startChoice.get("anchor")!="" and  endChoice.get("anchor")!="" :
                
@@ -115,7 +115,7 @@ def regionFunc (selectedRegion):
                global endSelected
                endSelected = endTuple[0]
                selectionLabel.pack_forget()
-               selectionLabel.config(text="Région sauvegardée")
+               selectionLabel.config(text="Région sauvegardée",foreground="#dd4814")
                selectedRegion.pack_forget()
                selectedRegion.config(text=chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]" )               
          
