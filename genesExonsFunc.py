@@ -28,7 +28,7 @@ def genesExonsFunc(window,resultsFrame):
      # resultsFrame=ttk.Frame(window)
      # resultsFrame.grid(column=0,row=1,columnspan=2,pady=10)
      # resultsFrame.pack_forget()
-     # resultsFrame.destroy()
+     resultsFrame.destroy()
      resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
      # ,highlightbackground="#dd4814",highlightthickness=1
      resultsFrame.grid(column=0,row=1,columnspan=2,ipady=130,ipadx=28)

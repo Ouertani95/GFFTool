@@ -29,11 +29,12 @@ def regionFunc (window,selectedRegion,resultsFrame):
      # regionWindow.title("GFF Region")
      # regionWindow.configure(bg="#F6F6F5")
      # resultsFrame.grid_forget()
+     # resultsFrame.pack_forget()
+     resultsFrame.destroy()
      resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
      # ,highlightbackground="#dd4814",highlightthickness=1
      resultsFrame.grid(column=0,row=1,columnspan=2,ipady=50,ipadx=30)
-     # resultsFrame.pack_forget()
-     # resultsFrame.destroy()
+     
      # resultsFrame=tk.Frame(window,background="#F6F6F5",highlightbackground="#dd4814",highlightthickness=1,height=450,width=700)
      # resultsFrame.grid(column=0,row=1,columnspan=2,pady=10,ipadx=30,ipady=30)
      for widget in resultsFrame.winfo_children():

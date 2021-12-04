@@ -30,9 +30,11 @@ def generateStatFunc (window,resultsFrame):
      # resultsFrame.geometry("855x200+100+300")
      # resultsFrame.title("GFF Stats")
      # resultsFrame.configure(bg="#F6F6F5")
+     resultsFrame.destroy()
      resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
      # ,highlightbackground="#dd4814",highlightthickness=1
-     resultsFrame.grid(column=0,row=1,columnspan=2,ipady=70)
+     resultsFrame.grid(column=0,row=1,columnspan=2,ipady=170)
+
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
 
@@ -67,7 +69,7 @@ def generateStatFunc (window,resultsFrame):
           max_Result.grid(column=1,row=3,sticky=W) 
 
      exon_Button = ttk.Button(resultsFrame,text="Stat exon",command=resultExon)
-     exon_Button.grid(column=1, row=0, padx=50, pady= 10)
+     exon_Button.grid(column=1, row=0,padx=50)
      #padx=10,pady=10,side=LEFT
 
 
@@ -105,7 +107,7 @@ def generateStatFunc (window,resultsFrame):
           geneMax_Result.grid(column=0, row=3,sticky=W)
 
      gene_Button = ttk.Button(resultsFrame,text="Stat Gene",command=resultGene)
-     gene_Button.grid(column=0, row=0,padx=50, pady= 10 )
+     gene_Button.grid(column=0, row=0,padx=50)
 
 
      co= sqlite3.connect(fs.dbName)
@@ -141,7 +143,7 @@ def generateStatFunc (window,resultsFrame):
           intronMax_Result.grid(column=2, row=3,sticky=W)
 
      intron_Button = ttk.Button(resultsFrame,text="Stat Intron",command=resultIntron)
-     intron_Button.grid(column=2, row=0, padx=50, pady= 10)
+     intron_Button.grid(column=2, row=0,padx=50)
 
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
@@ -172,8 +174,8 @@ def generateStatFunc (window,resultsFrame):
           plt.show()
 
      piechart_Button = ttk.Radiobutton(resultsFrame,text='PieChart',command=generatePiechartExonsIntrons)
-     piechart_Button.grid(column=1,padx=50,pady=100,sticky=S)                   
-
+     piechart_Button.grid(column=1,row=4,padx=30)           
+     # ,padx=50
      return    
 
 
