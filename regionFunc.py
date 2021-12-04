@@ -21,25 +21,36 @@ import pandas as pd
 import tkinter.ttk as ttk 
 import ttkthemes as themes
 
-def regionFunc (selectedRegion):
-     regionWindow = themes.ThemedTk(theme="radiance")
-     regionWindow.geometry("650x350+150+335")
-     regionWindow.title("GFF Region")
-     regionWindow.configure(bg="#F6F6F5")
+def regionFunc (window,selectedRegion,resultsFrame):
+     # resultsFrame.grid_forget()
+     
+     # regionWindow = themes.ThemedTk(theme="radiance")
+     # regionWindow.geometry("650x350+150+335")
+     # regionWindow.title("GFF Region")
+     # regionWindow.configure(bg="#F6F6F5")
+     # resultsFrame.grid_forget()
+     resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
+     # ,highlightbackground="#dd4814",highlightthickness=1
+     resultsFrame.grid(column=0,row=1,columnspan=2,ipady=50,ipadx=30)
+     # resultsFrame.pack_forget()
+     # resultsFrame.destroy()
+     # resultsFrame=tk.Frame(window,background="#F6F6F5",highlightbackground="#dd4814",highlightthickness=1,height=450,width=700)
+     # resultsFrame.grid(column=0,row=1,columnspan=2,pady=10,ipadx=30,ipady=30)
+     for widget in resultsFrame.winfo_children():
+          widget.destroy()
+     chrScrollbar = ttk.Scrollbar(resultsFrame,orient=VERTICAL)
+     startScrollbar = ttk.Scrollbar(resultsFrame,orient=VERTICAL)
+     endScrollbar = ttk.Scrollbar(resultsFrame,orient=VERTICAL)
 
-     chrScrollbar = ttk.Scrollbar(regionWindow,orient=VERTICAL)
-     startScrollbar = ttk.Scrollbar(regionWindow,orient=VERTICAL)
-     endScrollbar = ttk.Scrollbar(regionWindow,orient=VERTICAL)
-
-     chrLabel = ttk.Label(regionWindow,text="Chromosome")
+     chrLabel = ttk.Label(resultsFrame,text="Chromosome")
      chrLabel.grid (column=0,row=0,padx=20,pady=10)
-     startLabel = ttk.Label(regionWindow,text="Start")
+     startLabel = ttk.Label(resultsFrame,text="Start")
      startLabel.grid (column=1,row=0,padx=20,pady=10)
-     endLabel = ttk.Label(regionWindow,text="End")
+     endLabel = ttk.Label(resultsFrame,text="End")
      endLabel.grid (column=2,row=0,padx=20,pady=10)
 
      
-     chrChoice = tk.Listbox(regionWindow,yscrollcommand=chrScrollbar.set,exportselection=0)
+     chrChoice = tk.Listbox(resultsFrame,yscrollcommand=chrScrollbar.set,exportselection=0)
      chrChoice.grid(column=0,row=1,padx=20,pady=10)
      
      for chromosome in fs.chrID :
@@ -49,7 +60,7 @@ def regionFunc (selectedRegion):
      chrScrollbar.grid(column=0,row=1,sticky='e''n''s')
 
      global startChoice
-     startChoice = tk.Listbox(regionWindow,yscrollcommand=startScrollbar.set,exportselection=0)
+     startChoice = tk.Listbox(resultsFrame,yscrollcommand=startScrollbar.set,exportselection=0)
      startChoice.grid(column=1,row=1,padx=20,pady=10)
 
      for start in fs.startList :
@@ -59,7 +70,7 @@ def regionFunc (selectedRegion):
      startScrollbar.grid(column=1,row=1,sticky='e''n''s')
 
      global endChoice
-     endChoice = tk.Listbox(regionWindow,yscrollcommand=endScrollbar.set,exportselection=0)
+     endChoice = tk.Listbox(resultsFrame,yscrollcommand=endScrollbar.set,exportselection=0)
      endChoice.grid(column=2,row=1,padx=20,pady=10)
 
      for end in fs.endList :
@@ -91,7 +102,7 @@ def regionFunc (selectedRegion):
                cur.close()
                con.close()
           
-          validateChr = ttk.Button(regionWindow,text="Valider Chromosome",command=getChr)
+          validateChr = ttk.Button(resultsFrame,text="Valider Chromosome",command=getChr)
           validateChr.grid(column=0,row=3,padx=20,pady=10)
 
      def save ():
@@ -121,10 +132,10 @@ def regionFunc (selectedRegion):
          
           return
 
-     SaveButton = ttk.Button(regionWindow,text="Sauvegarder",command=save)
+     SaveButton = ttk.Button(resultsFrame,text="Sauvegarder",command=save)
      SaveButton.grid(column=1,row=3,pady=10)
-     regionQuitButton = ttk.Button(regionWindow,text="Quitter",command=regionWindow.destroy)
-     regionQuitButton.grid(column=1,row=4,pady=10)
+     # regionQuitButton = ttk.Button(resultsFrame,text="Quitter",command=resultsFrame.destroy)
+     # regionQuitButton.grid(column=1,row=4,pady=10)
      global selectionLabel
-     selectionLabel = ttk.Label(regionWindow,text="")
+     selectionLabel = ttk.Label(resultsFrame,text="")
      selectionLabel.grid(column=2,row=3,pady=10)

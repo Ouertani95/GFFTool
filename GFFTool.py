@@ -28,7 +28,7 @@ import ttkthemes as themes
 
 global window
 window = themes.ThemedTk(theme="radiance")
-window.geometry("750x230")
+window.geometry("730x650+350+0")
 window.title("GFF Tool")
 window.configure(bg="#F6F6F5")
 
@@ -38,14 +38,20 @@ def fileSelect():
      fileSelectFunc(window,selectedFile)
 
 def region ():
-     regionFunc(selectedRegion)
+     regionFunc(window,selectedRegion,resultsFrame)
 
 # def urlEntry ():
 #      urlEntryFunc(window)
 
+def genesExons () : 
+     genesExonsFunc(window,resultsFrame)
+
+def generateStat () : 
+     generateStatFunc(window,resultsFrame)
+
 selectionFrame = tk.Frame(window,background="#F6F6F5")
 # ,highlightbackground="#dd4814",highlightthickness=1
-selectionFrame.grid(column=0,row=0,rowspan=20)
+selectionFrame.grid(column=0,row=0,padx=5)
 
 
 selectLabel = ttk.Label(selectionFrame,text="Sélectionner un fichier .GFF",foreground="black",background="#F6F6F5")
@@ -66,7 +72,7 @@ quitButton.grid(column=0,row=4,padx=74,pady=5,sticky="W")
 
 programFrame = tk.Frame(window,background="#F6F6F5")
 # ,highlightbackground="#dd4814",highlightthickness=1
-programFrame.grid(column=1,row=0,rowspan=20)
+programFrame.grid(column=1,row=0)
 
 
 programLabel = ttk.Label(programFrame,text="Sélectionner un outil",foreground="black",background="#F6F6F5")
@@ -75,12 +81,19 @@ genomicRegion = ttk.Radiobutton(programFrame,text="Définir une région génomiq
 genomicRegion.grid(row=1,padx=50,pady=5,sticky=W)
 selectedRegion = ttk.Label(programFrame,text="Aucune région sélectionnée",background="#F6F6F5")
 selectedRegion.grid(row=2,padx=50,pady=11,sticky=W)
-numberGenes = ttk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExonsFunc) 
+numberGenes = ttk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExons) 
 numberGenes.grid(row=3,padx=50,pady=5,sticky=W)
 graphGenerator = ttk.Radiobutton(programFrame,text="Générer des graphiques",value=3,command=generateGraphFunc)
 graphGenerator.grid(row=4,padx=50,pady=5,sticky=W)
-statGenerator = ttk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStatFunc) 
+statGenerator = ttk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStat) 
 statGenerator.grid(row=5,padx=50,pady=5,sticky=W)
+
+global resultsFrame
+resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
+# ,highlightbackground="#dd4814",highlightthickness=1
+resultsFrame.grid(column=0,row=1,columnspan=2,padx=5)
+
+
 
 
 window.mainloop()

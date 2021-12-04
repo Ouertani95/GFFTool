@@ -22,22 +22,29 @@ import tkinter.ttk as ttk
 import ttkthemes as themes
 
 
-def genesExonsFunc():
-     
-     nbrWindow = themes.ThemedTk(theme="radiance")
-     nbrWindow.geometry("550x150+820+335")
-     nbrWindow.title("Region numbers")
-     nbrWindow.configure(bg="#F6F6F5")
-
+def genesExonsFunc(window,resultsFrame):
+     # resultsFrame.grid_forget()
+     # resultsFrame.destroy()
+     # resultsFrame=ttk.Frame(window)
+     # resultsFrame.grid(column=0,row=1,columnspan=2,pady=10)
+     # resultsFrame.pack_forget()
+     # resultsFrame.destroy()
+     resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
+     # ,highlightbackground="#dd4814",highlightthickness=1
+     resultsFrame.grid(column=0,row=1,columnspan=2,ipady=130,ipadx=28)
+     # ,pady=10,ipadx=70
+     # ,ipadx=50,ipady=100
+     for widget in resultsFrame.winfo_children():
+          widget.destroy()
      global geneResult
-     geneResult = ttk.Label(nbrWindow,text="")
+     geneResult = ttk.Label(resultsFrame,text="")
      geneResult.grid(column=0,row=1,pady=10,columnspan=3)
      global exonResult
-     exonResult = ttk.Label(nbrWindow,text="")
+     exonResult = ttk.Label(resultsFrame,text="")
      exonResult.grid(column=0,row=2,pady=10,columnspan=3)
-     global intronResult
-     intronResult = ttk.Label(nbrWindow,text="")
-     intronResult.grid(column=0,row=3,pady=10,columnspan=3)
+     # global intronResult
+     # intronResult = ttk.Label(resultsFrame,text="")
+     # intronResult.grid(column=0,row=3,pady=10,columnspan=3)
 
      def getPlus():
 
@@ -65,9 +72,9 @@ def genesExonsFunc():
           con.close()
           return
 
-     plusButton = ttk.Button(nbrWindow,text="Brin +",command=getPlus)
-     plusButton.grid(column=0,row=0,pady=10,padx=25)
-
+     plusButton = ttk.Button(resultsFrame,text="Brin +",command=getPlus)
+     plusButton.grid(column=0,row=0,padx=40,pady=10)
+     # ,pady=10,padx=30,ipadx=5
      def getMinus():
 
           con = sqlite3.connect(fs.dbName)
@@ -95,9 +102,9 @@ def genesExonsFunc():
           con.close()
           return
 
-     minusButton = ttk.Button(nbrWindow,text="Brin -",command=getMinus)
-     minusButton.grid(column=1,row=0,pady=10,padx=25)
-
+     minusButton = ttk.Button(resultsFrame,text="Brin -",command=getMinus)
+     minusButton.grid(column=1,row=0,padx=40,pady=10)
+     # ,pady=10,padx=30,ipadx=5
      def getBoth():
 
           con = sqlite3.connect(fs.dbName)
@@ -114,10 +121,10 @@ def genesExonsFunc():
           exonResult.pack_forget()
           exonResult.configure(text="Le nombre total d'exons dans cette région est : "+str(numberExons))
 
-          numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          numberIntrons = numberIntronsList[0][0]
-          intronResult.pack_forget()
-          intronResult.configure(text="Le nombre d'introns total dans cette région est : "+str(numberIntrons))
+          # numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          # numberIntrons = numberIntronsList[0][0]
+          # intronResult.pack_forget()
+          # intronResult.configure(text="Le nombre d'introns total dans cette région est : "+str(numberIntrons))
           
           # global exonsLength
           # exonsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
@@ -160,5 +167,6 @@ def genesExonsFunc():
           
           return
 
-     bothButton = ttk.Button(nbrWindow,text="2 Brins",command=getBoth)
-     bothButton.grid(column=2,row=0,pady=10,padx=25)
+     bothButton = ttk.Button(resultsFrame,text="2 Brins",command=getBoth)
+     bothButton.grid(column=2,row=0,padx=40,pady=10)
+     # ,pady=10,padx=30,ipadx=5
