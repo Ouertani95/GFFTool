@@ -1,3 +1,4 @@
+from tkinter.font import names
 import fileSelectFunc as fs
 import urlEntryFunc as ue
 import regionFunc as rf
@@ -5,7 +6,7 @@ import genesExonsFunc as ge
 import generateGraphFunc as gg
 import tkinter as tk
 from tkinter import StringVar, filedialog
-from tkinter.constants import ANCHOR, E, FALSE, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
+from tkinter.constants import ANCHOR, E, FALSE, LEFT, NS, NSEW, RAISED, RIGHT, S, VERTICAL, W, Y
 import wget
 import validators
 from glob import glob
@@ -139,6 +140,37 @@ def generateStatFunc ():
 
      intron_Button = ttk.Button(statWindow,text="Stat Intron",command=resultIntron)
      intron_Button.grid(column=2, row=0, padx=80, pady= 10)
+
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
+
+     global intronPie
+     intronPie = c.execute("SELECT count(end-start) from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     intronPielist = intronPie[0][0]
+ 
+
+     global exonPie 
+     exonPie = c.execute("SELECT count(end-start) from features WHERE featuretype ='exon' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     exonPielist = exonPie[0][0]
+  
+
+     co.commit()
+     c.close()
+     co.close()
+
+     def generatePiechartExonsIntrons ():
+
+          global values 
+          values = [intronPielist,exonPielist]
+          
+          global Names  
+          Names = ["Intron","Exons"]
+          
+          plt.pie(values,labels=Names,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2})
+          plt.show()
+
+     piechart_Button = ttk.Radiobutton(statWindow,text='PieChart',command=generatePiechartExonsIntrons)
+     piechart_Button.grid(column=1,padx=50,pady=100,sticky=S)                   
 
      return    
 
