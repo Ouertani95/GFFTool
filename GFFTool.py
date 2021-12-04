@@ -28,9 +28,10 @@ import ttkthemes as themes
 
 global window
 window = themes.ThemedTk(theme="radiance")
-window.geometry("1200x250")
+window.geometry("750x230")
 window.title("GFF Tool")
 window.configure(bg="#F6F6F5")
+
 
 #window.configure(bg="grey")
 def fileSelect():
@@ -42,39 +43,44 @@ def region ():
 # def urlEntry ():
 #      urlEntryFunc(window)
 
+selectionFrame = tk.Frame(window,background="#F6F6F5")
+# ,highlightbackground="#dd4814",highlightthickness=1
+selectionFrame.grid(column=0,row=0,rowspan=20)
 
 
-programFrame = ttk.Frame(window)
+selectLabel = ttk.Label(selectionFrame,text="Sélectionner un fichier .GFF",foreground="black",background="#F6F6F5")
+selectLabel.grid(column=0,row=0,padx=65,pady=5,sticky="W")
+selectLocal = ttk.Button(selectionFrame,text="En local",command=fileSelect)
+selectLocal.grid(column=0,row=1,padx=90,pady=5,sticky="W")
+selectedFile = ttk.Label(selectionFrame,text=" ",foreground="#dd4814",background="#F6F6F5")
+selectedFile.grid(column=0,row=2,padx=10,pady=5,ipadx=7)
+selectOnline = ttk.Button(selectionFrame,text="En ligne",command=urlEntryFunc)
+selectOnline.grid(column=0,row=3,padx=90,pady=5,sticky="W")
+
+
+quitButton = ttk.Button(selectionFrame,text="Quitter", width=15, command=window.destroy)
+#, bg="sky blue"
+quitButton.grid(column=0,row=4,padx=74,pady=5,sticky="W")
+
+
+
+programFrame = tk.Frame(window,background="#F6F6F5")
+# ,highlightbackground="#dd4814",highlightthickness=1
 programFrame.grid(column=1,row=0,rowspan=20)
 
 
-programLabel = ttk.Label(programFrame,text="Sélectionner un outil",foreground="black")
-programLabel.grid(row=0,pady=5,padx=100)
+programLabel = ttk.Label(programFrame,text="Sélectionner un outil",foreground="black",background="#F6F6F5")
+programLabel.grid(row=0,padx=120,pady=5,sticky=W)
 genomicRegion = ttk.Radiobutton(programFrame,text="Définir une région génomique",value=1,command=region)
-genomicRegion.grid(row=1,sticky=W,pady=5,padx=100)
-selectedRegion = ttk.Label(programFrame,text=" ",foreground="#dd4814")
-selectedRegion.grid(row=2,sticky=W,pady=5,padx=100)
+genomicRegion.grid(row=1,padx=50,pady=5,sticky=W)
+selectedRegion = ttk.Label(programFrame,text=" ",foreground="#dd4814",background="#F6F6F5")
+selectedRegion.grid(row=2,padx=50,pady=11,sticky=W)
 numberGenes = ttk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExonsFunc) 
-numberGenes.grid(row=3,sticky=W,pady=5,padx=100)
+numberGenes.grid(row=3,padx=50,pady=5,sticky=W)
 graphGenerator = ttk.Radiobutton(programFrame,text="Générer des graphiques",value=3,command=generateGraphFunc)
-graphGenerator.grid(row=4,sticky=W,pady=5,padx=100)
+graphGenerator.grid(row=4,padx=50,pady=5,sticky=W)
 statGenerator = ttk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStatFunc) 
-statGenerator.grid(row=5,sticky=W,pady=5,padx=100)
-
-
-selectLabel = ttk.Label(window,text="Sélectionner un fichier .GFF",foreground="black")
-selectLabel.grid(column=0,row=0,pady=5)
-selectLocal = ttk.Button(window,text="En local",command=fileSelect)
-selectLocal.grid(column=0,row=1,pady=5)
-selectedFile = ttk.Label(window,text=" ",foreground="#dd4814")
-selectedFile.grid(column=0,row=2,pady=5)
-selectOnline = ttk.Button(window,text="En ligne",command=urlEntryFunc)
-selectOnline.grid(column=0,row=3,pady=5)
-
-
-quitButton = ttk.Button(window,text="Quitter", width=15, command=window.destroy)
-#, bg="sky blue"
-quitButton.grid(column=0,row=4,pady=5)
+statGenerator.grid(row=5,padx=50,pady=5,sticky=W)
 
 
 window.mainloop()

@@ -1,3 +1,4 @@
+from re import X
 import tkinter as tk
 from tkinter import StringVar, filedialog
 from tkinter.constants import ANCHOR, E, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
@@ -20,16 +21,16 @@ def urlEntryFunc():
 
      downloadWindow = tk.Toplevel()
      #themes.ThemedTk(theme="radiance")
-     downloadWindow.geometry("250x100+250+300")
-     downloadWindow.title("GFF Region")
+     downloadWindow.geometry("410x195+450+100")
+     downloadWindow.title("GFF Download")
      downloadWindow.configure(bg="#F6F6F5")
 
      urlEntry= tk.StringVar()
      entryLabel = tk.Label(downloadWindow,text="Saisir l'url du fichier gff",bg="#F6F6F5")
-     entryLabel.pack()
+     entryLabel.pack(pady=10)
      #.grid(column=0,row=5)
      entryField = tk.Entry(downloadWindow,textvariable=urlEntry,bg="#F6F6F5")
-     entryField.pack()
+     entryField.pack(pady=10)
      #.grid(column=0,row=6) 
      
      def fileDownload ():
@@ -43,28 +44,31 @@ def urlEntryFunc():
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
                wrongUrl.config(text="Url non valide")
-               wrongUrl.pack()
+               wrongUrl.pack(pady=10)
           elif "gff" not in urlLink :
                #refresh entryField
                entryField.delete(0,tk.END)
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
                wrongUrl.config(text="Pas de fichier gff trouvé")
-               wrongUrl.pack()
+               wrongUrl.pack(pady=10)
           else :
                print(urlLink)
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
+               wrongUrl.config(text="En cours de téléchargement")
+               wrongUrl.pack(pady=10)
                wget.download(url=urlLink)
                print("fichier téléchargé")
                os.system("gzip -dk -f *.gz")
                print("fichier dézippé")
+               wrongUrl.pack_forget()
                wrongUrl.config(text="Ouvrir fichier en local")
-               wrongUrl.pack()
+               wrongUrl.pack(pady=10)
 
      
      downloadButton = tk.Button(downloadWindow,text="Telecharger",command=fileDownload,bg="#F6F6F5")
-     downloadButton.pack()
+     downloadButton.pack(pady=10)
      #.grid(column=0,row=7)
      global wrongUrl
      wrongUrl = tk.Label(downloadWindow,text="",bg="#F6F6F5")

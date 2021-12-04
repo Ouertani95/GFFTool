@@ -23,7 +23,7 @@ import ttkthemes as themes
 
 def regionFunc (selectedRegion):
      regionWindow = themes.ThemedTk(theme="radiance")
-     regionWindow.geometry("650x350+720+100")
+     regionWindow.geometry("650x350+150+335")
      regionWindow.title("GFF Region")
      regionWindow.configure(bg="#F6F6F5")
 
@@ -117,7 +117,7 @@ def regionFunc (selectedRegion):
                selectionLabel.pack_forget()
                selectionLabel.config(text="Région sauvegardée")
                selectedRegion.pack_forget()
-               selectedRegion.config(text="Région sélectionnée : "+chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]" )               
+               selectedRegion.config(text=chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]" )               
          
           return
 

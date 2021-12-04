@@ -25,7 +25,7 @@ import ttkthemes as themes
 def genesExonsFunc():
      
      nbrWindow = themes.ThemedTk(theme="radiance")
-     nbrWindow.geometry("550x150+720+100")
+     nbrWindow.geometry("550x150+820+335")
      nbrWindow.title("Region numbers")
      nbrWindow.configure(bg="#F6F6F5")
 
@@ -119,40 +119,40 @@ def genesExonsFunc():
           intronResult.pack_forget()
           intronResult.configure(text="Le nombre d'introns total dans cette région est : "+str(numberIntrons))
           
-          global exonsLength
-          exonsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          print(len(exonsLength))
-          exonsLengthList = []
-          for Lengths in range(0,len(exonsLength)) :
-               exonsLengthList.append(exonsLength[Lengths][0])
-          print(exonsLengthList)
-          print(len(exonsLengthList))
+          # global exonsLength
+          # exonsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          # print(len(exonsLength))
+          # exonsLengthList = []
+          # for Lengths in range(0,len(exonsLength)) :
+          #      exonsLengthList.append(exonsLength[Lengths][0])
+          # print(exonsLengthList)
+          # print(len(exonsLengthList))
 
-          exonsLengthSum = np.sum(exonsLengthList)
-          print(exonsLengthSum)
+          # exonsLengthSum = np.sum(exonsLengthList)
+          # print(exonsLengthSum)
 
-          global intronsLength
-          intronsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          print(len(intronsLength))
-          intronsLengthList = []
-          for Lengths in range(0,len(intronsLength)) :
-               intronsLengthList.append(intronsLength[Lengths][0])
-          print(intronsLengthList)
-          print(len(intronsLengthList))
+          # global intronsLength
+          # intronsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          # print(len(intronsLength))
+          # intronsLengthList = []
+          # for Lengths in range(0,len(intronsLength)) :
+          #      intronsLengthList.append(intronsLength[Lengths][0])
+          # print(intronsLengthList)
+          # print(len(intronsLengthList))
 
-          intronsLengthSum = np.sum(intronsLengthList)
-          print(intronsLengthSum)
+          # intronsLengthSum = np.sum(intronsLengthList)
+          # print(intronsLengthSum)
 
 
-          # create data: an array of values
-          exonsIntons=[exonsLengthSum,intronsLengthSum]
-          exonsPercent = "Exons : " + str(round((exonsLengthSum *100) / (exonsLengthSum+intronsLengthSum),2)) + " %"
-          intronsPercent = "Introns : " + str(round((intronsLengthSum*100) / (exonsLengthSum+intronsLengthSum),2)) + " %"
-          percent = exonsPercent,intronsPercent
-          # Create a pieplot
-          plt.pie(exonsIntons,labels=percent, labeldistance=1.15,wedgeprops = { 'linewidth' : 3, 'edgecolor' : 'white' })
-          plt.title("Proportions des tailles d'exons et d'introns dans les gènes")
-          plt.show()
+          # # create data: an array of values
+          # exonsIntons=[exonsLengthSum,intronsLengthSum]
+          # exonsPercent = "Exons : " + str(round((exonsLengthSum *100) / (exonsLengthSum+intronsLengthSum),2)) + " %"
+          # intronsPercent = "Introns : " + str(round((intronsLengthSum*100) / (exonsLengthSum+intronsLengthSum),2)) + " %"
+          # percent = exonsPercent,intronsPercent
+          # # Create a pieplot
+          # plt.pie(exonsIntons,labels=percent, labeldistance=1.15,wedgeprops = { 'linewidth' : 3, 'edgecolor' : 'white' })
+          # plt.title("Proportions des tailles d'exons et d'introns dans les gènes")
+          # plt.show()
 
           con.commit()
           cur.close()
