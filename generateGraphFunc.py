@@ -26,7 +26,7 @@ import ttkthemes as themes
 def generateGraphFunc ():
 
      grapheWindow = themes.ThemedTk(theme="radiance")
-     grapheWindow.geometry("615x55+700+100")
+     grapheWindow.geometry("835x55+300+300")
      grapheWindow.title("Generer Des Graphes")
      grapheWindow.configure(bg="#F6F6F5")
 
@@ -132,7 +132,45 @@ def generateGraphFunc ():
      intron_Button = ttk.Button(grapheWindow,text="Graphe des Introns ",command=generateGraphIntron)
      intron_Button.grid(column=2,row=0,pady=10,padx=25)
 
-     return
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
+
+     global startGene
+     startGene = c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+
+     global endGene 
+     endGene = c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+
+     interArray = np.column_stack((startGene,endGene))
+     print(interArray)
+
+     interList = []
+     for inter in range (1,len(interArray)) :
+          interList.append(interArray[inter,0] - interArray[inter-1,1])
+     print(interList)
+     
+     interPositions = []
+     for interStart in range(0,len(endGene)-1) : 
+          interPositions.append(endGene[interStart][0]+1)
+
+     print(interPositions)
+
+     co.commit()
+     c.close()
+     co.close()
+
+     def generateGraphInter():
+
+          plt.bar(interPositions,interList,label='inter')
+          plt.xlabel('Position')
+          plt.ylabel('Taille (acide nucleique)')
+          plt.title('Distribution de Taille')
+          plt.legend(ncol=4,loc='upper right')
+          plt.show()
+
+     inter_Button = ttk.Button(grapheWindow,text="Graphe des inter ",command=generateGraphInter)
+     inter_Button.grid(column=3,row=0,pady=10,padx=25)
+     
 
 
 
