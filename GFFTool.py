@@ -22,35 +22,30 @@ import sqlite3
 import pandas as pd
 import tkinter.ttk as ttk 
 import ttkthemes as themes
-# import tkinter.ttk as ttk
-# from PIL import Image 
-# from PIL import ImageTk
+
 
 global window
 window = themes.ThemedTk(theme="radiance")
-window.geometry("730x650+350+0")
+window.geometry("730x230+350+0")
 window.title("GFF Tool")
 window.configure(bg="#F6F6F5")
 
 
-#window.configure(bg="grey")
+
 def fileSelect():
      fileSelectFunc(window,selectedFile)
 
 def region ():
      regionFunc(window,selectedRegion,resultsFrame)
 
-# def urlEntry ():
-#      urlEntryFunc(window)
 
 def genesExons () : 
      genesExonsFunc(window,resultsFrame)
 
 def generateStat () : 
-     generateStatFunc(window,resultsFrame)
+     generateStatFunc(resultsFrame)
 
 selectionFrame = tk.Frame(window,background="#F6F6F5")
-# ,highlightbackground="#dd4814",highlightthickness=1
 selectionFrame.grid(column=0,row=0,padx=5)
 
 
@@ -65,13 +60,11 @@ selectOnline.grid(column=0,row=3,padx=90,pady=5,sticky="W")
 
 
 quitButton = ttk.Button(selectionFrame,text="Quitter", width=15, command=window.destroy)
-#, bg="sky blue"
 quitButton.grid(column=0,row=4,padx=74,pady=5,sticky="W")
 
 
 
 programFrame = tk.Frame(window,background="#F6F6F5")
-# ,highlightbackground="#dd4814",highlightthickness=1
 programFrame.grid(column=1,row=0)
 
 
@@ -91,7 +84,7 @@ statGenerator.grid(row=5,padx=50,pady=5,sticky=W)
 global resultsFrame
 resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
 # ,highlightbackground="#dd4814",highlightthickness=1
-resultsFrame.grid(column=0,row=1,columnspan=2,padx=5)
+resultsFrame.grid(column=0,row=1,columnspan=2,pady=10,ipady=10)
 
 
 

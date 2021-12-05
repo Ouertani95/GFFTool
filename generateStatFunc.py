@@ -25,15 +25,10 @@ from scipy.stats import norm
 import tkinter.ttk as ttk 
 import ttkthemes as themes
 
-def generateStatFunc (window,resultsFrame):
-     # resultsFrame = themes.ThemedTk(theme="radiance")
-     # resultsFrame.geometry("855x200+100+300")
-     # resultsFrame.title("GFF Stats")
-     # resultsFrame.configure(bg="#F6F6F5")
-     resultsFrame.destroy()
-     resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
-     # ,highlightbackground="#dd4814",highlightthickness=1
-     resultsFrame.grid(column=0,row=1,columnspan=2,ipady=170)
+def generateStatFunc (resultsFrame):
+
+     for widget in resultsFrame.winfo_children() :
+          widget.destroy()
 
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
@@ -70,7 +65,6 @@ def generateStatFunc (window,resultsFrame):
 
      exon_Button = ttk.Button(resultsFrame,text="Stat exon",command=resultExon)
      exon_Button.grid(column=1, row=0,padx=50)
-     #padx=10,pady=10,side=LEFT
 
 
      co= sqlite3.connect(fs.dbName)
@@ -175,7 +169,7 @@ def generateStatFunc (window,resultsFrame):
 
      piechart_Button = ttk.Radiobutton(resultsFrame,text='PieChart',command=generatePiechartExonsIntrons)
      piechart_Button.grid(column=1,row=4,padx=30)           
-     # ,padx=50
+     
      return    
 
 

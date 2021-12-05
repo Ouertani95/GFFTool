@@ -23,19 +23,11 @@ import ttkthemes as themes
 
 
 def genesExonsFunc(window,resultsFrame):
-     # resultsFrame.grid_forget()
-     # resultsFrame.destroy()
-     # resultsFrame=ttk.Frame(window)
-     # resultsFrame.grid(column=0,row=1,columnspan=2,pady=10)
-     # resultsFrame.pack_forget()
-     resultsFrame.destroy()
-     resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
-     # ,highlightbackground="#dd4814",highlightthickness=1
-     resultsFrame.grid(column=0,row=1,columnspan=2,ipady=130,ipadx=28)
-     # ,pady=10,ipadx=70
-     # ,ipadx=50,ipady=100
-     for widget in resultsFrame.winfo_children():
+
+     for widget in resultsFrame.winfo_children() :
           widget.destroy()
+     
+     window.geometry("730x350+350+0")
      global geneResult
      geneResult = ttk.Label(resultsFrame,text="")
      geneResult.grid(column=0,row=1,pady=10,columnspan=3)
@@ -74,7 +66,7 @@ def genesExonsFunc(window,resultsFrame):
 
      plusButton = ttk.Button(resultsFrame,text="Brin +",command=getPlus)
      plusButton.grid(column=0,row=0,padx=40,pady=10)
-     # ,pady=10,padx=30,ipadx=5
+
      def getMinus():
 
           con = sqlite3.connect(fs.dbName)
@@ -104,7 +96,7 @@ def genesExonsFunc(window,resultsFrame):
 
      minusButton = ttk.Button(resultsFrame,text="Brin -",command=getMinus)
      minusButton.grid(column=1,row=0,padx=40,pady=10)
-     # ,pady=10,padx=30,ipadx=5
+
      def getBoth():
 
           con = sqlite3.connect(fs.dbName)
@@ -169,4 +161,3 @@ def genesExonsFunc(window,resultsFrame):
 
      bothButton = ttk.Button(resultsFrame,text="2 Brins",command=getBoth)
      bothButton.grid(column=2,row=0,padx=40,pady=10)
-     # ,pady=10,padx=30,ipadx=5

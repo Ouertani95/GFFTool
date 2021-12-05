@@ -20,18 +20,15 @@ import ttkthemes as themes
 def urlEntryFunc():
 
      downloadWindow = tk.Toplevel()
-     #themes.ThemedTk(theme="radiance")
-     downloadWindow.geometry("410x195+450+100")
+     downloadWindow.geometry("410x195+670+0")
      downloadWindow.title("GFF Download")
      downloadWindow.configure(bg="#F6F6F5")
 
      urlEntry= tk.StringVar()
      entryLabel = tk.Label(downloadWindow,text="Saisir l'url du fichier gff",bg="#F6F6F5")
      entryLabel.pack(pady=10)
-     #.grid(column=0,row=5)
      entryField = tk.Entry(downloadWindow,textvariable=urlEntry,bg="#F6F6F5",width=35)
      entryField.pack(pady=10)
-     #.grid(column=0,row=6) 
      
      def fileDownload ():
           urlLink = urlEntry.get()
@@ -70,8 +67,6 @@ def urlEntryFunc():
      
      downloadButton = tk.Button(downloadWindow,text="Telecharger",command=fileDownload,bg="#F6F6F5")
      downloadButton.pack(pady=10)
-     #.grid(column=0,row=7)
      global wrongUrl
      wrongUrl = tk.Label(downloadWindow,text="",bg="#F6F6F5")
      wrongUrl.pack()
-     #.grid(column=0,row=8)
