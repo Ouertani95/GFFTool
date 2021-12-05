@@ -33,14 +33,14 @@ window.configure(bg="#F6F6F5")
 
 
 def fileSelect():
-     fileSelectFunc(window,selectedFile)
+     fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion)
 
 def region ():
-     regionFunc(window,selectedRegion,resultsFrame)
+     regionFunc(window,selectedRegion,resultsFrame,selectedFile)
 
 
 def genesExons () : 
-     genesExonsFunc(window,resultsFrame)
+     genesExonsFunc(window,resultsFrame,selectedRegion)
 
 def generateStat () : 
      generateStatFunc(resultsFrame)
@@ -53,7 +53,7 @@ selectLabel = ttk.Label(selectionFrame,text="Sélectionner un fichier .GFF",fore
 selectLabel.grid(column=0,row=0,padx=65,pady=5,sticky="W")
 selectLocal = ttk.Button(selectionFrame,text="En local",command=fileSelect)
 selectLocal.grid(column=0,row=1,padx=90,pady=5,sticky="W")
-selectedFile = ttk.Label(selectionFrame,text="Aucun fichier sélectionné",background="#F6F6F5")
+selectedFile = ttk.Label(selectionFrame,text="Aucun fichier sélectionné",background="#F6F6F5",foreground="#2E2E2E")
 selectedFile.grid(column=0,row=2,padx=10,pady=5,ipadx=7)
 selectOnline = ttk.Button(selectionFrame,text="En ligne",command=urlEntryFunc)
 selectOnline.grid(column=0,row=3,padx=90,pady=5,sticky="W")
@@ -72,7 +72,7 @@ programLabel = ttk.Label(programFrame,text="Sélectionner un outil",foreground="
 programLabel.grid(row=0,padx=120,pady=5,sticky=W)
 genomicRegion = ttk.Radiobutton(programFrame,text="Définir une région génomique",value=1,command=region)
 genomicRegion.grid(row=1,padx=50,pady=5,sticky=W)
-selectedRegion = ttk.Label(programFrame,text="Aucune région sélectionnée",background="#F6F6F5")
+selectedRegion = ttk.Label(programFrame,text="Aucune région sélectionnée",background="#F6F6F5",foreground="#2E2E2E")
 selectedRegion.grid(row=2,padx=50,pady=11,sticky=W)
 numberGenes = ttk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExons) 
 numberGenes.grid(row=3,padx=50,pady=5,sticky=W)

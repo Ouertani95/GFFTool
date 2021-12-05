@@ -20,7 +20,7 @@ import ttkthemes as themes
 def urlEntryFunc():
 
      downloadWindow = tk.Toplevel()
-     downloadWindow.geometry("410x195+670+0")
+     downloadWindow.geometry("410x230+670+0")
      downloadWindow.title("GFF Download")
      downloadWindow.configure(bg="#F6F6F5")
 
@@ -61,7 +61,7 @@ def urlEntryFunc():
                os.system("gzip -dk -f *.gz")
                print("fichier dézippé")
                wrongUrl.pack_forget()
-               wrongUrl.config(text="Ouvrir fichier en local",foreground="#dd4814")
+               wrongUrl.config(text="Ouvrir le fichier en local",foreground="#dd4814")
                wrongUrl.pack(pady=10)
 
      

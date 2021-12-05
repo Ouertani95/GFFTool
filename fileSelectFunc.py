@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import StringVar, filedialog
+from tkinter import font
 from tkinter.constants import ANCHOR, E, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
 import wget
 import validators
@@ -13,7 +14,14 @@ from pathlib import Path
 import sqlite3
 import pandas as pd
 
-def fileSelectFunc(window,selectedFile) :
+def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
+     for widget in resultsFrame.winfo_children() :
+          widget.destroy()
+     window.geometry("730x230+350+0")
+     selectedRegion.pack_forget()
+     selectedRegion.config(text="Aucune région sélectionnée",background="#F6F6F5",foreground="#2E2E2E")
+     selectedFile.pack_forget()
+     selectedFile.config(text="Aucun fichier sélectionné",background="#F6F6F5",foreground="#2E2E2E")
      #Afficher la fenêtre de selection du fichier gff en local
      window.filename = filedialog.askopenfilename(initialdir="~/Desktop/projetProgrammation2021",title="Selectionner un fichier gff",filetypes=(("gff files","*.gff"),("gff3 files",".gff3"),("gtf files","*.gtf"),("all files","*.*")))
      #extraire nom de fichier sans extension  à partir du fichier séléctionner en local 
