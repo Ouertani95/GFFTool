@@ -22,7 +22,57 @@ import tkinter.ttk as ttk
 import ttkthemes as themes
 from tkinter import messagebox
 
+def getChr():
+
+     chrSelected = "".join(chrChoice.get("anchor")) #get tuple element and transform into string
+
+     startChoice.delete(0,"end")
+     endChoice.delete(0,"end")
+
+     con = sqlite3.connect(fs.dbName)
+     cur = con.cursor()
+
+     startListChr = cur.execute("SELECT DISTINCT start FROM features WHERE seqid = '%s' ORDER BY start asc"%chrSelected).fetchall()
+     for start in startListChr :
+          startChoice.insert("end",start)
+
+     endListChr = cur.execute("SELECT DISTINCT end FROM features WHERE seqid = '%s' ORDER BY end desc"%chrSelected).fetchall()
+     for end in endListChr :
+          endChoice.insert("end",end)
+
+     con.commit()
+     cur.close()
+     con.close()
+     return
+
+def save ():
+
+     if  chrChoice.get("anchor")=="" or startChoice.get("anchor")=="" or  endChoice.get("anchor")=="" :
+          selectionLabel.pack_forget()
+          selectionLabel.config(text="Sélectionner les 3 champs",foreground="black")
+
+     elif chrChoice.get("anchor")!="" and startChoice.get("anchor")!="" and  endChoice.get("anchor")!="" :
+                    
+          global chrSelected
+          chrSelected = ''.join(chrChoice.get("anchor"))
+
+          startTuple = startChoice.get("anchor")
+          global startSelected
+          startSelected = startTuple[0]
+                    
+          endTuple = endChoice.get("anchor")
+          global endSelected
+          endSelected = endTuple[0]
+          selectionLabel.pack_forget()
+          selectionLabel.config(text="Région sauvegardée",foreground="#dd4814")
+          selectedRegionVar.pack_forget()
+          selectedRegionVar.config(text=chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]",foreground="#dd4814")                   
+     return
+
 def regionFunc (window,selectedRegion,resultsFrame,selectedFile):
+
+     global selectedRegionVar
+     selectedRegionVar=selectedRegion
      
      if selectedFile.cget("text") == "Aucun fichier sélectionné" or selectedFile.cget("text") == "" : 
           messagebox.showwarning("Selection de fichier","Veuillez sélectionner un fichier en local")
@@ -41,7 +91,7 @@ def regionFunc (window,selectedRegion,resultsFrame,selectedFile):
           endLabel = ttk.Label(resultsFrame,text="End")
           endLabel.grid (column=2,row=0,padx=20,pady=10)
 
-          
+          global chrChoice
           chrChoice = tk.Listbox(resultsFrame,yscrollcommand=chrScrollbar.set,exportselection=0)
           chrChoice.grid(column=0,row=1,padx=20,pady=10)
           
@@ -71,61 +121,15 @@ def regionFunc (window,selectedRegion,resultsFrame,selectedFile):
           endScrollbar.config(command=endChoice.yview)
           endScrollbar.grid(column=2,row=1,sticky='e''n''s')
 
-          if len(fs.chrID)>1 :
-
-               def getChr():
-                    chrSelected = "".join(chrChoice.get("anchor")) #get tuple element and transform into string
-
-                    startChoice.delete(0,"end")
-                    endChoice.delete(0,"end")
-
-                    con = sqlite3.connect(fs.dbName)
-                    cur = con.cursor()
-
-                    startListChr = cur.execute("SELECT DISTINCT start FROM features WHERE seqid = '%s' ORDER BY start asc"%chrSelected).fetchall()
-                    for start in startListChr :
-                         startChoice.insert("end",start)
-
-                    endListChr = cur.execute("SELECT DISTINCT end FROM features WHERE seqid = '%s' ORDER BY end desc"%chrSelected).fetchall()
-                    for end in endListChr :
-                         endChoice.insert("end",end)
-
-                    con.commit()
-                    cur.close()
-                    con.close()
-               
-               validateChr = ttk.Button(resultsFrame,text="Valider Chromosome",command=getChr)
-               validateChr.grid(column=0,row=3,padx=20,pady=10)
-
-          def save ():
-
-               
-
-               if  chrChoice.get("anchor")=="" or startChoice.get("anchor")=="" or  endChoice.get("anchor")=="" :
-                    selectionLabel.pack_forget()
-                    selectionLabel.config(text="Sélectionner les 3 champs",foreground="black")
-
-               elif chrChoice.get("anchor")!="" and startChoice.get("anchor")!="" and  endChoice.get("anchor")!="" :
-                    
-                    global chrSelected
-                    chrSelected = ''.join(chrChoice.get("anchor"))
-
-                    startTuple = startChoice.get("anchor")
-                    global startSelected
-                    startSelected = startTuple[0]
-                    
-                    endTuple = endChoice.get("anchor")
-                    global endSelected
-                    endSelected = endTuple[0]
-                    selectionLabel.pack_forget()
-                    selectionLabel.config(text="Région sauvegardée",foreground="#dd4814")
-                    selectedRegion.pack_forget()
-                    selectedRegion.config(text=chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]",foreground="#dd4814")               
-          
-               return
-
           SaveButton = ttk.Button(resultsFrame,text="Sauvegarder",command=save)
           SaveButton.grid(column=1,row=3,pady=10)
+
           global selectionLabel
           selectionLabel = ttk.Label(resultsFrame,text="")
           selectionLabel.grid(column=2,row=3,pady=10)
+
+          if len(fs.chrID)>1 :
+               validateChr = ttk.Button(resultsFrame,text="Valider Chromosome",command=getChr)
+               validateChr.grid(column=0,row=3,padx=20,pady=10)
+     return
+               

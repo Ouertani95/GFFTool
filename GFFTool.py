@@ -38,7 +38,6 @@ def fileSelect():
 def region ():
      regionFunc(window,selectedRegion,resultsFrame,selectedFile)
 
-
 def genesExons () : 
      genesExonsFunc(window,resultsFrame,selectedRegion)
 
@@ -60,8 +59,6 @@ selectedFile = ttk.Label(selectionFrame,text="Aucun fichier sélectionné",backg
 selectedFile.grid(column=0,row=2,padx=10,pady=5,ipadx=7)
 selectOnline = ttk.Button(selectionFrame,text="En ligne",command=urlEntryFunc)
 selectOnline.grid(column=0,row=3,padx=90,pady=5,sticky="W")
-
-
 quitButton = ttk.Button(selectionFrame,text="Quitter", width=15, command=window.destroy)
 quitButton.grid(column=0,row=4,padx=74,pady=5,sticky="W")
 
@@ -84,11 +81,10 @@ graphGenerator.grid(row=4,padx=50,pady=5,sticky=W)
 statGenerator = ttk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStat) 
 statGenerator.grid(row=5,padx=50,pady=5,sticky=W)
 
-global resultsFrame
-resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)
-# ,highlightbackground="#dd4814",highlightthickness=1
-resultsFrame.grid(column=0,row=1,columnspan=2,pady=10,ipady=10)
 
+
+resultsFrame=tk.Frame(window,background="#F6F6F5",height=450,width=700)# ,highlightbackground="#dd4814",highlightthickness=1
+resultsFrame.grid(column=0,row=1,columnspan=2,pady=10,ipady=10)
 
 
 
