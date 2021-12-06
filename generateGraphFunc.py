@@ -23,12 +23,17 @@ import ttkthemes as themes
 
 
 
-def generateGraphFunc ():
+def generateGraphFunc (window,resultsFrame):
 
-     grapheWindow = themes.ThemedTk(theme="radiance")
-     grapheWindow.geometry("835x55+300+300")
-     grapheWindow.title("Generer Des Graphes")
-     grapheWindow.configure(bg="#F6F6F5")
+     for widget in resultsFrame.winfo_children() :
+          widget.destroy()
+     
+     window.geometry("730x350+350+0")
+
+     # resultsFrame = themes.ThemedTk(theme="radiance")
+     # resultsFrame.geometry("835x55+300+300")
+     # resultsFrame.title("Generer Des Graphes")
+     # resultsFrame.configure(bg="#F6F6F5")
 
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
@@ -66,8 +71,8 @@ def generateGraphFunc ():
           #bbox_to_anchor=(0.5,-0.1)
           plt.show()
 
-     exon_Button = ttk.Button(grapheWindow,text="Graphe d'exon",command=generateGraphExon)
-     exon_Button.grid(column=0,row=0,pady=10,padx=25)
+     exon_Button = ttk.Button(resultsFrame,text="Graphe d'exon",command=generateGraphExon)
+     exon_Button.grid(column=1,row=1,pady=10,padx=25)
 
 
      co= sqlite3.connect(fs.dbName)
@@ -98,7 +103,7 @@ def generateGraphFunc ():
           plt.legend(ncol=3,loc='upper right')
           plt.show()
 
-     gene_Button = ttk.Button(grapheWindow,text="Graphe des Genes",command=generateGraphGene)
+     gene_Button = ttk.Button(resultsFrame,text="Graphe des Genes",command=generateGraphGene)
      gene_Button.grid(column=1,row=0,pady=10,padx=25)
 
      co= sqlite3.connect(fs.dbName)
@@ -129,7 +134,7 @@ def generateGraphFunc ():
           plt.legend(ncol=3,loc='upper right')
           plt.show()
 
-     intron_Button = ttk.Button(grapheWindow,text="Graphe des Introns ",command=generateGraphIntron)
+     intron_Button = ttk.Button(resultsFrame,text="Graphe des Introns ",command=generateGraphIntron)
      intron_Button.grid(column=2,row=0,pady=10,padx=25)
 
      co= sqlite3.connect(fs.dbName)
@@ -168,8 +173,8 @@ def generateGraphFunc ():
           plt.legend(ncol=4,loc='upper right')
           plt.show()
 
-     inter_Button = ttk.Button(grapheWindow,text="Graphe des inter ",command=generateGraphInter)
-     inter_Button.grid(column=3,row=0,pady=10,padx=25)
+     inter_Button = ttk.Button(resultsFrame,text="Graphe des inter ",command=generateGraphInter)
+     inter_Button.grid(column=2,row=1,pady=10,padx=25)
      
 
 

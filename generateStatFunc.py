@@ -25,46 +25,22 @@ from scipy.stats import norm
 import tkinter.ttk as ttk 
 import ttkthemes as themes
 
-def generateStatFunc (resultsFrame):
+def generateStatFunc(window,resultsFrame):
 
      for widget in resultsFrame.winfo_children() :
           widget.destroy()
-
-     co= sqlite3.connect(fs.dbName)
-     c = co.cursor()
-
-     global exonAll
-     exonAll = c.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      
-     exonAllArray = np.array(exonAll)
+     window.geometry("730x380+350+0")
 
-     exonAllMean = round(exonAllArray.mean(),2)
-     exonAllMean = str(exonAllMean)
+     meanResult = ttk.Label(resultsFrame,text="")
+     meanResult.grid(column=1,row=1,pady=10,columnspan=3)
 
-     exonMin = exonAllArray.min()
-     exonMin= str(exonMin)
+     maxResult = ttk.Label(resultsFrame,text="")
+     maxResult.grid(column=1,row=2,pady=10,columnspan=3)
 
-     exonMax = exonAllArray.max()
-     exonMax= str(exonMax)
+     minResult = ttk.Label(resultsFrame,text="")
+     minResult.grid(column=1,row=3,pady=10,columnspan=3)
 
-     co.commit()
-     c.close()
-     co.close()
-
-
-     def resultExon() :
-
-          Result = ttk.Label(resultsFrame,text= " Taille Moyenne Des Exons : " +exonAllMean)
-          Result.grid(column=1,row=1,sticky=W)
-     
-          mini_Result = ttk.Label(resultsFrame,text= "Taille Minimale Des Exons : " +exonMin)
-          mini_Result.grid(column=1,row=2,sticky=W)   
-
-          max_Result = ttk.Label(resultsFrame,text= "Taille Maximale des Exons : " +exonMax)
-          max_Result.grid(column=1,row=3,sticky=W) 
-
-     exon_Button = ttk.Button(resultsFrame,text="Stat exon",command=resultExon)
-     exon_Button.grid(column=1, row=0,padx=50)
 
 
      co= sqlite3.connect(fs.dbName)
@@ -90,18 +66,71 @@ def generateStatFunc (resultsFrame):
 
      def resultGene() :
 
-          gene_Result = ttk.Label(resultsFrame,text= "Taille Moyenne Des Genes : " +geneAllMean)
-          gene_Result.grid(column=0, row=1,sticky=W)
-     
+          # gene_Result = ttk.Label(resultsFrame,text= "Taille Moyenne Des Genes : " +geneAllMean)
+          # gene_Result.grid(column=0, row=1,sticky=W)
+          meanResult.pack_forget()
+          meanResult.config(text= "Taille Moyenne Des Genes : " + geneAllMean)
 
-          geneMin_Result = ttk.Label(resultsFrame,text=" Taille Minimale Des Genes : " +geneMin)
-          geneMin_Result.grid(column=0, row=2,sticky=W)
+          minResult.pack_forget()
+          minResult.config(text=" Taille Minimale Des Genes : " + geneMin)
 
-          geneMax_Result = ttk.Label(resultsFrame,text= "Taille Maximale Des Genes : " +geneMax)
-          geneMax_Result.grid(column=0, row=3,sticky=W)
+          maxResult.pack_forget()
+          maxResult.config(text="Taille Maximale Des Genes : " + geneMax)
+
+          # geneMin_Result = ttk.Label(resultsFrame,text=" Taille Minimale Des Genes : " +geneMin)
+          # geneMin_Result.grid(column=0, row=2,sticky=W)
+
+          # geneMax_Result = ttk.Label(resultsFrame,text= "Taille Maximale Des Genes : " +geneMax)
+          # geneMax_Result.grid(column=0, row=3,sticky=W)
 
      gene_Button = ttk.Button(resultsFrame,text="Stat Gene",command=resultGene)
-     gene_Button.grid(column=0, row=0,padx=50)
+     gene_Button.grid(column=0, row=1,padx=50,sticky=W)
+
+
+
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
+
+     global exonAll
+     exonAll = c.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     
+     exonAllArray = np.array(exonAll)
+
+     exonAllMean = round(exonAllArray.mean(),2)
+     exonAllMean = str(exonAllMean)
+
+     exonMin = exonAllArray.min()
+     exonMin= str(exonMin)
+
+     exonMax = exonAllArray.max()
+     exonMax= str(exonMax)
+
+     co.commit()
+     c.close()
+     co.close()
+
+
+     def resultExon() :
+
+          # Result = ttk.Label(resultsFrame,text= " Taille Moyenne Des Exons : " +exonAllMean)
+          # Result.grid(column=1,row=1,sticky=W)
+          meanResult.pack_forget()
+          meanResult.config(text= "Taille Moyenne Des Exons : " + exonAllMean)
+
+          minResult.pack_forget()
+          minResult.config(text=" Taille Minimale Des Exons : " + exonMin)
+
+          maxResult.pack_forget()
+          maxResult.config(text="Taille Maximale Des Exons : " + exonMax)
+          # mini_Result = ttk.Label(resultsFrame,text= "Taille Minimale Des Exons : " +exonMin)
+          # mini_Result.grid(column=1,row=2,sticky=W)   
+
+          # max_Result = ttk.Label(resultsFrame,text= "Taille Maximale des Exons : " +exonMax)
+          # max_Result.grid(column=1,row=3,sticky=W) 
+
+     exon_Button = ttk.Button(resultsFrame,text="Stat exon",command=resultExon)
+     exon_Button.grid(column=0, row=2,padx=50,sticky=W)
+
 
 
      co= sqlite3.connect(fs.dbName)
@@ -126,18 +155,26 @@ def generateStatFunc (resultsFrame):
      co.close()
 
      def resultIntron() : 
-          intronMean_Result = ttk.Label(resultsFrame,text= "Taille Moyenne Des Introns : " +intronAllMean)
-          intronMean_Result.grid(column=2, row=1,sticky=W)
+          
+          # intronMean_Result = ttk.Label(resultsFrame,text= "Taille Moyenne Des Introns : " +intronAllMean)
+          # intronMean_Result.grid(column=2, row=1,sticky=W)
+          meanResult.pack_forget()
+          meanResult.config(text= "Taille Moyenne Des Introns : " + intronAllMean )
 
+          minResult.pack_forget()
+          minResult.config(text=" Taille Minimale Des Introns : " + intronMin)
+
+          maxResult.pack_forget()
+          maxResult.config(text="Taille Maximale Des Introns : " + intronMax)
      
-          intronMin_Result = ttk.Label(resultsFrame,text= "Taille Minimale Des Introns : " +intronMin)
-          intronMin_Result.grid(column=2, row=2,sticky=W)
+          # intronMin_Result = ttk.Label(resultsFrame,text= "Taille Minimale Des Introns : " +intronMin)
+          # intronMin_Result.grid(column=2, row=2,sticky=W)
 
-          intronMax_Result = ttk.Label(resultsFrame,text= "Taille Maximale Des Introns : " +intronMax)
-          intronMax_Result.grid(column=2, row=3,sticky=W)
+          # intronMax_Result = ttk.Label(resultsFrame,text= "Taille Maximale Des Introns : " +intronMax)
+          # intronMax_Result.grid(column=2, row=3,sticky=W)
 
      intron_Button = ttk.Button(resultsFrame,text="Stat Intron",command=resultIntron)
-     intron_Button.grid(column=2, row=0,padx=50)
+     intron_Button.grid(column=0, row=3,padx=50,sticky=W)
 
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
@@ -165,15 +202,12 @@ def generateStatFunc (resultsFrame):
           Names = ["Intron","Exons"]
           
           plt.pie(values,labels=Names,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2})
+          plt.title('Pourcentage Des Exons Et Introns')
           plt.show()
 
      piechart_Button = ttk.Radiobutton(resultsFrame,text='PieChart',command=generatePiechartExonsIntrons)
-     piechart_Button.grid(column=1,row=4,padx=30)           
+     piechart_Button.grid(column=0,row=6,padx=30)           
      
      return    
-
-
-#taille totale du chromosome 
-#diagramme des % d'exon,intron,genes
 
      

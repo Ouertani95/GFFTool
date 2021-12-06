@@ -43,7 +43,10 @@ def genesExons () :
      genesExonsFunc(window,resultsFrame,selectedRegion)
 
 def generateStat () : 
-     generateStatFunc(resultsFrame)
+     generateStatFunc(window,resultsFrame)
+
+def generateGraph () : 
+     generateGraphFunc(window,resultsFrame)
 
 selectionFrame = tk.Frame(window,background="#F6F6F5")
 selectionFrame.grid(column=0,row=0,padx=5)
@@ -76,7 +79,7 @@ selectedRegion = ttk.Label(programFrame,text="Aucune région sélectionnée",bac
 selectedRegion.grid(row=2,padx=50,pady=11,sticky=W)
 numberGenes = ttk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,command=genesExons) 
 numberGenes.grid(row=3,padx=50,pady=5,sticky=W)
-graphGenerator = ttk.Radiobutton(programFrame,text="Générer des graphiques",value=3,command=generateGraphFunc)
+graphGenerator = ttk.Radiobutton(programFrame,text="Générer des graphiques",value=3,command=generateGraph)
 graphGenerator.grid(row=4,padx=50,pady=5,sticky=W)
 statGenerator = ttk.Radiobutton(programFrame,text="Générer des statistiques",value=4,command=generateStat) 
 statGenerator.grid(row=5,padx=50,pady=5,sticky=W)
