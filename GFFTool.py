@@ -24,7 +24,6 @@ import tkinter.ttk as ttk
 import ttkthemes as themes
 
 
-global window
 window = themes.ThemedTk(theme="radiance")
 window.geometry("730x230+350+0")
 window.title("GFF Tool")
