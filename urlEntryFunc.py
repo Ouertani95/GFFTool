@@ -1,6 +1,6 @@
 from re import X
 import tkinter as tk
-from tkinter import StringVar, filedialog
+from tkinter import StringVar, Widget, filedialog
 from tkinter.constants import ANCHOR, E, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
 import wget
 import validators
@@ -15,7 +15,6 @@ import sqlite3
 import pandas as pd
 import tkinter.ttk as ttk 
 import ttkthemes as themes
-
 
 def urlEntryFunc():
 
@@ -52,11 +51,16 @@ def urlEntryFunc():
           else :
                #remove old text from wrongUrl Label(used thanks to global outside of function)
                wrongUrl.pack_forget()
-               wrongUrl.config(text="En cours de téléchargement")
-               wrongUrl.pack(pady=10)
+               # wrongUrl.config(text="En cours de téléchargement")
+               # wrongUrl.pack(pady=10)
                print(urlLink)
-               
-               wget.download(url=urlLink)
+               def customBar(current,total,width=80):
+                    wrongUrl.pack_forget()
+                    print("Downloading: %d%% [%d / %d] bytes" % (current / total *100, current, total))
+                    downloadProgress["value"]=current / total *100
+                    downloadWindow.update_idletasks()
+                    return
+               wget.download(url=urlLink,bar=customBar)
                print("fichier téléchargé")
                os.system("gzip -dk -f *.gz")
                print("fichier dézippé")
@@ -67,6 +71,10 @@ def urlEntryFunc():
      
      downloadButton = tk.Button(downloadWindow,text="Telecharger",command=fileDownload,bg="#F6F6F5")
      downloadButton.pack(pady=10)
+
+     downloadProgress = ttk.Progressbar(downloadWindow,length=300,mode="determinate",orient=tk.HORIZONTAL)
+     downloadProgress.pack()
+     
      global wrongUrl
      wrongUrl = tk.Label(downloadWindow,text="",bg="#F6F6F5")
      wrongUrl.pack()
