@@ -42,10 +42,10 @@ def genesExons () :
      genesExonsFunc(window,resultsFrame,selectedRegion)
 
 def generateStat () : 
-     generateStatFunc(window,resultsFrame)
+     generateStatFunc(window,resultsFrame,selectedRegion)
 
 def generateGraph () : 
-     generateGraphFunc(window,resultsFrame)
+     generateGraphFunc(window,resultsFrame,selectedRegion)
 
 selectionFrame = tk.Frame(window,background="#F6F6F5")
 selectionFrame.grid(column=0,row=0,padx=5)
