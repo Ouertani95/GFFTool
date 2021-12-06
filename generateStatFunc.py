@@ -108,7 +108,7 @@ def generateStatFunc(window,resultsFrame):
      for widget in resultsFrame.winfo_children() :
           widget.destroy()
      
-     window.geometry("730x380+350+0")
+     window.geometry("730x390+350+0")
      
      co= sqlite3.connect(fs.dbName)
      c = co.cursor()
@@ -198,7 +198,7 @@ def generateStatFunc(window,resultsFrame):
      intron_Button.grid(column=0, row=3,padx=50,sticky=W)
 
      piechart_Button = ttk.Radiobutton(resultsFrame,text='PieChart',command=generatePiechartExonsIntrons)
-     piechart_Button.grid(column=0,row=6,padx=30) 
+     piechart_Button.grid(column=0,row=6,padx=30,ipady= 25) 
 
      return    
 
