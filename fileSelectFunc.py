@@ -61,4 +61,5 @@ def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
      con.commit()
      cur.close()
      con.close()
+     return
 
