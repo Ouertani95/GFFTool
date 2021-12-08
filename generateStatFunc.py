@@ -25,6 +25,7 @@ from scipy.stats import norm
 import tkinter.ttk as ttk 
 import ttkthemes as themes
 from tkinter import messagebox
+from matplotlib import pylab
 
 
 def resultGene() :
@@ -90,19 +91,6 @@ def resultIntron() :
 
 
 
-def generatePiechartExonsIntrons ():
-
-     global values 
-     values = [intronPielist,exonPielist]
-          
-     global Names  
-     Names = ["Intron","Exons"]
-          
-     plt.pie(values,labels=Names,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2})
-     plt.title('Pourcentage Des Exons Et Introns')
-     plt.show()
-
-
 def generateStatFunc(window,resultsFrame,selectedRegion):
 
      if selectedRegion.cget("text") == "Aucune région sélectionnée" or selectedRegion.cget("text") == "" : 
@@ -111,22 +99,26 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           for widget in resultsFrame.winfo_children() :
                widget.destroy()
           
-          window.geometry("730x390+350+0")
+          window.geometry("730x450+350+0")
+
+          graphTitle = ttk.Label(resultsFrame,text="Statistiques",foreground="black")
+          graphTitle.grid(column=0,row=0,pady=15,columnspan=3)
           
           co= sqlite3.connect(fs.dbName)
           c = co.cursor()
 
           global meanResult
           meanResult = ttk.Label(resultsFrame,text="")
-          meanResult.grid(column=1,row=1,pady=10,columnspan=3)
+          meanResult.grid(column=0,row=2,pady=10,columnspan=3)
+          
 
           global maxResult
           maxResult = ttk.Label(resultsFrame,text="")
-          maxResult.grid(column=1,row=2,pady=10,columnspan=3)
+          maxResult.grid(column=0,row=3,pady=10,columnspan=3)
 
           global minResult
           minResult = ttk.Label(resultsFrame,text="")
-          minResult.grid(column=1,row=3,pady=10,columnspan=3)
+          minResult.grid(column=0,row=4,pady=10,columnspan=3)
 
           global geneAll 
           geneAll = c.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
@@ -177,31 +169,19 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           intronMax = intronAllArray.max()
           intronMax = str(intronMax)
 
-          global intronPie
-          intronPie = c.execute("SELECT count(end-start) from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          global intronPielist
-          intronPielist = intronPie[0][0]
-
-          global exonPie 
-          exonPie = c.execute("SELECT count(end-start) from features WHERE featuretype ='exon' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          global exonPielist
-          exonPielist = exonPie[0][0]
-
           co.commit()
           c.close()
           co.close()
 
+
           gene_Button = ttk.Button(resultsFrame,text="Stat Gene",command=resultGene)
-          gene_Button.grid(column=0, row=1,padx=50,sticky=W)
+          gene_Button.grid(column=0,row=1,padx=40,pady=10)
 
           exon_Button = ttk.Button(resultsFrame,text="Stat exon",command=resultExon)
-          exon_Button.grid(column=0, row=2,padx=50,sticky=W)
+          exon_Button.grid(column=1,row=1,padx=40,pady=10)
 
           intron_Button = ttk.Button(resultsFrame,text="Stat Intron",command=resultIntron)
-          intron_Button.grid(column=0, row=3,padx=50,sticky=W)
-
-          piechart_Button = ttk.Radiobutton(resultsFrame,text='PieChart',command=generatePiechartExonsIntrons)
-          piechart_Button.grid(column=0,row=6,padx=30,ipady= 25) 
+          intron_Button.grid(column=2,row=1,padx=40,pady=10)
 
      return    
 

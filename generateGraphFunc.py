@@ -21,16 +21,23 @@ import pandas as pd
 import tkinter.ttk as ttk 
 import ttkthemes as themes
 from tkinter import messagebox
+import matplotlib as mpl
+from matplotlib import pylab
+
 
 
 def generateGraphExon ():
 
-     plt.bar(exonPositions,exonTInt,label='exon')
+     mpl.rcParams['axes.spines.right'] = False
+     mpl.rcParams['axes.spines.top'] = False
+     fig1 = pylab.gcf()
+     fig1.canvas.manager.set_window_title('Graphes Des Exons')
+     plt.bar(exonPositions,exonTInt,label='exon',color='darkgrey')
           #plt.hist(geneT,label='gene')
           #plt.hist(intronT,label='intron')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille')
+     plt.title('Distribution de Taille Des Exons Sur Les 2 Brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
           #bbox_to_anchor=(0.5,-0.1)
      plt.show()
@@ -38,32 +45,56 @@ def generateGraphExon ():
 
 def generateGraphGene():
 
-     plt.bar(genePositions,geneTInt,label='Gene')
+     mpl.rcParams['axes.spines.right'] = False
+     mpl.rcParams['axes.spines.top'] = False
+     fig2 = pylab.gcf()
+     fig2.canvas.manager.set_window_title('Graphes Des Genes')
+     plt.bar(genePositions,geneTInt,label='Gene',color='chocolate')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille')
+     plt.title('Distribution de Taille Des Genes Sur Les 2 Brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
      plt.show()
 
 
 def generateGraphIntron():
 
-     plt.bar(intronPositions,intronTInt,label='Intron')
+     mpl.rcParams['axes.spines.right'] = False
+     mpl.rcParams['axes.spines.top'] = False
+     fig3 = pylab.gcf()
+     fig3.canvas.manager.set_window_title('Graphes Des Introns')
+     plt.bar(intronPositions,intronTInt,label='Intron',color='peru')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille')
+     plt.title('Distribution de Taille Des Introns Sur Les 2 Brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
      plt.show()
 
 
 
-def generateGraphInter():
+def generateGraphInter():  
 
-     plt.bar(interPositions,interList,label='inter')
+     mpl.rcParams['axes.spines.right'] = False
+     mpl.rcParams['axes.spines.top'] = False
+     fig1 = pylab.gcf()
+     fig1.canvas.manager.set_window_title('Graphes Des Régions Intergéniques')
+     plt.bar(interPositionsBoth,interListBoth,label='Régions Intergéniques',color='mediumseagreen')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille')
+     plt.title('Distribution de Taille Des Régions Intergéniques Sur Les 2 Brins',fontsize=11)
      plt.legend(ncol=4,loc='upper right')
+     plt.show()
+
+def generatePiechartExonsIntrons ():
+
+     values = [intronPielist,exonPielist]
+     Names = ["Intron","Exons"]
+     col=['firebrick','darksalmon']
+     
+     figP = pylab.gcf()
+     figP.canvas.manager.set_window_title('Distributions des Exons et des Intron')
+     plt.pie(values,labels=Names,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
+     plt.title('Pourcentage Des Exons Et Introns')
      plt.show()
 
 
@@ -75,7 +106,19 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           for widget in resultsFrame.winfo_children() :
                widget.destroy()
           
-          window.geometry("730x350+350+0")
+          window.geometry("730x550+350+0")
+
+          mainTitle = ttk.Label(resultsFrame,text="Generation des graphes",foreground="black")
+          mainTitle.grid(column=0,row=0,pady=15,columnspan=3)
+
+          barTitle = ttk.Label(resultsFrame,text="Distribution des tailles",foreground="black")
+          barTitle.grid(column=0,row=1,padx=20,pady=5)
+
+          pieTitle = ttk.Label(resultsFrame,text="Proportions",foreground="black")
+          pieTitle.grid(column=1,row=1,padx=20,pady=5)
+
+          boxTitle = ttk.Label(resultsFrame,text="Comparaison des distributions",foreground="black")
+          boxTitle.grid(column=2,row=1,padx=20,pady=5)
 
           # resultsFrame = themes.ThemedTk(theme="radiance")
           # resultsFrame.geometry("835x55+300+300")
@@ -85,6 +128,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           co= sqlite3.connect(fs.dbName)
           c = co.cursor()
 
+
           global exonT
           exonT= c.execute("SELECT end-start from features WHERE featuretype = 'exon' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
@@ -92,14 +136,12 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           exonTInt = []
           for exonLength in exonT :
                exonTInt.append(exonLength[0])
-          #print(len(exonTInt))    
+
 
           global exonPositions 
           exonPositions = []
           for position in range(1,len(exonT)+1): 
                exonPositions.append(position)
-          #print(len(exonPositions))
-          #print(exonPositions)
 
           geneT= c.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
 
@@ -126,43 +168,77 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           for position in range(1,len(intronT)+1): 
                intronPositions.append(position)
 
-          global startGene
-          startGene = c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          global startGenePlus
+          startGenePlus = c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
 
-          global endGene 
-          endGene = c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-
-          interArray = np.column_stack((startGene,endGene))
-          print(interArray)
-
-          global interList
-          interList = []
-          for inter in range (1,len(interArray)) :
-               interList.append(interArray[inter,0] - interArray[inter-1,1])
-          print(interList)
+          global endGenePlus
+          endGenePlus= c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
-          global interPositions
-          interPositions = []
-          for interStart in range(0,len(endGene)-1) : 
-               interPositions.append(endGene[interStart][0]+1)
+          interArrayPlus = np.column_stack((startGenePlus,endGenePlus))
 
-          print(interPositions)
+          global interListPlus
+          interListPlus = []
+          for inter in range (1,len(interArrayPlus)) :
+               interListPlus.append(interArrayPlus[inter,0] - interArrayPlus[inter-1,1])
+
+          
+          global interPositionsPlus
+          interPositionsPlus = []
+          for interStart in range(1,len(interListPlus)+1) : 
+               interPositionsPlus.append(interStart)
+
+     
+          global startGeneMinus
+          startGeneMinus= c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '-' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+
+          global endGeneMinus 
+          endGeneMinus= c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '-' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+
+          interArrayMinus = np.column_stack((startGeneMinus,endGeneMinus))
+
+          global interListMinus
+          interListMinus = []
+          for inter in range (1,len(interArrayMinus)) :
+               interListMinus.append(interArrayMinus[inter,0] - interArrayMinus[inter-1,1])
+          
+
+          global interListBoth
+          interListBoth = interListPlus + interListMinus 
+
+
+          global interPositionsBoth
+          interPositionsBoth = []
+          for i in range(1,len(interListBoth)+1) : 
+               interPositionsBoth.append(i)
+          
+          global intronPie
+          intronPie = c.execute("SELECT count(end-start) from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          global intronPielist
+          intronPielist = intronPie[0][0]
+
+          global exonPie 
+          exonPie = c.execute("SELECT count(end-start) from features WHERE featuretype ='exon' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          global exonPielist
+          exonPielist = exonPie[0][0]
 
 
           co.commit()
           c.close()
           co.close()
 
-          exon_Button = ttk.Button(resultsFrame,text="Graphe d'exon",command=generateGraphExon)
-          exon_Button.grid(column=1,row=1,pady=10,padx=25)
+          exon_Button = ttk.Button(resultsFrame,text="Exons",command=generateGraphExon)
+          exon_Button.grid(column=0,row=2,pady=10,padx=25)
 
-          gene_Button = ttk.Button(resultsFrame,text="Graphe des Genes",command=generateGraphGene)
-          gene_Button.grid(column=1,row=0,pady=10,padx=25)
+          gene_Button = ttk.Button(resultsFrame,text="Genes",command=generateGraphGene)
+          gene_Button.grid(column=0,row=3,pady=10,padx=25)
 
-          intron_Button = ttk.Button(resultsFrame,text="Graphe des Introns ",command=generateGraphIntron)
-          intron_Button.grid(column=2,row=0,pady=10,padx=25)
+          intron_Button = ttk.Button(resultsFrame,text="Introns",command=generateGraphIntron)
+          intron_Button.grid(column=0,row=4,pady=10,padx=25)
 
-          inter_Button = ttk.Button(resultsFrame,text="Graphe des inter ",command=generateGraphInter)
-          inter_Button.grid(column=2,row=1,pady=10,padx=25)
+          inter_Button = ttk.Button(resultsFrame,text="Intergenes",command=generateGraphInter)
+          inter_Button.grid(column=0,row=5,pady=10,padx=25)
+
+          piechart_Button = ttk.Radiobutton(resultsFrame,text='Exons/Introns',command=generatePiechartExonsIntrons)
+          piechart_Button.grid(column=1,row=2,padx=30,ipady= 25) 
 
      return
