@@ -16,15 +16,27 @@ import pandas as pd
 import tkinter.ttk as ttk 
 import ttkthemes as themes
 
-
 def customBar(current,total,width=80):
-     wrongUrl.pack_forget()
+     """
+     Shows download progress while file is downloading
+     """
      print("Downloading: %d%% [%d / %d] bytes" % (current / total *100, current, total))
      downloadProgress["value"]=current / total *100
+     wrongUrl.config(text=str(round(downloadProgress["value"]))+" % "+"["+str(current)+" / "+str(total)+"]" +" bytes",foreground="black")
+     wrongUrl.pack()
      downloadWindow.update_idletasks()
      return
 
 def fileDownload ():
+     """
+     Once downloadButton is pressed verifies the content of entryField :
+     * Case 1 : entryField doesn't contain a valid url 
+     => Changes label wrongUrl's text value to "Url non valide"
+     * Case 2 : entryField contains a valid url but no gff file 
+     => Changes label wrongUrl's text value to "Pas de fichier gff trouvé"
+     * Case 3 : entryField contains a valid url and a gff file
+     => Downloads file , decompresses downloaded file and changes label wrongUrl's text value to "Ouvrir le fichier en local"
+     """
      urlLink = urlEntry.get()
      validUrl=validators.url(urlLink)
      print(validUrl)
@@ -49,7 +61,7 @@ def fileDownload ():
           print(urlLink)
           wget.download(url=urlLink,bar=customBar)
           print("fichier téléchargé")
-          os.system("gzip -dk -f *.gz")
+          os.system("gzip -d -f *.gz")
           print("fichier dézippé")
           wrongUrl.pack_forget()
           wrongUrl.config(text="Ouvrir le fichier en local",foreground="#dd4814")
@@ -57,10 +69,13 @@ def fileDownload ():
      return
 
 def urlEntryFunc():
+     """
+     Creates download window
+     """
 
      global downloadWindow
      downloadWindow = tk.Toplevel()
-     downloadWindow.geometry("410x230+670+0")
+     downloadWindow.geometry("410x190+670+0")
      downloadWindow.title("GFF Download")
      downloadWindow.configure(bg="#F6F6F5")
 

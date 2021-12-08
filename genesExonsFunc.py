@@ -23,6 +23,10 @@ import ttkthemes as themes
 from tkinter import messagebox
 
 def getPlus():
+     """
+     Retrieves number of genes and exons in the + strand inside selected chromosome region from the database.
+     Modifies labels geneResult and exonResult text values to show retrieved numbers.
+     """
 
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
@@ -30,18 +34,22 @@ def getPlus():
      numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberGenes = numberGenesList[0][0]
      geneResult.pack_forget()
-     geneResult.configure(text="Le nombre de gènes du brin + dans cette région est : "+str(numberGenes))
+     geneResult.configure(text="Gènes brin + : "+str(numberGenes))
                
 
      numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberExons = numberExonsList[0][0]
      exonResult.pack_forget()
-     exonResult.configure(text="Le nombre d'exons du brin + dans cette région est : "+str(numberExons))
+     exonResult.configure(text="Exons brin + : "+str(numberExons))
                
-     # numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     # numberIntrons = numberIntronsList[0][0]
-     # intronResult.pack_forget()
-     # intronResult.configure(text="Le nombre d'introns du brin + dans cette région est : "+str(numberIntrons))
+     numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     numberIntrons = numberIntronsList[0][0]
+     intronResult.pack_forget()
+     intronResult.configure(text="Introns brin + : "+str(numberIntrons))
+
+
+     # selectedStrand.pack_forget()
+     # selectedStrand.config(text="Brin +")
 
      con.commit()
      cur.close()
@@ -49,26 +57,31 @@ def getPlus():
      return
 
 def getMinus():
-
+     """
+     Retrieves number of genes and exons in the - strand inside selected chromosome region from the database.
+     Modifies labels geneResult and exonResult text values to show retrieved numbers.
+     """
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
 
      numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberGenes = numberGenesList[0][0]
      geneResult.pack_forget()
-     geneResult.configure(text="Le nombre de gènes du brin - dans cette région est : "+str(numberGenes))
+     geneResult.configure(text="Gènes brin - : "+str(numberGenes))
           
 
      numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberExons = numberExonsList[0][0]
      exonResult.pack_forget()
-     exonResult.configure(text="Le nombre d'exons du brin - dans cette région est : "+str(numberExons))
+     exonResult.configure(text="Exons brin - : "+str(numberExons))
 
-     # numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     # numberIntrons = numberIntronsList[0][0]
-     # intronResult.pack_forget()
-     # intronResult.configure(text="Le nombre d'introns du brin - dans cette région est : "+str(numberIntrons))
-          
+     numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     numberIntrons = numberIntronsList[0][0]
+     intronResult.pack_forget()
+     intronResult.configure(text="Introns brin - : "+str(numberIntrons))
+      
+     # selectedStrand.pack_forget()
+     # selectedStrand.config(text="Brin -")
 
      con.commit()
      cur.close()
@@ -76,6 +89,10 @@ def getMinus():
      return
 
 def getBoth():
+     """
+     Retrieves number of genes and exons in both strands inside selected chromosome region from the database.
+     Modifies labels geneResult and exonResult text values to show retrieved numbers.
+     """
 
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
@@ -83,19 +100,22 @@ def getBoth():
      numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberGenes = numberGenesList[0][0]
      geneResult.pack_forget()
-     geneResult.configure(text="Le nombre total de gènes dans cette région est : "+str(numberGenes))
+     geneResult.configure(text="Gènes 2 brins : "+str(numberGenes))
                
                
      numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberExons = numberExonsList[0][0]
      exonResult.pack_forget()
-     exonResult.configure(text="Le nombre total d'exons dans cette région est : "+str(numberExons))
+     exonResult.configure(text="Exons 2 brins : "+str(numberExons))
 
-     # numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     # numberIntrons = numberIntronsList[0][0]
-     # intronResult.pack_forget()
-     # intronResult.configure(text="Le nombre d'introns total dans cette région est : "+str(numberIntrons))
-               
+     numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     numberIntrons = numberIntronsList[0][0]
+     intronResult.pack_forget()
+     intronResult.configure(text="Introns 2 brins : "+str(numberIntrons))
+
+     # selectedStrand.pack_forget()
+     # selectedStrand.config(text="2 Brins") 
+            
      # global exonsLength
      # exonsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      # print(len(exonsLength))
@@ -137,30 +157,47 @@ def getBoth():
      return
 
 def genesExonsFunc(window,resultsFrame,selectedRegion):
+     """
+     Verifies if a chromosome region is selected : 
+     * Case 1 : no region is selected 
+     => Shows messagebox with warning to select a region 
+     * Case 2 : a region is selected
+     => Creates strand selection buttons inside resultsFrame in main program window
+     """
      if selectedRegion.cget("text") == "Aucune région sélectionnée" or selectedRegion.cget("text") == "" : 
           messagebox.showwarning("Selection de région","Veuillez sélectionner une région")
      else :
           for widget in resultsFrame.winfo_children() :
                widget.destroy()
           
-          window.geometry("730x350+350+0")
+          window.geometry("730x450+350+0")
+
+          genesExonsTitle = ttk.Label(resultsFrame,text="Nombre de gènes et d'exons",foreground="black")
+          genesExonsTitle.grid(column=0,row=0,pady=15,columnspan=3)
+
           global geneResult
           geneResult = ttk.Label(resultsFrame,text="")
-          geneResult.grid(column=0,row=1,pady=10,columnspan=3)
+          geneResult.grid(column=1,row=2,pady=10,columnspan=1)
           global exonResult
           exonResult = ttk.Label(resultsFrame,text="")
-          exonResult.grid(column=0,row=2,pady=10,columnspan=3)
+          exonResult.grid(column=1,row=3,pady=10,columnspan=1)
+          global intronResult
+          intronResult = ttk.Label(resultsFrame,text="")
+          intronResult.grid(column=1,row=4,pady=10,columnspan=1)
 
-          # global intronResult
-          # intronResult = ttk.Label(resultsFrame,text="")
-          # intronResult.grid(column=0,row=3,pady=10,columnspan=3)
-
+          global plusButton
           plusButton = ttk.Button(resultsFrame,text="Brin +",command=getPlus)
-          plusButton.grid(column=0,row=0,padx=40,pady=10)
+          plusButton.grid(column=0,row=1,padx=40,pady=10)
 
+          global minusButton
           minusButton = ttk.Button(resultsFrame,text="Brin -",command=getMinus)
-          minusButton.grid(column=1,row=0,padx=40,pady=10)
+          minusButton.grid(column=1,row=1,padx=40,pady=10)
 
+          global bothButton
           bothButton = ttk.Button(resultsFrame,text="2 Brins",command=getBoth)
-          bothButton.grid(column=2,row=0,padx=40,pady=10)
+          bothButton.grid(column=2,row=1,padx=40,pady=10)
+
+          # global selectedStrand
+          # selectedStrand = ttk.Label(resultsFrame,text="",foreground="black",font=(20))
+          # selectedStrand.grid(column=0,row=2,rowspan=3)
      return

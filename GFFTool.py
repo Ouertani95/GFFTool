@@ -8,7 +8,7 @@ from generateStatFunc import *
 from re import A
 import tkinter as tk
 from tkinter import StringVar, filedialog
-from tkinter.constants import ANCHOR, E, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
+from tkinter.constants import ANCHOR, E, GROOVE, LEFT, NS, NSEW, RAISED, RIDGE, RIGHT, SOLID, SUNKEN, VERTICAL, W, Y
 import wget
 import validators
 from glob import glob
@@ -24,34 +24,38 @@ import tkinter.ttk as ttk
 import ttkthemes as themes
 
 
+def fileSelect():
+     """ adds attributes to function fileSelectFunc when called by selectLocal Button """
+     fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion)
+
+def region ():
+     """ adds attributes to function regionFunc when called by genomicRegion Button """
+     regionFunc(window,selectedRegion,resultsFrame,selectedFile)
+
+def genesExons () : 
+     """ adds attributes to function genesExonsFunc when called by numberGenes Button """
+     genesExonsFunc(window,resultsFrame,selectedRegion)
+
+def generateGraph () :
+     """ adds attributes to function generateGraphFunc when called by graphGenerator Button """
+     generateGraphFunc(window,resultsFrame,selectedRegion)
+
+def generateStat () :
+     """ adds attributes to function generateStatFunc when called by statGenerator Button """     
+     generateStatFunc(window,resultsFrame,selectedRegion)
+
 window = themes.ThemedTk(theme="radiance")
 window.geometry("730x230+350+0")
 window.title("GFF Tool")
 window.configure(bg="#F6F6F5")
 
 
-
-def fileSelect():
-     fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion)
-
-def region ():
-     regionFunc(window,selectedRegion,resultsFrame,selectedFile)
-
-def genesExons () : 
-     genesExonsFunc(window,resultsFrame,selectedRegion)
-
-def generateStat () : 
-     generateStatFunc(window,resultsFrame,selectedRegion)
-
-def generateGraph () : 
-     generateGraphFunc(window,resultsFrame,selectedRegion)
-
 selectionFrame = tk.Frame(window,background="#F6F6F5")
 selectionFrame.grid(column=0,row=0,padx=5)
 
 
-selectLabel = ttk.Label(selectionFrame,text="Sélectionner un fichier .GFF",foreground="black",background="#F6F6F5")
-selectLabel.grid(column=0,row=0,padx=65,pady=5,sticky="W")
+selectLabel = ttk.Label(selectionFrame,text="Sélectionner un fichier .GFF",foreground="black",background="#F6F6F5") #,borderwidth=10,relief=GROOVE
+selectLabel.grid(column=0,row=0,padx=65,pady=10,sticky="W")
 selectLocal = ttk.Button(selectionFrame,text="En local",command=fileSelect)
 selectLocal.grid(column=0,row=1,padx=90,pady=5,sticky="W")
 selectedFile = ttk.Label(selectionFrame,text="Aucun fichier sélectionné",background="#F6F6F5",foreground="#2E2E2E")
@@ -68,7 +72,7 @@ programFrame.grid(column=1,row=0)
 
 
 programLabel = ttk.Label(programFrame,text="Sélectionner un outil",foreground="black",background="#F6F6F5")
-programLabel.grid(row=0,padx=120,pady=5,sticky=W)
+programLabel.grid(row=0,padx=120,pady=10,sticky=W)
 genomicRegion = ttk.Radiobutton(programFrame,text="Définir une région génomique",value=1,command=region)
 genomicRegion.grid(row=1,padx=50,pady=5,sticky=W)
 selectedRegion = ttk.Label(programFrame,text="Aucune région sélectionnée",background="#F6F6F5",foreground="#2E2E2E")
