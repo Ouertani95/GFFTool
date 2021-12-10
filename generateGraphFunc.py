@@ -111,16 +111,21 @@ def generatePiechartGenesIntergeniques ():
      plt.show()
 
 
-def generateBoxplot() : 
+def generateBoxplot1() : 
 
      a = pd.DataFrame({ 'group' : np.repeat('Genes',len(geneTInt)), 'value': geneTInt })
      b = pd.DataFrame({ 'group' : np.repeat('Intergenes',len(interListBoth)), 'value': interListBoth })
-     c = pd.DataFrame({ 'group' : np.repeat('Exons',len(exonTInt)), 'value': exonTInt })
-     d = pd.DataFrame({ 'group' : np.repeat('Introns',len(intronTInt)), 'value':intronTInt })
-     df=a.append(b).append(c).append(d)
-     sns.boxplot(x='group', y='value', data=df)
+     df=a.append(b)
+     sns.boxplot(x='group', y='value', data=df,showmeans=True)
      plt.show()
 
+def generateBoxplot2() : 
+
+     c = pd.DataFrame({ 'group' : np.repeat('Exons',len(exonTInt)), 'value': exonTInt })
+     d = pd.DataFrame({ 'group' : np.repeat('Introns',len(intronTInt)), 'value':intronTInt })
+     df=c.append(d)
+     sns.boxplot(x='group', y='value', data=df,showmeans=True)
+     plt.show()
 
 def generateGraphFunc (window,resultsFrame,selectedRegion):
 
@@ -171,7 +176,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           sumExons = 0
           for e in exonTInt :
                sumExons += e
-          print(sumExons)
+          
 
           geneT= c.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
 
@@ -222,7 +227,10 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           global interListPlus
           interListPlus = []
           for inter in range (1,len(interArrayPlus)) :
-               interListPlus.append(interArrayPlus[inter,0] - interArrayPlus[inter-1,1])
+               if interArrayPlus[inter,0] - interArrayPlus[inter-1,1] < 0 :
+                    continue
+               else :
+                    interListPlus.append(interArrayPlus[inter,0] - interArrayPlus[inter-1,1])
 
           
           global interPositionsPlus
@@ -238,18 +246,21 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           endGeneMinus= c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '-' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
 
           interArrayMinus = np.column_stack((startGeneMinus,endGeneMinus))
-          print(interArrayMinus)
+          #print(interArrayMinus)
 
           global interListMinus
           interListMinus = []
           for inter in range (1,len(interArrayMinus)) :
-               interListMinus.append(interArrayMinus[inter,0] - interArrayMinus[inter-1,1])
+               if interArrayMinus[inter,0] - interArrayMinus[inter-1,1] < 0 :
+                    continue
+               else : 
+                    interListMinus.append(interArrayMinus[inter,0] - interArrayMinus[inter-1,1])
           
 
           global interListBoth
           interListBoth = interListPlus + interListMinus 
 
-          print(interListBoth)
+          #print(interListBoth)
           global sumInter
           sumInter = 0
           for v in interListBoth :
@@ -283,14 +294,18 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           inter_Button = ttk.Button(resultsFrame,text="Intergenes",command=generateGraphInter)
           inter_Button.grid(column=0,row=3,pady=10,padx=25)
 
-          pie1_Button = ttk.Radiobutton(resultsFrame,text='Exons/Introns',command=generatePiechartExonsIntrons)
-          pie1_Button.grid(column=1,row=2,padx=30,ipady= 25) 
-
           pie2_Button = ttk.Radiobutton(resultsFrame,text='Genes/Intergenes',command=generatePiechartGenesIntergeniques)
-          pie2_Button.grid(column=1,row=3,padx=30,ipady= 25,sticky=W) 
+          pie2_Button.grid(column=1,row=2,padx=30,ipady= 25,sticky=W,rowspan=2) 
 
-          box_Button = ttk.Button(resultsFrame,text='generateBoxplot',command=generateBoxplot)
-          box_Button.grid(column=2,row=2,padx=20,pady=5)
+          pie1_Button = ttk.Radiobutton(resultsFrame,text='Exons/Introns',command=generatePiechartExonsIntrons)
+          pie1_Button.grid(column=1,row=4,padx=30,ipady= 25,sticky=W,rowspan=2) 
+
+          box1_Button = ttk.Button(resultsFrame,text='Boxplot G/I',command=generateBoxplot1)
+          box1_Button.grid(column=2,row=2,padx=20,pady=5,rowspan=2)
+
+          box2_Button = ttk.Button(resultsFrame,text='Boxplot E/I',command=generateBoxplot2)
+          box2_Button.grid(column=2,row=4,padx=20,pady=5,rowspan=2)
+
 
 
      return
