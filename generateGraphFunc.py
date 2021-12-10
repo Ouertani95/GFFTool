@@ -113,10 +113,10 @@ def generatePiechartGenesIntergeniques ():
 
 def generateBoxplot() : 
 
-     a = pd.DataFrame({ '' : np.repeat('Genes',500), 'value': geneTInt })
-     b = pd.DataFrame({ '' : np.repeat('Intergenes',500), 'value': interListBoth })
-     c = pd.DataFrame({ '' : np.repeat('Exons',500), 'value': exonTInt })
-     d = pd.DataFrame({ '' : np.repeat('Introns',500), 'value':intronTInt })
+     a = pd.DataFrame({ 'group' : np.repeat('Genes',len(geneTInt)), 'value': geneTInt })
+     b = pd.DataFrame({ 'group' : np.repeat('Intergenes',len(interListBoth)), 'value': interListBoth })
+     c = pd.DataFrame({ 'group' : np.repeat('Exons',len(exonTInt)), 'value': exonTInt })
+     d = pd.DataFrame({ 'group' : np.repeat('Introns',len(intronTInt)), 'value':intronTInt })
      df=a.append(b).append(c).append(d)
      sns.boxplot(x='group', y='value', data=df)
      plt.show()
@@ -189,7 +189,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           sumGenes = 0
           for g in geneTInt :
                sumGenes+= g
-          print(sumGenes)
+          #print(sumGenes)
 
 
           global intronT
@@ -209,7 +209,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           sumIntrons = 0
           for s in intronTInt :
                sumIntrons += s
-          print(sumIntrons)    
+          #print(sumIntrons)    
 
           global startGenePlus
           startGenePlus = c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
@@ -254,7 +254,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           sumInter = 0
           for v in interListBoth :
                sumInter+= v
-          print(sumInter)
+          #print(sumInter)
           
 
           global interPielist
