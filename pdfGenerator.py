@@ -7,14 +7,14 @@ import generateStatFunc as gs
 from tkinter import messagebox
 import matplotlib.pyplot as plt
 import os
-
+import pdfkit
 
 def pdfGenerator (window,resultsFrame,selectedRegion) : 
     if selectedRegion.cget("text") == "Aucune région sélectionnée" or selectedRegion.cget("text") == "" : 
           messagebox.showwarning("Selection de région","Veuillez sélectionner une région")
     else :
 
-        mdFileName="./Figures/"+fs.nameFile
+        mdFileName="./Figures/"+fs.nameFile+"_"+selectedRegion.cget("text")
         with open(mdFileName+".md","w") as f :
 
             gg.generateGraphFunc(window,resultsFrame,selectedRegion)
@@ -38,7 +38,8 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
             print("![image caption](/home/ouertani/Desktop/projetProgrammation2021/Figures/box2.png)",file=f)
             
         os.system("markdown "+mdFileName+".md"+" > "+mdFileName+".html")
-
+        pdfkit.from_file(mdFileName+'.html', mdFileName+'.pdf')
+        
         
             
             

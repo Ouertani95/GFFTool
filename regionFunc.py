@@ -81,7 +81,7 @@ def save ():
           selectionLabel.pack_forget()
           selectionLabel.config(text="Région sauvegardée",foreground="#dd4814")
           selectedRegionVar.pack_forget()
-          selectedRegionVar.config(text=chrSelected+" [ "+str(startSelected)+" , "+str(endSelected)+" ]",foreground="#dd4814")                   
+          selectedRegionVar.config(text=chrSelected+"["+str(startSelected)+","+str(endSelected)+"]",foreground="#dd4814")                   
      return
 
 def regionFunc (window,selectedRegion,resultsFrame,selectedFile):
