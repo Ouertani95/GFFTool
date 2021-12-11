@@ -27,7 +27,7 @@ import seaborn as sns
 
 
 
-def generateGraphExon ():
+def generateGraphExon (show,save):
 
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -41,10 +41,15 @@ def generateGraphExon ():
      plt.title('Distribution de Taille Des Exons Sur Les 2 Brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
           #bbox_to_anchor=(0.5,-0.1)
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/barExon.png")
+          plt.close()
+     
 
 
-def generateGraphGene():
+def generateGraphGene(show,save):
 
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -55,10 +60,15 @@ def generateGraphGene():
      plt.ylabel('Taille (acide nucleique)')
      plt.title('Distribution de Taille Des Genes Sur Les 2 Brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/barGene.png")
+          plt.close()
+     
 
 
-def generateGraphIntron():
+def generateGraphIntron(show,save):
 
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -69,11 +79,15 @@ def generateGraphIntron():
      plt.ylabel('Taille (acide nucleique)')
      plt.title('Distribution de Taille Des Introns Sur Les 2 Brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/barIntron.png")
+          plt.close()
 
 
 
-def generateGraphInter():  
+def generateGraphInter(show,save):  
 
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -84,9 +98,13 @@ def generateGraphInter():
      plt.ylabel('Taille (acide nucleique)')
      plt.title('Distribution de Taille Des Régions Intergéniques Sur Les 2 Brins',fontsize=11)
      plt.legend(ncol=4,loc='upper right')
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/barInter.png")
+          plt.close()
 
-def generatePiechartExonsIntrons ():
+def generatePiechartExonsIntrons (show,save):
 
      values = [sumIntrons,sumExons]
      Names = ["Introns","Exons"]
@@ -96,9 +114,13 @@ def generatePiechartExonsIntrons ():
      figP.canvas.manager.set_window_title('Distributions des Exons et des Intron')
      plt.pie(values,labels=Names,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
      plt.title('Pourcentage Des Exons Et Introns')
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/pieExonsIntrons.png")
+          plt.close()
 
-def generatePiechartGenesIntergeniques ():
+def generatePiechartGenesIntergeniques (show,save):
 
      values1 = [sumGenes,sumInter]
      Names1 = ["Genes","Intergeniques"]
@@ -108,24 +130,37 @@ def generatePiechartGenesIntergeniques ():
      figP.canvas.manager.set_window_title('Distributions des genes et des intergenes')
      plt.pie(values1,labels=Names1,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
      plt.title('Pourcentage Des genes Et Intergenes')
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/pieGeneInter.png")
+          plt.close()
 
 
-def generateBoxplot1() : 
+def generateBoxplot1(show,save) : 
 
      a = pd.DataFrame({ 'group' : np.repeat('Genes',len(geneTInt)), 'value': geneTInt })
      b = pd.DataFrame({ 'group' : np.repeat('Intergenes',len(interListBoth)), 'value': interListBoth })
      df=a.append(b)
      sns.boxplot(x='group', y='value', data=df,showmeans=True)
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/box1.png")
+          plt.close()
+     return 
 
-def generateBoxplot2() : 
+def generateBoxplot2(show,save) : 
 
      c = pd.DataFrame({ 'group' : np.repeat('Exons',len(exonTInt)), 'value': exonTInt })
      d = pd.DataFrame({ 'group' : np.repeat('Introns',len(intronTInt)), 'value':intronTInt })
      df=c.append(d)
      sns.boxplot(x='group', y='value', data=df,showmeans=True)
-     plt.show()
+     if show == 1 :
+          plt.show()
+     if save == 1 : 
+          plt.savefig("./Figures/box2.png")
+          plt.close()
 
 def generateGraphFunc (window,resultsFrame,selectedRegion):
 
@@ -282,28 +317,28 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           c.close()
           co.close()
 
-          exon_Button = ttk.Button(resultsFrame,text="Exons",command=generateGraphExon)
+          exon_Button = ttk.Button(resultsFrame,text="Exons",command= lambda : generateGraphExon(1,0))
           exon_Button.grid(column=0,row=5,pady=10,padx=25)
 
-          gene_Button = ttk.Button(resultsFrame,text="Genes",command=generateGraphGene)
+          gene_Button = ttk.Button(resultsFrame,text="Genes",command= lambda  : generateGraphGene(1,0))
           gene_Button.grid(column=0,row=2,pady=10,padx=25)
 
-          intron_Button = ttk.Button(resultsFrame,text="Introns",command=generateGraphIntron)
+          intron_Button = ttk.Button(resultsFrame,text="Introns",command= lambda : generateGraphIntron(1,0))
           intron_Button.grid(column=0,row=4,pady=10,padx=25)
 
-          inter_Button = ttk.Button(resultsFrame,text="Intergenes",command=generateGraphInter)
+          inter_Button = ttk.Button(resultsFrame,text="Intergenes",command= lambda : generateGraphInter(1,0))
           inter_Button.grid(column=0,row=3,pady=10,padx=25)
 
-          pie2_Button = ttk.Radiobutton(resultsFrame,text='Genes/Intergenes',command=generatePiechartGenesIntergeniques)
+          pie2_Button = ttk.Radiobutton(resultsFrame,text='Genes/Intergenes',command= lambda : generatePiechartGenesIntergeniques(1,0))
           pie2_Button.grid(column=1,row=2,padx=30,ipady= 25,sticky=W,rowspan=2) 
 
-          pie1_Button = ttk.Radiobutton(resultsFrame,text='Exons/Introns',command=generatePiechartExonsIntrons)
+          pie1_Button = ttk.Radiobutton(resultsFrame,text='Exons/Introns',command= lambda :generatePiechartExonsIntrons(1,0))
           pie1_Button.grid(column=1,row=4,padx=30,ipady= 25,sticky=W,rowspan=2) 
 
-          box1_Button = ttk.Button(resultsFrame,text='Boxplot G/I',command=generateBoxplot1)
+          box1_Button = ttk.Button(resultsFrame,text='Boxplot G/I',command= lambda : generateBoxplot1(1,0))
           box1_Button.grid(column=2,row=2,padx=20,pady=5,rowspan=2)
 
-          box2_Button = ttk.Button(resultsFrame,text='Boxplot E/I',command=generateBoxplot2)
+          box2_Button = ttk.Button(resultsFrame,text='Boxplot E/I',command=lambda : generateBoxplot2(1,0))
           box2_Button.grid(column=2,row=4,padx=20,pady=5,rowspan=2)
 
 

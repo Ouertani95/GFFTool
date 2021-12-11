@@ -79,17 +79,18 @@ def urlEntryFunc():
      downloadWindow.title("GFF Download")
      downloadWindow.configure(bg="#F6F6F5")
 
-     global urlEntry
-     urlEntry= tk.StringVar()
+    
      entryLabel = tk.Label(downloadWindow,text="Saisir l'url du fichier gff",bg="#F6F6F5")
      entryLabel.pack(pady=10)
 
+     global urlEntry
+     urlEntry= tk.StringVar()
      global entryField
-     entryField = tk.Entry(downloadWindow,textvariable=urlEntry,bg="#F6F6F5",width=35)
+     entryField = ttk.Entry(downloadWindow,textvariable=urlEntry,width=35)
      entryField.pack(pady=5)
           
           
-     downloadButton = tk.Button(downloadWindow,text="Telecharger",command=fileDownload,bg="#F6F6F5")
+     downloadButton = ttk.Button(downloadWindow,text="Télécharger",command=fileDownload)
      downloadButton.pack(pady=5)
 
      global downloadProgress
@@ -97,6 +98,11 @@ def urlEntryFunc():
      downloadProgress.pack(pady=5)
           
      global wrongUrl
-     wrongUrl = tk.Label(downloadWindow,text="",bg="#F6F6F5")
+     wrongUrl = ttk.Label(downloadWindow,text="")
      wrongUrl.pack(pady=5)
+
+     # style = ttk.Style()
+     # style.configure(downloadButton, font=('Helvetica', 16))
+     # style.map(downloadButton,foreground=[('pressed', 'blue'),('active', 'red')])
+
      return
