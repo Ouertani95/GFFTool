@@ -33,7 +33,7 @@ def generateGraphExon (show,save):
      mpl.rcParams['axes.spines.top'] = False
      fig1 = pylab.gcf()
      fig1.canvas.manager.set_window_title('Graphes Des Exons')
-     plt.bar(exonPositions,exonTInt,label='exon',color='darkgrey')
+     plt.bar(exonPositions,exonTInt,label='exon',color='darksalmon')
           #plt.hist(geneT,label='gene')
           #plt.hist(intronT,label='intron')
      plt.xlabel('Position')
@@ -55,7 +55,7 @@ def generateGraphGene(show,save):
      mpl.rcParams['axes.spines.top'] = False
      fig2 = pylab.gcf()
      fig2.canvas.manager.set_window_title('Graphes Des Genes')
-     plt.bar(genePositions,geneTInt,label='Gene',color='chocolate')
+     plt.bar(genePositions,geneTInt,label='Gene',color='olive')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
      plt.title('Distribution de Taille Des Genes Sur Les 2 Brins',fontsize=13)
@@ -74,7 +74,7 @@ def generateGraphIntron(show,save):
      mpl.rcParams['axes.spines.top'] = False
      fig3 = pylab.gcf()
      fig3.canvas.manager.set_window_title('Graphes Des Introns')
-     plt.bar(intronPositions,intronTInt,label='Intron',color='peru')
+     plt.bar(intronPositions,intronTInt,label='Intron',color='firebrick')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
      plt.title('Distribution de Taille Des Introns Sur Les 2 Brins',fontsize=13)
@@ -93,7 +93,7 @@ def generateGraphInter(show,save):
      mpl.rcParams['axes.spines.top'] = False
      fig1 = pylab.gcf()
      fig1.canvas.manager.set_window_title('Graphes Des Régions Intergéniques')
-     plt.bar(interPositionsBoth,interListBoth,label='Régions Intergéniques',color='mediumseagreen')
+     plt.bar(interPositionsBoth,interListBoth,label='Régions Intergéniques',color='yellowgreen')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
      plt.title('Distribution de Taille Des Régions Intergéniques Sur Les 2 Brins',fontsize=11)
@@ -137,12 +137,15 @@ def generatePiechartGenesIntergeniques (show,save):
           plt.close()
 
 
-def generateBoxplot1(show,save) : 
+def generateBoxplot1(show,save) :
 
-     a = pd.DataFrame({ 'group' : np.repeat('Genes',len(geneTInt)), 'value': geneTInt })
-     b = pd.DataFrame({ 'group' : np.repeat('Intergenes',len(interListBoth)), 'value': interListBoth })
+     figB1 = pylab.gcf()
+     figB1.canvas.manager.set_window_title('Boxplot des genes et des Intergenes')
+     a = pd.DataFrame({ '' : np.repeat('Genes',len(geneTInt)), 'value': geneTInt })
+     b = pd.DataFrame({ '' : np.repeat('Intergenes',len(interListBoth)), 'value': interListBoth })
      df=a.append(b)
-     sns.boxplot(x='group', y='value', data=df,showmeans=True)
+     my_pal2 = {"Genes": "olive", "Intergenes": "yellowgreen"}
+     sns.boxplot(x='', y='value', data=df,showmeans=True,palette=my_pal2)
      if show == 1 :
           plt.show()
      if save == 1 : 
@@ -152,10 +155,14 @@ def generateBoxplot1(show,save) :
 
 def generateBoxplot2(show,save) : 
 
-     c = pd.DataFrame({ 'group' : np.repeat('Exons',len(exonTInt)), 'value': exonTInt })
-     d = pd.DataFrame({ 'group' : np.repeat('Introns',len(intronTInt)), 'value':intronTInt })
+     figB2 = pylab.gcf()
+     figB2.canvas.manager.set_window_title('Boxplot des exons et des intron')
+     c = pd.DataFrame({ '' : np.repeat('Exons',len(exonTInt)), 'value': exonTInt })
+     d = pd.DataFrame({ '' : np.repeat('Introns',len(intronTInt)), 'value':intronTInt })
      df=c.append(d)
-     sns.boxplot(x='group', y='value', data=df,showmeans=True)
+     
+     my_pal1 = {"Exons": "firebrick", "Introns": "darksalmon"}
+     sns.boxplot(x='', y='value', data=df,showmeans=True,palette=my_pal1)
      if show == 1 :
           plt.show()
      if save == 1 : 
