@@ -98,17 +98,20 @@ def getBoth():
      cur = con.cursor()
                
      numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     global numberGenes
      numberGenes = numberGenesList[0][0]
      geneResult.pack_forget()
      geneResult.configure(text="Gènes 2 brins : "+str(numberGenes))
                
                
      numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     global numberExons
      numberExons = numberExonsList[0][0]
      exonResult.pack_forget()
      exonResult.configure(text="Exons 2 brins : "+str(numberExons))
 
      numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     global numberIntrons
      numberIntrons = numberIntronsList[0][0]
      intronResult.pack_forget()
      intronResult.configure(text="Introns 2 brins : "+str(numberIntrons))
