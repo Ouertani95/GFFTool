@@ -8,6 +8,7 @@ from tkinter import messagebox
 import matplotlib.pyplot as plt
 import os
 import pdfkit
+import webbrowser
 
 def pdfGenerator (window,resultsFrame,selectedRegion) : 
     if selectedRegion.cget("text") == "Aucune région sélectionnée" or selectedRegion.cget("text") == "" : 
@@ -19,7 +20,7 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
 
             gg.generateGraphFunc(window,resultsFrame,selectedRegion)
             print("# Fichier : "+fs.nameFile,file=f)
-            print("## Région : "+selectedRegion.cget("text"),file=f)
+            print("## Region : "+selectedRegion.cget("text"),file=f)
             gg.generateGraphGene(0,1)
             print("![image caption](/home/ouertani/Desktop/projetProgrammation2021/Figures/barGene.png)",file=f)
             gg.generateGraphInter(0,1)
@@ -40,6 +41,10 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
         os.system("markdown "+mdFileName+".md"+" > "+mdFileName+".html")
         pdfkit.from_file(mdFileName+'.html', mdFileName+'.pdf')
         
+        path = mdFileName+'.pdf'
+        webbrowser.open_new(path)
+
+        os.system("rm ./Figures/*.md ./Figures/*.html")
         
             
             

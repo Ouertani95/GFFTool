@@ -48,7 +48,7 @@ selectedFile.grid(column=0,row=2,padx=10,pady=5,ipadx=7)
 selectOnline = ttk.Button(selectionFrame,text="En ligne",command=urlEntryFunc)
 selectOnline.grid(column=0,row=3,padx=90,pady=5,sticky="W")
 
-quitButton = ttk.Button(selectionFrame,text="Quitter", width=15, command= lambda : pdfGenerator(window,resultsFrame,selectedRegion))
+quitButton = ttk.Button(selectionFrame,text="Save all", width=15, command= lambda : pdfGenerator(window,resultsFrame,selectedRegion))
 #window.destroy
 quitButton.grid(column=0,row=4,padx=74,pady=5,sticky="W")
 

@@ -79,9 +79,7 @@ def getMinus():
      numberIntrons = numberIntronsList[0][0]
      intronResult.pack_forget()
      intronResult.configure(text="Introns brin - : "+str(numberIntrons))
-      
-     # selectedStrand.pack_forget()
-     # selectedStrand.config(text="Brin -")
+     
 
      con.commit()
      cur.close()
@@ -115,44 +113,6 @@ def getBoth():
      numberIntrons = numberIntronsList[0][0]
      intronResult.pack_forget()
      intronResult.configure(text="Introns 2 brins : "+str(numberIntrons))
-
-     # selectedStrand.pack_forget()
-     # selectedStrand.config(text="2 Brins") 
-            
-     # global exonsLength
-     # exonsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     # print(len(exonsLength))
-     # exonsLengthList = []
-     # for Lengths in range(0,len(exonsLength)) :
-     #      exonsLengthList.append(exonsLength[Lengths][0])
-     # print(exonsLengthList)
-     # print(len(exonsLengthList))
-
-     # exonsLengthSum = np.sum(exonsLengthList)
-     # print(exonsLengthSum)
-
-     # global intronsLength
-     # intronsLength = cur.execute("SELECT end-start from features WHERE featuretype = 'intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     # print(len(intronsLength))
-     # intronsLengthList = []
-     # for Lengths in range(0,len(intronsLength)) :
-     #      intronsLengthList.append(intronsLength[Lengths][0])
-     # print(intronsLengthList)
-     # print(len(intronsLengthList))
-
-     # intronsLengthSum = np.sum(intronsLengthList)
-     # print(intronsLengthSum)
-
-
-     # # create data: an array of values
-     # exonsIntons=[exonsLengthSum,intronsLengthSum]
-     # exonsPercent = "Exons : " + str(round((exonsLengthSum *100) / (exonsLengthSum+intronsLengthSum),2)) + " %"
-     # intronsPercent = "Introns : " + str(round((intronsLengthSum*100) / (exonsLengthSum+intronsLengthSum),2)) + " %"
-     # percent = exonsPercent,intronsPercent
-     # # Create a pieplot
-     # plt.pie(exonsIntons,labels=percent, labeldistance=1.15,wedgeprops = { 'linewidth' : 3, 'edgecolor' : 'white' })
-     # plt.title("Proportions des tailles d'exons et d'introns dans les gènes")
-     # plt.show()
 
      con.commit()
      cur.close()
@@ -200,7 +160,5 @@ def genesExonsFunc(window,resultsFrame,selectedRegion):
           bothButton = ttk.Button(resultsFrame,text="2 Brins",command=getBoth)
           bothButton.grid(column=2,row=1,padx=40,pady=10)
 
-          # global selectedStrand
-          # selectedStrand = ttk.Label(resultsFrame,text="",foreground="black",font=(20))
-          # selectedStrand.grid(column=0,row=2,rowspan=3)
+         
      return
