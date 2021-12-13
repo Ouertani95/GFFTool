@@ -1,34 +1,15 @@
-from typing import Text
 import fileSelectFunc as fs
-import urlEntryFunc as ue
-import genesExonsFunc as ge
-import generateGraphFunc as gg
-import generateStatFunc as gs
 import tkinter as tk
-from tkinter import Message, StringVar, filedialog
-from tkinter.constants import ANCHOR, E, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
-import wget
-import validators
-from glob import glob
-import os
-import numpy as np 
-import matplotlib.pyplot as plt
-import  gffutils
-from gffutils.create import create_db
-from pathlib import Path
+from tkinter.constants import VERTICAL
 import sqlite3
-import pandas as pd
 import tkinter.ttk as ttk 
-import ttkthemes as themes
 from tkinter import messagebox
-import time
 
 def getChr():
      """
-     Once validateChr button is clicked :
-     1) Recovers selected chromosome's value from chrChoice List box 
-     2) Recovers all start and end positions relative to selected chromosome from database
-     3) Modifies list boxes startChoice and endChoice to show only the new recovered start and end positions
+     If chromosome list contains more than one chromosome :
+     Once validateChr button is clicked, gets all start and end positions 
+     relative to selected chromosome from database
      """
      chrSelected = "".join(chrChoice.get("anchor")) #get tuple element and transform into string
 
@@ -53,18 +34,12 @@ def getChr():
 
 def save ():
      """
-     Once saveButton is clicked verifies if a value is selected from each list box :
-     * Case 1 : at least one list box has no selected value 
-     => Show warning messagebox to select all fields 
-     * Case 2 : all list boxes have a selected value 
-     => Modifies label selectionLabel text value to "Région sauvegardée" inside the tool's frame
-     => Modifies label selectedRegion text value to the selected region inside the main window
+     Once saveButton is clicked :
+     if all fields are selected shows "Région sauvegardée" else shows warning message to select all fields
      """
 
      if  chrChoice.get("anchor")=="" or startChoice.get("anchor")=="" or  endChoice.get("anchor")=="" :
           messagebox.showwarning("Selection de région","Veuillez sélectionner les 3 champs")
-          # selectionLabel.pack_forget()
-          # selectionLabel.config(text="Sélectionner les 3 champs",foreground="black")
 
      elif chrChoice.get("anchor")!="" and startChoice.get("anchor")!="" and  endChoice.get("anchor")!="" :
                     
@@ -86,11 +61,9 @@ def save ():
 
 def regionFunc (window,selectedRegion,resultsFrame,selectedFile):
      """
-     Verifies if a gff file is selected : 
-     * Case 1 : no gff file is selected 
-     => Shows messagebox with warning to select a gff file
-     * Case 2 : a gff file is selected
-     => Creates List boxes with all chromosome , start and end postions inside resultsFrame in main program window
+     Once regionButton is selected from main window :
+     If file is already selected gets all chromosome , start and end postions from database 
+     Else shows warning message to select a file
      """
 
      global selectedRegionVar

@@ -1,20 +1,8 @@
-from re import X
 import tkinter as tk
-from tkinter import StringVar, Widget, filedialog
-from tkinter.constants import ANCHOR, E, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
 import wget
 import validators
-from glob import glob
 import os
-import numpy as np 
-import matplotlib.pyplot as plt
-import  gffutils
-from gffutils.create import create_db
-from pathlib import Path
-import sqlite3
-import pandas as pd
-import tkinter.ttk as ttk 
-import ttkthemes as themes
+import tkinter.ttk as ttk
 
 def customBar(current,total,width=80):
      """
@@ -30,33 +18,25 @@ def customBar(current,total,width=80):
 def fileDownload ():
      """
      Once downloadButton is pressed verifies the content of entryField :
-     * Case 1 : entryField doesn't contain a valid url 
-     => Changes label wrongUrl's text value to "Url non valide"
-     * Case 2 : entryField contains a valid url but no gff file 
-     => Changes label wrongUrl's text value to "Pas de fichier gff trouvé"
-     * Case 3 : entryField contains a valid url and a gff file
-     => Downloads file , decompresses downloaded file and changes label wrongUrl's text value to "Ouvrir le fichier en local"
+     1) If entryField doesn't contain a valid url : shows "Url non valide"
+     2) If entryField contains a valid url but no gff file : shows "Pas de fichier gff trouvé"
+     3) If entryField contains a valid url and a gff file : Downloads file and shows "Ouvrir le fichier en local"
      """
      urlLink = urlEntry.get()
      validUrl=validators.url(urlLink)
      print(validUrl)
           
-     if validUrl!=True :
-          #refresh entryField
-          entryField.delete(0,tk.END)
-          #remove old text from wrongUrl Label(used thanks to global outside of function)
-          wrongUrl.pack_forget()
+     if validUrl!=True :  
+          entryField.delete(0,tk.END) #refresh entryField
+          wrongUrl.pack_forget() #remove old text from wrongUrl Label
           wrongUrl.config(text="Url non valide")
           wrongUrl.pack(pady=10)
      elif "gff" not in urlLink :
-          #refresh entryField
           entryField.delete(0,tk.END)
-          #remove old text from wrongUrl Label(used thanks to global outside of function)
           wrongUrl.pack_forget()
           wrongUrl.config(text="Pas de fichier gff trouvé")
           wrongUrl.pack(pady=10)
      else :
-          #remove old text from wrongUrl Label(used thanks to global outside of function)
           wrongUrl.pack_forget()
           print(urlLink)
           wget.download(url=urlLink,bar=customBar)
@@ -100,9 +80,5 @@ def urlEntryFunc():
      global wrongUrl
      wrongUrl = ttk.Label(downloadWindow,text="")
      wrongUrl.pack(pady=5)
-
-     # style = ttk.Style()
-     # style.configure(downloadButton, font=('Helvetica', 16))
-     # style.map(downloadButton,foreground=[('pressed', 'blue'),('active', 'red')])
 
      return

@@ -1,18 +1,8 @@
-import tkinter as tk
-from tkinter import StringVar, filedialog
-from tkinter import font
-from tkinter.constants import ANCHOR, E, LEFT, NS, NSEW, RAISED, RIGHT, VERTICAL, W, Y
-import wget
-import validators
-from glob import glob
+from tkinter import filedialog
 import os
-import numpy as np 
-import matplotlib.pyplot as plt
 import  gffutils
-from gffutils.create import create_db
 from pathlib import Path
 import sqlite3
-import pandas as pd
 from tkinter import messagebox
 
 def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
@@ -24,19 +14,22 @@ def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
      """
      for widget in resultsFrame.winfo_children() :
           widget.destroy()
+
      window.geometry("730x230+350+0")
+
      selectedRegion.pack_forget()
      selectedRegion.config(text="Aucune région sélectionnée",background="#F6F6F5",foreground="#2E2E2E")
+
      selectedFile.pack_forget()
      selectedFile.config(text="Aucun fichier sélectionné",background="#F6F6F5",foreground="#2E2E2E")
 
-     #Afficher la fenêtre de selection du fichier gff en local
-     window.filename = filedialog.askopenfilename(initialdir="~/Desktop/projetProgrammation2021",title="Selectionner un fichier gff",filetypes=(("gff files","*.gff"),("gff3 files",".gff3"),("gtf files","*.gtf"),("all files","*.*")))
-     #extraire nom de fichier sans extension  à partir du fichier séléctionner en local
+     #Shows file selection window from local repository
+     window.filename = filedialog.askopenfilename(initialdir="~/Desktop/projetProgrammation2021",title="Selectionner un fichier gff",
+     filetypes=(("gff files","*.gff"),("gff3 files",".gff3"),("gtf files","*.gtf"),("all files","*.*")))
      global nameFile
-     nameFile = Path(window.filename).stem
+     nameFile = Path(window.filename).stem #extracts file name without extension from selected local file
      print(nameFile)
-     #créer nom de la base de données
+     
      selectedFile.pack_forget()
      selectedFile.config(text=nameFile,foreground="#dd4814")
      global dbName
@@ -44,18 +37,14 @@ def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
      print(dbName)
 
      if os.path.exists(dbName)==False and nameFile!="":
-     #créer la base de données si elle n'existe pas
-          db = gffutils.create_db(window.filename, dbName)
+          db = gffutils.create_db(window.filename, dbName) #create database
           db = gffutils.FeatureDB(dbName)
           print("database created")
      if nameFile!="" :
-          #se connecter à la base de données 
           con = sqlite3.connect(dbName)
           cur = con.cursor()
-          #créer les listes de chromosomes, start et end à partir de la base de données créée
           global chrID
-          chrID = cur.execute("SELECT DISTINCT seqid FROM features").fetchall()
-          #chrID is a list of tuples
+          chrID = cur.execute("SELECT DISTINCT seqid FROM features").fetchall() #chrID is a list of tuples
           print("chromosome list created")
           
           global startList
