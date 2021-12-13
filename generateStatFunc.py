@@ -112,8 +112,8 @@ def resultIntergenes():
      for inter in range (1,len(interArrayPlus)) :
           if interArrayPlus[inter,0] - interArrayPlus[inter-1,1] < 0 :
                continue
-     else :
-          interListPlus.append(interArrayPlus[inter,0] - interArrayPlus[inter-1,1])
+          else :
+               interListPlus.append(interArrayPlus[inter,0] - interArrayPlus[inter-1,1])
 
                
      global interPositionsPlus
@@ -162,7 +162,7 @@ def resultIntergenes():
      c.close()
      co.close() 
 
-     return intergenesMin,intergenesMax,intergenesMax
+     return intergenesMin,intergenesMax,intergenesAllMean
 
 
 def generateStatFunc(window,resultsFrame,selectedRegion):
@@ -184,7 +184,7 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           geneMin,geneMax,geneAllMean=resultGene()
           exonMin,exonMax,exonAllMean=resultExon()
           intronMin,intronMax,intronAllMean=resultIntron() 
-          intergenesMin,intergenesMax,intergenesMax=resultIntergenes()
+          intergenesMin,intergenesMax,intergenesAllMean=resultIntergenes()
 
           
           #Define columns
