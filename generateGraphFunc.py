@@ -32,15 +32,13 @@ def generateGraphExon (show,save):
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
      fig1 = pylab.gcf()
-     fig1.canvas.manager.set_window_title('Graphes Des Exons')
+     fig1.canvas.manager.set_window_title('Graphes des exons')
      plt.bar(exonPositions,exonTInt,label='exon',color='darksalmon')
-          #plt.hist(geneT,label='gene')
-          #plt.hist(intronT,label='intron')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille Des Exons Sur Les 2 Brins',fontsize=13)
+     plt.title('Distribution de taille des exons sur les 2 brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
-          #bbox_to_anchor=(0.5,-0.1)
+          
      if show == 1 :
           plt.show()
      if save == 1 : 
@@ -54,11 +52,11 @@ def generateGraphGene(show,save):
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
      fig2 = pylab.gcf()
-     fig2.canvas.manager.set_window_title('Graphes Des Genes')
+     fig2.canvas.manager.set_window_title('Graphes des genes')
      plt.bar(genePositions,geneTInt,label='Gene',color='olive')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille Des Genes Sur Les 2 Brins',fontsize=13)
+     plt.title('Distribution de taille des genes sur les 2 brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
      if show == 1 :
           plt.show()
@@ -73,11 +71,11 @@ def generateGraphIntron(show,save):
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
      fig3 = pylab.gcf()
-     fig3.canvas.manager.set_window_title('Graphes Des Introns')
+     fig3.canvas.manager.set_window_title('Graphes des introns')
      plt.bar(intronPositions,intronTInt,label='Intron',color='firebrick')
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille Des Introns Sur Les 2 Brins',fontsize=13)
+     plt.title('Distribution de taille des introns sur les 2 brins',fontsize=13)
      plt.legend(ncol=3,loc='upper right')
      if show == 1 :
           plt.show()
@@ -92,11 +90,13 @@ def generateGraphInter(show,save):
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
      fig1 = pylab.gcf()
-     fig1.canvas.manager.set_window_title('Graphes Des Régions Intergéniques')
+     fig1.canvas.manager.set_window_title('Graphes des régions intergéniques')
      plt.bar(interPositionsBoth,interListBoth,label='Régions Intergéniques',color='yellowgreen')
+
+     print(interListBoth)
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
-     plt.title('Distribution de Taille Des Régions Intergéniques Sur Les 2 Brins',fontsize=11)
+     plt.title('Distribution de taille des régions intergéniques sur les 2 brins',fontsize=11)
      plt.legend(ncol=4,loc='upper right')
      if show == 1 :
           plt.show()
@@ -111,9 +111,9 @@ def generatePiechartExonsIntrons (show,save):
      col=['firebrick','darksalmon']
      
      figP = pylab.gcf()
-     figP.canvas.manager.set_window_title('Distributions des Exons et des Intron')
+     figP.canvas.manager.set_window_title('Distributions des exons et des intron')
      plt.pie(values,labels=Names,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
-     plt.title('Pourcentage Des Exons Et Introns')
+     plt.title('Pourcentages des exons et introns')
      if show == 1 :
           plt.show()
      if save == 1 : 
@@ -129,7 +129,7 @@ def generatePiechartGenesIntergeniques (show,save):
      figP = pylab.gcf()
      figP.canvas.manager.set_window_title('Distributions des genes et des intergenes')
      plt.pie(values1,labels=Names1,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
-     plt.title('Pourcentage Des genes Et Intergenes')
+     plt.title('Pourcentage des genes et intergenes')
      if show == 1 :
           plt.show()
      if save == 1 : 
@@ -140,12 +140,13 @@ def generatePiechartGenesIntergeniques (show,save):
 def generateBoxplot1(show,save) :
 
      figB1 = pylab.gcf()
-     figB1.canvas.manager.set_window_title('Boxplot des genes et des Intergenes')
+     figB1.canvas.manager.set_window_title('Boxplot des genes et des intergenes')
      a = pd.DataFrame({ '' : np.repeat('Genes',len(geneTInt)), 'value': geneTInt })
      b = pd.DataFrame({ '' : np.repeat('Intergenes',len(interListBoth)), 'value': interListBoth })
      df=a.append(b)
      my_pal2 = {"Genes": "olive", "Intergenes": "yellowgreen"}
      sns.boxplot(x='', y='value', data=df,showmeans=True,palette=my_pal2)
+     plt.title('Comparaison de taille entre genes et intergenes')
      if show == 1 :
           plt.show()
      if save == 1 : 
@@ -156,13 +157,14 @@ def generateBoxplot1(show,save) :
 def generateBoxplot2(show,save) : 
 
      figB2 = pylab.gcf()
-     figB2.canvas.manager.set_window_title('Boxplot des exons et des intron')
+     figB2.canvas.manager.set_window_title('Boxplot des exons et des introns')
      c = pd.DataFrame({ '' : np.repeat('Exons',len(exonTInt)), 'value': exonTInt })
      d = pd.DataFrame({ '' : np.repeat('Introns',len(intronTInt)), 'value':intronTInt })
      df=c.append(d)
      
-     my_pal1 = {"Exons": "firebrick", "Introns": "darksalmon"}
+     my_pal1 = {"Exons": "darksalmon", "Introns": "firebrick"}
      sns.boxplot(x='', y='value', data=df,showmeans=True,palette=my_pal1)
+     plt.title('Comparaison de taille entre exons et introns')
      if show == 1 :
           plt.show()
      if save == 1 : 
@@ -190,11 +192,6 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
 
           boxTitle = ttk.Label(resultsFrame,text="Comparaison des distributions",foreground="black")
           boxTitle.grid(column=2,row=1,padx=20,pady=5)
-
-          # resultsFrame = themes.ThemedTk(theme="radiance")
-          # resultsFrame.geometry("835x55+300+300")
-          # resultsFrame.title("Generer Des Graphes")
-          # resultsFrame.configure(bg="#F6F6F5")
 
           co= sqlite3.connect(fs.dbName)
           c = co.cursor()
@@ -255,8 +252,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           global sumIntrons
           sumIntrons = 0
           for s in intronTInt :
-               sumIntrons += s
-          #print(sumIntrons)    
+               sumIntrons += s    
 
           global startGenePlus
           startGenePlus = c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
@@ -288,7 +284,6 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           endGeneMinus= c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '-' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
 
           interArrayMinus = np.column_stack((startGeneMinus,endGeneMinus))
-          #print(interArrayMinus)
 
           global interListMinus
           interListMinus = []
@@ -302,14 +297,12 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           global interListBoth
           interListBoth = interListPlus + interListMinus 
 
-          #print(interListBoth)
+
           global sumInter
           sumInter = 0
           for v in interListBoth :
                sumInter+= v
-          #print(sumInter)
-          
-
+   
           global interPielist
           interPielist = len(interListBoth)
  
@@ -324,17 +317,17 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           c.close()
           co.close()
 
-          exon_Button = ttk.Button(resultsFrame,text="Exons",command= lambda : generateGraphExon(1,0))
-          exon_Button.grid(column=0,row=5,pady=10,padx=25)
-
           gene_Button = ttk.Button(resultsFrame,text="Genes",command= lambda  : generateGraphGene(1,0))
           gene_Button.grid(column=0,row=2,pady=10,padx=25)
 
-          intron_Button = ttk.Button(resultsFrame,text="Introns",command= lambda : generateGraphIntron(1,0))
-          intron_Button.grid(column=0,row=4,pady=10,padx=25)
-
           inter_Button = ttk.Button(resultsFrame,text="Intergenes",command= lambda : generateGraphInter(1,0))
           inter_Button.grid(column=0,row=3,pady=10,padx=25)
+
+          exon_Button = ttk.Button(resultsFrame,text="Exons",command= lambda : generateGraphExon(1,0))
+          exon_Button.grid(column=0,row=4,pady=10,padx=25)
+
+          intron_Button = ttk.Button(resultsFrame,text="Introns",command= lambda : generateGraphIntron(1,0))
+          intron_Button.grid(column=0,row=5,pady=10,padx=25)
 
           pie2_Button = ttk.Radiobutton(resultsFrame,text='Genes/Intergenes',command= lambda : generatePiechartGenesIntergeniques(1,0))
           pie2_Button.grid(column=1,row=2,padx=30,ipady= 25,sticky=W,rowspan=2) 

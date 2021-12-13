@@ -1,94 +1,168 @@
-from tkinter.font import names
 import fileSelectFunc as fs
-import urlEntryFunc as ue
 import regionFunc as rf
-import genesExonsFunc as ge
-import generateGraphFunc as gg
-import tkinter as tk
-from tkinter import StringVar, filedialog
-from tkinter.constants import ANCHOR, E, FALSE, LEFT, NS, NSEW, RAISED, RIGHT, S, VERTICAL, W, Y
-import wget
-import validators
-from glob import glob
-import os
+from tkinter.constants import CENTER
 import numpy as np 
-import matplotlib.pyplot as plt
-import  gffutils
-from gffutils.create import create_db
-from pathlib import Path
 import sqlite3
-import pandas as pd
-#import statistics
-#import pymysql
-import scipy as sp 
-from scipy.stats import norm
 import tkinter.ttk as ttk 
-import ttkthemes as themes
 from tkinter import messagebox
-from matplotlib import pylab
+
 
 
 def resultGene() :
 
-          # gene_Result = ttk.Label(resultsFrame,text= "Taille Moyenne Des Genes : " +geneAllMean)
-          # gene_Result.grid(column=0, row=1,sticky=W)
-     meanResult.pack_forget()
-     meanResult.config(text= "Taille Moyenne Des Genes : " + geneAllMean)
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
 
-     minResult.pack_forget()
-     minResult.config(text=" Taille Minimale Des Genes : " + geneMin)
+     global geneAll 
+     geneAll = c.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          
+     geneAllArray = np.array(geneAll)
 
-     maxResult.pack_forget()
-     maxResult.config(text="Taille Maximale Des Genes : " + geneMax)
+     global geneAllMean
+     geneAllMean = round(geneAllArray.mean(),2)
+     geneAllMean = str(geneAllMean)
 
-          # geneMin_Result = ttk.Label(resultsFrame,text=" Taille Minimale Des Genes : " +geneMin)
-          # geneMin_Result.grid(column=0, row=2,sticky=W)
+     global geneMin
+     geneMin = geneAllArray.min()
+     geneMin = str(geneMin)
 
-          # geneMax_Result = ttk.Label(resultsFrame,text= "Taille Maximale Des Genes : " +geneMax)
-          # geneMax_Result.grid(column=0, row=3,sticky=W)
+     global geneMax
+     geneMax = geneAllArray.max()
+     geneMax = str(geneMax)
+     
 
+     co.commit()
+     c.close()
+     co.close()
+
+     return geneMin,geneMax,geneAllMean
 
 
 
 def resultExon() :
 
-          # Result = ttk.Label(resultsFrame,text= " Taille Moyenne Des Exons : " +exonAllMean)
-          # Result.grid(column=1,row=1,sticky=W)
-     meanResult.pack_forget()
-     meanResult.config(text= "Taille Moyenne Des Exons : " + exonAllMean)
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
 
-     minResult.pack_forget()
-     minResult.config(text=" Taille Minimale Des Exons : " + exonMin)
+     global exonAll
+     exonAll = c.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          
+     exonAllArray = np.array(exonAll)
+     global exonAllMean
+     exonAllMean = round(exonAllArray.mean(),2)
+     exonAllMean = str(exonAllMean)
 
-     maxResult.pack_forget()
-     maxResult.config(text="Taille Maximale Des Exons : " + exonMax)
-          # mini_Result = ttk.Label(resultsFrame,text= "Taille Minimale Des Exons : " +exonMin)
-          # mini_Result.grid(column=1,row=2,sticky=W)   
+     global exonMin
+     exonMin = exonAllArray.min()
+     exonMin= str(exonMin)
 
-          # max_Result = ttk.Label(resultsFrame,text= "Taille Maximale des Exons : " +exonMax)
-          # max_Result.grid(column=1,row=3,sticky=W) 
+     global exonMax
+     exonMax = exonAllArray.max()
+     exonMax= str(exonMax)
 
+     co.commit()
+     c.close()
+     co.close()
+
+     return exonMin,exonMax,exonAllMean
 
 def resultIntron() : 
+
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
+
+     global intronAll
+     intronAll= c.execute("SELECT end-start from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
-          # intronMean_Result = ttk.Label(resultsFrame,text= "Taille Moyenne Des Introns : " +intronAllMean)
-          # intronMean_Result.grid(column=2, row=1,sticky=W)
-     meanResult.pack_forget()
-     meanResult.config(text= "Taille Moyenne Des Introns : " + intronAllMean )
+     intronAllArray = np.array(intronAll)
 
-     minResult.pack_forget()
-     minResult.config(text=" Taille Minimale Des Introns : " + intronMin)
+     global intronAllMean
+     intronAllMean = round(intronAllArray.mean(),2)
+     intronAllMean = str(intronAllMean)
 
-     maxResult.pack_forget()
-     maxResult.config(text="Taille Maximale Des Introns : " + intronMax)
-     
-          # intronMin_Result = ttk.Label(resultsFrame,text= "Taille Minimale Des Introns : " +intronMin)
-          # intronMin_Result.grid(column=2, row=2,sticky=W)
+     global intronMin
+     intronMin = intronAllArray.min()
+     intronMin = str(intronMin)
 
-          # intronMax_Result = ttk.Label(resultsFrame,text= "Taille Maximale Des Introns : " +intronMax)
-          # intronMax_Result.grid(column=2, row=3,sticky=W)
+     global intronMax
+     intronMax = intronAllArray.max()
+     intronMax = str(intronMax)
 
+     co.commit()
+     c.close()
+     co.close()  
 
+     return intronMin,intronMax,intronAllMean  
+
+def resultIntergenes():
+
+     co= sqlite3.connect(fs.dbName)
+     c = co.cursor()
+
+     global startGenePlus
+     startGenePlus = c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+
+     global endGenePlus
+     endGenePlus= c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '+' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+               
+     interArrayPlus = np.column_stack((startGenePlus,endGenePlus))
+
+     global interListPlus
+     interListPlus = []
+     for inter in range (1,len(interArrayPlus)) :
+          if interArrayPlus[inter,0] - interArrayPlus[inter-1,1] < 0 :
+               continue
+     else :
+          interListPlus.append(interArrayPlus[inter,0] - interArrayPlus[inter-1,1])
+
+               
+     global interPositionsPlus
+     interPositionsPlus = []
+     for interStart in range(1,len(interListPlus)+1) : 
+          interPositionsPlus.append(interStart)
+
+          
+     global startGeneMinus
+     startGeneMinus= c.execute("SELECT start from features WHERE featuretype ='gene' and strand = '-' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+
+     global endGeneMinus 
+     endGeneMinus= c.execute("SELECT end from features WHERE featuretype ='gene' and strand = '-' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+
+     interArrayMinus = np.column_stack((startGeneMinus,endGeneMinus))
+
+     global interListMinus
+     interListMinus = []
+     for inter in range (1,len(interArrayMinus)) :
+          if interArrayMinus[inter,0] - interArrayMinus[inter-1,1] < 0 :
+               continue
+          else : 
+               interListMinus.append(interArrayMinus[inter,0] - interArrayMinus[inter-1,1])
+               
+
+     global interListBoth
+     interListBoth = interListPlus + interListMinus
+     print(interListBoth)
+
+     interArray=np.array(interListBoth)
+
+     global intergenesAllMean
+     intergenesAllMean = round(interArray.mean(),2)
+     intergenesAllMean = str(intergenesAllMean)
+
+     global intergenesMin
+     intergenesMin = interArray.min()
+     intergenesMin = str(intergenesMin)
+
+     global intergenesMax
+     intergenesMax = interArray.max()
+     intergenesMax = str(intergenesMax)
+ 
+
+     co.commit()
+     c.close()
+     co.close() 
+
+     return intergenesMin,intergenesMax,intergenesMax
 
 
 def generateStatFunc(window,resultsFrame,selectedRegion):
@@ -102,86 +176,37 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           window.geometry("730x450+350+0")
 
           graphTitle = ttk.Label(resultsFrame,text="Statistiques",foreground="black")
-          graphTitle.grid(column=0,row=0,pady=15,columnspan=3)
-          
-          co= sqlite3.connect(fs.dbName)
-          c = co.cursor()
-
-          global meanResult
-          meanResult = ttk.Label(resultsFrame,text="")
-          meanResult.grid(column=0,row=2,pady=10,columnspan=3)
+          graphTitle.grid(column=0,row=0,pady=15,columnspan=4)
           
 
-          global maxResult
-          maxResult = ttk.Label(resultsFrame,text="")
-          maxResult.grid(column=0,row=3,pady=10,columnspan=3)
+          numbersTab = ttk.Treeview(resultsFrame,height=4)
 
-          global minResult
-          minResult = ttk.Label(resultsFrame,text="")
-          minResult.grid(column=0,row=4,pady=10,columnspan=3)
+          geneMin,geneMax,geneAllMean=resultGene()
+          exonMin,exonMax,exonAllMean=resultExon()
+          intronMin,intronMax,intronAllMean=resultIntron() 
+          intergenesMin,intergenesMax,intergenesMax=resultIntergenes()
 
-          global geneAll 
-          geneAll = c.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
-          geneAllArray = np.array(geneAll)
-          global geneAllMean
-          geneAllMean = round(geneAllArray.mean(),2)
-          geneAllMean = str(geneAllMean)
+          #Define columns
+          numbersTab["columns"] = ("Genes","Exons","Introns","Intergenes")
 
-          global geneMin
-          geneMin = geneAllArray.min()
-          geneMin = str(geneMin)
+          numbersTab.column("#0",anchor=CENTER,width=120,minwidth=120)
+          numbersTab.column("Genes",anchor=CENTER,width=120,minwidth=120)
+          numbersTab.column("Exons",anchor=CENTER,width=120,minwidth=120)
+          numbersTab.column("Introns",anchor=CENTER,width=120,minwidth=120)
+          numbersTab.column("Intergenes",anchor=CENTER,width=120,minwidth=120)
 
-          global geneMax
-          geneMax = geneAllArray.max()
-          geneMax = str(geneMax)
+          numbersTab.heading("#0",text="",anchor=CENTER)
+          numbersTab.heading("Genes",text="Genes",anchor=CENTER)
+          numbersTab.heading("Exons",text="Exons",anchor=CENTER)
+          numbersTab.heading("Introns",text="Introns",anchor=CENTER)
+          numbersTab.heading("Intergenes",text="Intergenes",anchor=CENTER)
 
-          global exonAll
-          exonAll = c.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+          numbersTab.insert(parent="",index='end',iid=0,text="Minimum",value=(geneMin,exonMin,intronMin,intergenesMin))
+          numbersTab.insert(parent="",index='end',iid=1,text="Maximum",value=(geneMax,exonMax,intronMax,intergenesMax))
+          numbersTab.insert(parent="",index='end',iid=2,text="Mean",value=(geneAllMean,exonAllMean,intronAllMean,intergenesAllMean))
           
-          exonAllArray = np.array(exonAll)
-          global exonAllMean
-          exonAllMean = round(exonAllArray.mean(),2)
-          exonAllMean = str(exonAllMean)
-
-          global exonMin
-          exonMin = exonAllArray.min()
-          exonMin= str(exonMin)
-
-          global exonMax
-          exonMax = exonAllArray.max()
-          exonMax= str(exonMax)
-
-          global intronAll
-          intronAll= c.execute("SELECT end-start from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          
-          intronAllArray = np.array(intronAll)
-
-          global intronAllMean
-          intronAllMean = round(intronAllArray.mean(),2)
-          intronAllMean = str(intronAllMean)
-
-          global intronMin
-          intronMin = intronAllArray.min()
-          intronMin = str(intronMin)
-
-          global intronMax
-          intronMax = intronAllArray.max()
-          intronMax = str(intronMax)
-
-          co.commit()
-          c.close()
-          co.close()
-
-
-          gene_Button = ttk.Button(resultsFrame,text="Stat Gene",command=resultGene)
-          gene_Button.grid(column=0,row=1,padx=40,pady=10)
-
-          exon_Button = ttk.Button(resultsFrame,text="Stat exon",command=resultExon)
-          exon_Button.grid(column=1,row=1,padx=40,pady=10)
-
-          intron_Button = ttk.Button(resultsFrame,text="Stat Intron",command=resultIntron)
-          intron_Button.grid(column=2,row=1,padx=40,pady=10)
+          numbersTab.grid(column=0,row=1,rowspan=1,columnspan=4)
 
      return    
 
