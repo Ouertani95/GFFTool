@@ -83,7 +83,7 @@ def genesExonsFunc(window,resultsFrame,selectedRegion):
           
           window.geometry("730x450+350+0")
 
-          genesExonsTitle = ttk.Label(resultsFrame,text="Nombre de gènes et d'exons",foreground="black")
+          genesExonsTitle = ttk.Label(resultsFrame,text="Nombres de gènes, exons et introns ",foreground="black")
           genesExonsTitle.grid(column=0,row=0,pady=15,columnspan=4)
 
           plusGenes,plusExons,plusIntrons=getPlus()

@@ -11,7 +11,7 @@ import tkinter.ttk as ttk
 import ttkthemes as themes
 
 def windowGFFTool ():
-    
+
     window = themes.ThemedTk(theme="radiance")
     window.geometry("730x230+350+0")
     window.title("GFF Tool")
@@ -55,7 +55,7 @@ def windowGFFTool ():
     selectedRegion = ttk.Label(programFrame,text="Aucune région sélectionnée",background="#F6F6F5",foreground="#2E2E2E")
     selectedRegion.grid(row=2,padx=50,pady=11,sticky=W)
 
-    numberGenes = ttk.Radiobutton(programFrame,text="Récupérer nombre de gènes et exons",value=2,
+    numberGenes = ttk.Radiobutton(programFrame,text="Nombres de gènes ,exons et introns",value=2,
     command= lambda : genesExonsFunc(window,resultsFrame,selectedRegion)) 
     numberGenes.grid(row=3,padx=50,pady=5,sticky=W)
 
