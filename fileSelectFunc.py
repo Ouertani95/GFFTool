@@ -28,31 +28,25 @@ def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
      filetypes=(("gff files","*.gff"),("gff3 files",".gff3"),("gtf files","*.gtf"),("all files","*.*")))
      global nameFile
      nameFile = Path(window.filename).stem #extracts file name without extension from selected local file
-     print(nameFile)
      
      selectedFile.pack_forget()
      selectedFile.config(text=nameFile,foreground="#dd4814")
      global dbName
      dbName = nameFile + ".db"
-     print(dbName)
 
      if os.path.exists(dbName)==False and nameFile!="":
           db = gffutils.create_db(window.filename, dbName) #create database
-          print("database created")
      if nameFile!="" :
           con = sqlite3.connect(dbName)
           cur = con.cursor()
           global chrID
-          chrID = cur.execute("SELECT DISTINCT seqid FROM features").fetchall() #chrID is a list of tuples
-          print("chromosome list created")
+          chrID = cur.execute("SELECT DISTINCT seqid FROM features").fetchall()
           
           global startList
           startList = cur.execute("SELECT DISTINCT start FROM features ORDER BY start asc").fetchall()
-          print ("start list created")
           
           global endList
           endList = cur.execute("SELECT DISTINCT end FROM features ORDER BY end desc").fetchall()
-          print ("end list created")
           con.commit()
           cur.close()
           con.close()

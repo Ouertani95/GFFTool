@@ -8,8 +8,7 @@ from tkinter import messagebox
 def getChr():
      """
      If chromosome list contains more than one chromosome :
-     Once validateChr button is clicked, gets all start and end positions 
-     relative to selected chromosome from database
+     Once validateChr button is clicked, gets all start and end positions relative to selected chromosome from database
      """
      chrSelected = "".join(chrChoice.get("anchor")) #get tuple element and transform into string
 

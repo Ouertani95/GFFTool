@@ -8,7 +8,6 @@ def customBar(current,total,width=80):
      """
      Shows download progress while file is downloading
      """
-     print("Downloading: %d%% [%d / %d] bytes" % (current / total *100, current, total))
      downloadProgress["value"]=current / total *100
      wrongUrl.config(text=str(round(downloadProgress["value"]))+" % "+"["+str(current)+" / "+str(total)+"]" +" bytes",foreground="black")
      wrongUrl.pack()
@@ -24,7 +23,6 @@ def fileDownload ():
      """
      urlLink = urlEntry.get()
      validUrl=validators.url(urlLink)
-     print(validUrl)
           
      if validUrl!=True :  
           entryField.delete(0,tk.END) #refresh entryField
@@ -38,11 +36,8 @@ def fileDownload ():
           wrongUrl.pack(pady=10)
      else :
           wrongUrl.pack_forget()
-          print(urlLink)
           wget.download(url=urlLink,bar=customBar)
-          print("fichier téléchargé")
           os.system("gzip -d -f *.gz")
-          print("fichier dézippé")
           wrongUrl.pack_forget()
           wrongUrl.config(text="Ouvrir le fichier en local",foreground="#dd4814")
           wrongUrl.pack(pady=10)

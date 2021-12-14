@@ -8,7 +8,7 @@ from tkinter import messagebox
 
 def getPlus():
      """
-     Retrieves number of genes, exons and introns in the + strand inside selected chromosome region from the database.
+     Retrieves numbers of genes, exons and introns in the + strand inside selected chromosome region from the database.
      """
 
      con = sqlite3.connect(fs.dbName)
@@ -30,7 +30,7 @@ def getPlus():
 
 def getMinus():
      """
-     Retrieves number of genes, exons and introns in the - strand inside selected chromosome region from the database.
+     Retrieves numbers of genes, exons and introns in the - strand inside selected chromosome region from the database.
      """
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
@@ -51,7 +51,7 @@ def getMinus():
 
 def getBoth():
      """
-     Retrieves number of genes ,exons and introns in both strands inside selected chromosome region from the database.
+     Retrieves numbers of genes ,exons and introns in both strands inside selected chromosome region from the database.
      """
 
      con = sqlite3.connect(fs.dbName)

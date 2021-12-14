@@ -11,6 +11,9 @@ import tkinter.ttk as ttk
 import ttkthemes as themes
 
 def windowGFFTool ():
+    """
+    Creates main program window
+    """
 
     window = themes.ThemedTk(theme="radiance")
     window.geometry("730x230+350+0")
