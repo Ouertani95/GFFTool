@@ -107,7 +107,7 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
             print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/barGene.png'> </center> <br /><br /><br />",file=f)
             gg.generateGraphInter(0,1)
             print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/barInter.png'> </center> <br /><br /><br />",file=f)
-            gg.generatePiechartGenesIntergeniques(0,1)
+            gg.generatePiechartGenesIntergenes(0,1)
             print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/pieGeneInter.png'> </center> <br /><br /><br />",file=f)
             gg.generateBoxplot1(0,1)
             print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/box1.png'> </center> <br /><br /><br />",file=f)
