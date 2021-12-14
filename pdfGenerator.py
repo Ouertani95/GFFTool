@@ -15,7 +15,6 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
         mdFileName="./Figures/"+fs.nameFile+"_"+selectedRegion.cget("text")
         with open(mdFileName+".md","w") as f :
 
-            gg.generateGraphFunc(window,resultsFrame,selectedRegion)
             print("<center><h1>Fichier : "+fs.nameFile+"</h1></center><br /><br />",file=f)
 
             print("<h2>Region : "+selectedRegion.cget("text")+"</h2><br />",file=f)
