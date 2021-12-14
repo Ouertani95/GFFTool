@@ -20,12 +20,16 @@ def resultGene() :
      geneAll = cur.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
      geneAllArray = np.array(geneAll)
+     if len(geneAllArray) !=0 :
+          geneAllMean = round(geneAllArray.mean(),2)
 
-     geneAllMean = round(geneAllArray.mean(),2)
+          geneMin = geneAllArray.min()
 
-     geneMin = geneAllArray.min()
-
-     geneMax = geneAllArray.max()
+          geneMax = geneAllArray.max()
+     else :
+          geneAllArray=0
+          geneMin=0
+          geneMax=0
      
      con.commit()
      cur.close()
@@ -38,19 +42,23 @@ def resultExon() :
      """
      Retrieves all the exons present in the chromosome in an array and then calculates the mean,minimum,and maximum
      """
+     
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
 
      exonAll = cur.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
      exonAllArray = np.array(exonAll)
+     if len(exonAllArray) !=0 :
+          exonAllMean = round(exonAllArray.mean(),2)
 
-     exonAllMean = round(exonAllArray.mean(),2)
+          exonMin = exonAllArray.min()
 
-     exonMin = exonAllArray.min()
-
-     exonMax = exonAllArray.max()
- 
+          exonMax = exonAllArray.max()
+     else :
+          exonAllMean=0
+          exonMin=0
+          exonMax=0
 
      con.commit()
      cur.close()
@@ -70,12 +78,17 @@ def resultIntron() :
      intronAll= cur.execute("SELECT end-start from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
      intronAllArray = np.array(intronAll)
+     if len(intronAllArray) !=0 :
 
-     intronAllMean = round(intronAllArray.mean(),2)
+          intronAllMean = round(intronAllArray.mean(),2)
 
-     intronMin = intronAllArray.min()
+          intronMin = intronAllArray.min()
 
-     intronMax = intronAllArray.max()
+          intronMax = intronAllArray.max()
+     else : 
+          intronAllMean=0
+          intronMin=0
+          intronMax=0
 
      con.commit()
      cur.close()
@@ -91,12 +104,16 @@ def resultIntergenes():
      interListBoth,sumInter,interPositionsBoth=gg.calculIntergenes()
 
      interArray=np.array(interListBoth)
+     if len(interArray) != 0 :  
+          intergenesAllMean = round(interArray.mean(),2)
 
-     intergenesAllMean = round(interArray.mean(),2)
+          intergenesMin = interArray.min()
 
-     intergenesMin = interArray.min()
-
-     intergenesMax = interArray.max()
+          intergenesMax = interArray.max() 
+     else :
+          intergenesAllMean=0
+          intergenesMin=0
+          intergenesMax=0 
 
      return intergenesMin,intergenesMax,intergenesAllMean
 

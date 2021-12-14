@@ -14,7 +14,7 @@ import seaborn as sns
 
 def calculGenes() :
      """
-     Retrieves sum of all the genes present in the chromosome and calculates the position and length of each gene
+     Calculates the position and length of each gene and retrieves the sum of all the genes present in the chromosome
      """
 
      con = sqlite3.connect(fs.dbName)
@@ -41,7 +41,7 @@ def calculGenes() :
 
 def calculIntergenes() :
      """
-     Retrieves sum of all the intergenes present in the chromosome and calculates the position and length of each intergenes
+     Calculates the position and length of each intergenes and retrieves the sum of all the intergenes present in the chromosome
      """
 
      con = sqlite3.connect(fs.dbName)
@@ -93,7 +93,7 @@ def calculIntergenes() :
 
 def calculExons() :
      """
-     Retrieves sum of all the exons present in the chromosome and calculates the position and length of each exon
+     Calculates the position and length of each exon and retrieves the sum of all the exons present in the chromosome
      """
 
      con = sqlite3.connect(fs.dbName)
@@ -120,7 +120,7 @@ def calculExons() :
 
 def calculIntrons() :
      """
-     Retrieves the length and sum of all the introns present in the chromosome and calculates the position of each introns
+     Calculates the position and length of each intron and retrieves the sum of all the introns present in the chromosome
      """
 
      con = sqlite3.connect(fs.dbName)
@@ -147,6 +147,9 @@ def calculIntrons() :
 
 
 def generateGraphGene(show,save):
+     """
+     Generates a barplot representing the distribution of gene sizes inside the chromosome region
+     """
 
      plt.figure(figsize=(7, 5))
      geneTInt,genePositions,sumGenes=calculGenes()
@@ -167,7 +170,10 @@ def generateGraphGene(show,save):
      return
 
 
-def generateGraphInter(show,save):  
+def generateGraphInter(show,save): 
+     """
+     Generates a barplot representing the distribution of intergene sizes inside the chromosome region
+     """ 
 
      plt.figure(figsize=(7, 5))
      interListBoth,sumInter,interPositionsBoth=calculIntergenes()
@@ -176,8 +182,6 @@ def generateGraphInter(show,save):
      fig1 = pylab.gcf()
      fig1.canvas.manager.set_window_title('Graphes des régions intergéniques')
      plt.bar(interPositionsBoth,interListBoth,label='Régions Intergéniques',color='yellowgreen')
-
-     print(interListBoth)
      plt.xlabel('Position')
      plt.ylabel('Taille (acide nucleique)')
      plt.title('Distribution de taille des régions intergéniques sur les 2 brins',fontsize=11)
@@ -190,6 +194,9 @@ def generateGraphInter(show,save):
      return
 
 def generateGraphExon (show,save):
+     """
+     Generates a barplot representing the distribution of exon sizes inside the chromosome region
+     """
 
      plt.figure(figsize=(7, 5))
      exonTInt,exonPositions,sumExons=calculExons()
@@ -211,6 +218,9 @@ def generateGraphExon (show,save):
      return
 
 def generateGraphIntron(show,save):
+     """
+     Generates a barplot representing the distribution of intron sizes inside the chromosome region
+     """
 
      plt.figure(figsize=(7, 5))
      intronTInt,intronPositions,sumIntrons=calculIntrons()
@@ -231,6 +241,9 @@ def generateGraphIntron(show,save):
      return
 
 def generatePiechartGenesIntergeniques (show,save):
+     """
+     Generates a piechart representing the size percentages of genes and intergenes inside the chromosome region
+     """
 
      plt.figure(figsize=(7, 5))
      geneTInt,genePositions,sumGenes=calculGenes()
@@ -238,7 +251,6 @@ def generatePiechartGenesIntergeniques (show,save):
      values1 = [sumGenes,sumInter]
      Names1 = ["Genes","Intergeniques"]
      col=['olive','yellowgreen']
-     
      figP = pylab.gcf()
      figP.canvas.manager.set_window_title('Distributions des genes et des intergenes')
      plt.pie(values1,labels=Names1,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
@@ -251,6 +263,9 @@ def generatePiechartGenesIntergeniques (show,save):
      return
 
 def generatePiechartExonsIntrons (show,save):
+     """
+     Generates a piechart representing the size percentages of exons and introns inside the chromosome region
+     """
 
      plt.figure(figsize=(7, 5))
      intronTInt,intronPositions,sumIntrons=calculIntrons()
@@ -258,7 +273,6 @@ def generatePiechartExonsIntrons (show,save):
      values = [sumIntrons,sumExons]
      Names = ["Introns","Exons"]
      col=['firebrick','darksalmon']
-     
      figP = pylab.gcf()
      figP.canvas.manager.set_window_title('Distributions des exons et des intron')
      plt.pie(values,labels=Names,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
@@ -271,6 +285,9 @@ def generatePiechartExonsIntrons (show,save):
      return
 
 def generateBoxplot1(show,save) :
+     """
+     Generates a boxplot comparing the size distribution of genes and intergenes inside the chromosome region
+     """
 
      plt.figure(figsize=(7, 5))
      geneTInt,genePositions,sumGenes=calculGenes()
@@ -292,6 +309,9 @@ def generateBoxplot1(show,save) :
 
 
 def generateBoxplot2(show,save) :
+     """
+     Generates a boxplot comparing the size distribution of exons and introns inside the chromosome region
+     """
 
      plt.figure(figsize=(7, 5))
      exonTInt,exonPositions,sumExons=calculExons()
@@ -301,7 +321,6 @@ def generateBoxplot2(show,save) :
      c = pd.DataFrame({ '' : np.repeat('Exons',len(exonTInt)), 'Taille (acide nucleique)': exonTInt })
      d = pd.DataFrame({ '' : np.repeat('Introns',len(intronTInt)), 'Taille (acide nucleique)':intronTInt })
      df=c.append(d)
-     
      my_pal1 = {"Exons": "darksalmon", "Introns": "firebrick"}
      sns.boxplot(x='', y='Taille (acide nucleique)', data=df,showmeans=True,palette=my_pal1)
      plt.title('Comparaison de taille entre exons et introns')
@@ -313,6 +332,9 @@ def generateBoxplot2(show,save) :
      return
 
 def generateGraphFunc (window,resultsFrame,selectedRegion):
+     """
+     Creates the graph interface inside the resultsFrame with all graph buttons
+     """
 
      if selectedRegion.cget("text") == "Aucune région sélectionnée" or selectedRegion.cget("text") == "" : 
           messagebox.showwarning("Selection de région","Veuillez sélectionner une région")
