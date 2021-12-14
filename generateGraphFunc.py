@@ -240,7 +240,7 @@ def generateGraphIntron(show,save):
           plt.close()
      return
 
-def generatePiechartGenesIntergeniques (show,save):
+def generatePiechartGenesIntergenes (show,save):
      """
      Generates a piechart representing the size percentages of genes and intergenes inside the chromosome region
      """
@@ -249,7 +249,7 @@ def generatePiechartGenesIntergeniques (show,save):
      geneTInt,genePositions,sumGenes=calculGenes()
      interListBoth,sumInter,interPositionsBoth=calculIntergenes()
      values1 = [sumGenes,sumInter]
-     Names1 = ["Genes","Intergeniques"]
+     Names1 = ["Genes","Intergenes"]
      col=['olive','yellowgreen']
      figP = pylab.gcf()
      figP.canvas.manager.set_window_title('Distributions des genes et des intergenes')
@@ -369,7 +369,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           intron_Button = ttk.Button(resultsFrame,text="Introns",command= lambda : generateGraphIntron(1,0))
           intron_Button.grid(column=0,row=5,pady=10,padx=25)
 
-          pie2_Button = ttk.Radiobutton(resultsFrame,text='Genes/Intergenes',command= lambda : generatePiechartGenesIntergeniques(1,0))
+          pie2_Button = ttk.Radiobutton(resultsFrame,text='Genes/Intergenes',command= lambda : generatePiechartGenesIntergenes(1,0))
           pie2_Button.grid(column=1,row=2,padx=30,ipady= 25,sticky=W,rowspan=2) 
 
           pie1_Button = ttk.Radiobutton(resultsFrame,text='Exons/Introns',command= lambda :generatePiechartExonsIntrons(1,0))
