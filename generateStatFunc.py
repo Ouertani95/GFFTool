@@ -112,7 +112,7 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           for widget in resultsFrame.winfo_children() :
                widget.destroy()
           
-          window.geometry("730x450+350+0")
+          window.geometry("730x420+350+0")
 
           graphTitle = ttk.Label(resultsFrame,text="Statistiques",foreground="black")
           graphTitle.grid(column=0,row=0,pady=15,columnspan=4)
@@ -137,7 +137,7 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           statsTab.heading("#0",text="",anchor=CENTER)
           statsTab.heading("Minimum",text="Minimum",anchor=CENTER)
           statsTab.heading("Maximum",text="Maximum",anchor=CENTER)
-          statsTab.heading("Mean",text="Mean",anchor=CENTER)
+          statsTab.heading("Mean",text="Moyenne",anchor=CENTER)
 
           statsTab.insert(parent="",index='end',iid=0,text="Genes",value=(geneMin,geneMax,geneAllMean))
           statsTab.insert(parent="",index='end',iid=1,text="Intergenes",value=(intergenesMin,intergenesMax,intergenesAllMean))

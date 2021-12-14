@@ -81,4 +81,6 @@ def urlEntryFunc():
      wrongUrl = ttk.Label(downloadWindow,text="")
      wrongUrl.pack(pady=5)
 
+     downloadWindow.mainloop()
+     
      return

@@ -38,7 +38,6 @@ def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
 
      if os.path.exists(dbName)==False and nameFile!="":
           db = gffutils.create_db(window.filename, dbName) #create database
-          db = gffutils.FeatureDB(dbName)
           print("database created")
      if nameFile!="" :
           con = sqlite3.connect(dbName)

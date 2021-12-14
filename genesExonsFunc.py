@@ -81,7 +81,7 @@ def genesExonsFunc(window,resultsFrame,selectedRegion):
           for widget in resultsFrame.winfo_children() :
                widget.destroy()
           
-          window.geometry("730x450+350+0")
+          window.geometry("730x400+350+0")
 
           genesExonsTitle = ttk.Label(resultsFrame,text="Nombres de gènes, exons et introns ",foreground="black")
           genesExonsTitle.grid(column=0,row=0,pady=15,columnspan=4)

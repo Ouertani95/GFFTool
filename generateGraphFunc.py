@@ -147,7 +147,8 @@ def calculIntrons() :
 
 
 def generateGraphGene(show,save):
-     
+
+     plt.figure(figsize=(7, 5))
      geneTInt,genePositions,sumGenes=calculGenes()
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -163,11 +164,12 @@ def generateGraphGene(show,save):
      if save == 1 : 
           plt.savefig("./Figures/barGene.png")
           plt.close()
-
+     return
 
 
 def generateGraphInter(show,save):  
 
+     plt.figure(figsize=(7, 5))
      interListBoth,sumInter,interPositionsBoth=calculIntergenes()
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -185,10 +187,11 @@ def generateGraphInter(show,save):
      if save == 1 : 
           plt.savefig("./Figures/barInter.png")
           plt.close()
-
+     return
 
 def generateGraphExon (show,save):
 
+     plt.figure(figsize=(7, 5))
      exonTInt,exonPositions,sumExons=calculExons()
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -205,10 +208,11 @@ def generateGraphExon (show,save):
      if save == 1 : 
           plt.savefig("./Figures/barExon.png")
           plt.close()
-     
+     return
 
 def generateGraphIntron(show,save):
 
+     plt.figure(figsize=(7, 5))
      intronTInt,intronPositions,sumIntrons=calculIntrons()
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
@@ -224,10 +228,11 @@ def generateGraphIntron(show,save):
      if save == 1 : 
           plt.savefig("./Figures/barIntron.png")
           plt.close()
-
+     return
 
 def generatePiechartGenesIntergeniques (show,save):
 
+     plt.figure(figsize=(7, 5))
      geneTInt,genePositions,sumGenes=calculGenes()
      interListBoth,sumInter,interPositionsBoth=calculIntergenes()
      values1 = [sumGenes,sumInter]
@@ -243,10 +248,11 @@ def generatePiechartGenesIntergeniques (show,save):
      if save == 1 : 
           plt.savefig("./Figures/pieGeneInter.png")
           plt.close()
-
+     return
 
 def generatePiechartExonsIntrons (show,save):
 
+     plt.figure(figsize=(7, 5))
      intronTInt,intronPositions,sumIntrons=calculIntrons()
      exonTInt,exonPositions,sumExons=calculExons()
      values = [sumIntrons,sumExons]
@@ -262,10 +268,11 @@ def generatePiechartExonsIntrons (show,save):
      if save == 1 : 
           plt.savefig("./Figures/pieExonsIntrons.png")
           plt.close()
-
+     return
 
 def generateBoxplot1(show,save) :
 
+     plt.figure(figsize=(7, 5))
      geneTInt,genePositions,sumGenes=calculGenes()
      interListBoth,sumInter,interPositionsBoth=calculIntergenes()
      figB1 = pylab.gcf()
@@ -286,6 +293,7 @@ def generateBoxplot1(show,save) :
 
 def generateBoxplot2(show,save) :
 
+     plt.figure(figsize=(7, 5))
      exonTInt,exonPositions,sumExons=calculExons()
      intronTInt,intronPositions,sumIntrons=calculIntrons()
      figB2 = pylab.gcf()
@@ -302,7 +310,7 @@ def generateBoxplot2(show,save) :
      if save == 1 : 
           plt.savefig("./Figures/box2.png")
           plt.close()
-
+     return
 
 def generateGraphFunc (window,resultsFrame,selectedRegion):
 
@@ -350,5 +358,4 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
 
           box2_Button = ttk.Button(resultsFrame,text='Boxplot E/I',command=lambda : generateBoxplot2(1,0))
           box2_Button.grid(column=2,row=4,padx=20,pady=5,rowspan=2)
-
      return
