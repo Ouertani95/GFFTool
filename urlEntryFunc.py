@@ -29,7 +29,7 @@ def fileDownload ():
           wrongUrl.pack_forget() #remove old text from wrongUrl Label
           wrongUrl.config(text="Url non valide")
           wrongUrl.pack(pady=10)
-     elif "gff" not in urlLink :
+     elif ("gff" not in urlLink) and ("gtf" not in urlLink) :
           entryField.delete(0,tk.END)
           wrongUrl.pack_forget()
           wrongUrl.config(text="Pas de fichier gff trouvé")
