@@ -26,33 +26,32 @@ def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
      #Shows file selection window from local repository
      window.filename = filedialog.askopenfilename(initialdir="~/Desktop/projetProgrammation2021",title="Selectionner un fichier gff",
      filetypes=(("gff files","*.gff"),("gff3 files",".gff3"),("gtf files","*.gtf"),("all files","*.*")))
-     global nameFile
-     nameFile = Path(window.filename).stem #extracts file name without extension from selected local file
-     
-     selectedFile.pack_forget()
-     selectedFile.config(text=nameFile,foreground="#dd4814")
-     global dbName
-     dbName = nameFile + ".db"
-
-     if os.path.exists(dbName)==False and nameFile!="":
-          db = gffutils.create_db(window.filename, dbName) #create database
-     if nameFile!="" :
+     if (len(window.filename)) == 0 :
+          messagebox.showwarning("Sélection fichier","Aucun fichier sélectionné")
+     else : 
+          global nameFile
+          nameFile = Path(window.filename).stem #extracts file name without extension from selected local file
+          selectedFile.pack_forget()
+          selectedFile.config(text=nameFile,foreground="#dd4814")
+          global dbName
+          dbName = nameFile + ".db"
+          if os.path.exists(dbName)==False :
+               db = gffutils.create_db(window.filename, dbName) #create database
+          
           con = sqlite3.connect(dbName)
           cur = con.cursor()
           global chrID
           chrID = cur.execute("SELECT DISTINCT seqid FROM features").fetchall()
-          
+               
           global startList
           startList = cur.execute("SELECT DISTINCT start FROM features ORDER BY start asc").fetchall()
-          
+               
           global endList
           endList = cur.execute("SELECT DISTINCT end FROM features ORDER BY end desc").fetchall()
           con.commit()
           cur.close()
           con.close()
 
-     else : 
-          messagebox.showwarning("Sélection fichier","Aucun fichier sélectionné")
 
      return
 

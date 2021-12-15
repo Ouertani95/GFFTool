@@ -254,7 +254,7 @@ def generatePiechartGenesIntergenes (show,save):
      figP = pylab.gcf()
      figP.canvas.manager.set_window_title('Distributions des genes et des intergenes')
      plt.pie(values1,labels=Names1,autopct="%.1f%%",wedgeprops={'edgecolor':'white', 'linewidth':2},colors=col)
-     plt.title('Pourcentage des genes et intergenes')
+     plt.title('Pourcentages des genes et intergenes')
      if show == 1 :
           plt.show()
      if save == 1 : 
@@ -347,7 +347,7 @@ def generateGraphFunc (window,resultsFrame,selectedRegion):
           mainTitle = ttk.Label(resultsFrame,text="Generation des graphes",foreground="black")
           mainTitle.grid(column=0,row=0,pady=15,columnspan=3)
 
-          barTitle = ttk.Label(resultsFrame,text="Distribution des tailles",foreground="black")
+          barTitle = ttk.Label(resultsFrame,text="Distributions des tailles",foreground="black")
           barTitle.grid(column=0,row=1,padx=20,pady=5)
 
           pieTitle = ttk.Label(resultsFrame,text="Proportions",foreground="black")

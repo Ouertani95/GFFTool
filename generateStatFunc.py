@@ -27,7 +27,7 @@ def resultGene() :
 
           geneMax = geneAllArray.max()
      else :
-          geneAllArray=0
+          geneAllMean=0
           geneMin=0
           geneMax=0
      
@@ -131,7 +131,7 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           
           window.geometry("730x420+350+0")
 
-          graphTitle = ttk.Label(resultsFrame,text="Statistiques",foreground="black")
+          graphTitle = ttk.Label(resultsFrame,text="Statistiques (Tailles en acides aminés)",foreground="black")
           graphTitle.grid(column=0,row=0,pady=15,columnspan=4)
           
 

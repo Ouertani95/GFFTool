@@ -56,7 +56,7 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
             print("</tr>\n"+"</tbody>\n"+"</table>\n</center>",file=f)
 
 
-            print("<h2>Statistiques :</h2><br />",file=f)
+            print("<h2>Statistiques (Tailles en acides amines) :</h2><br />",file=f)
 
             geneMin,geneMax,geneAllMean=gs.resultGene()
             exonMin,exonMax,exonAllMean=gs.resultExon()
