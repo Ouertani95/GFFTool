@@ -12,7 +12,7 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
           messagebox.showwarning("Selection de région","Veuillez sélectionner une région")
     else :
 
-        mdFileName="./Figures/"+fs.nameFile+"_"+selectedRegion.cget("text")
+        mdFileName="./"+fs.nameFile+"_"+selectedRegion.cget("text")
         with open(mdFileName+".md","w") as f :
 
             print("<center><h1>Fichier : "+fs.nameFile+"</h1></center><br /><br />",file=f)
@@ -56,7 +56,7 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
             print("</tr>\n"+"</tbody>\n"+"</table>\n</center>",file=f)
 
 
-            print("<h2>Statistiques (Tailles en acides amines) :</h2><br />",file=f)
+            print("<h2>Statistiques (Tailles en acides nucleiques) :</h2><br />",file=f)
 
             geneMin,geneMax,geneAllMean=gs.resultGene()
             exonMin,exonMax,exonAllMean=gs.resultExon()
@@ -101,23 +101,21 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
             print("</tr>\n"+"</tbody>\n"+"</table>\n</center>",file=f)
 
             print("<h2>Graphes :</h2><br />",file=f)
-            
+
             gg.generateGraphGene(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/barGene.png'> </center> <br /><br /><br />",file=f)
             gg.generateGraphInter(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/barInter.png'> </center> <br /><br /><br />",file=f)
             gg.generatePiechartGenesIntergenes(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/pieGeneInter.png'> </center> <br /><br /><br />",file=f)
             gg.generateBoxplot1(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/box1.png'> </center> <br /><br /><br />",file=f)
             gg.generateGraphExon(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/barExon.png'> </center> <br /><br /><br />",file=f)
             gg.generateGraphIntron(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/barIntron.png'> </center> <br /><br /><br />",file=f)
             gg.generatePiechartExonsIntrons(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/pieExonsIntrons.png'> </center> <br /><br /><br />",file=f)
             gg.generateBoxplot2(0,1)
-            print("<center><img style='border: solid' src='../../../Desktop/projetProgrammation2021/Figures/box2.png'> </center> <br /><br /><br />",file=f)
+
+            graphs=["barGene","barInter","pieGeneInter","box1","barExon","barIntron","pieExonsIntrons","box2"]
+            for graph in graphs : 
+                print("<center><img style='border: solid' src='./"+graph+".png'> </center> <br /><br /><br />",file=f)
+
+            
             
         os.system("markdown "+mdFileName+".md"+" > "+mdFileName+".html")
         pdfkit.from_file(mdFileName+'.html', mdFileName+'.pdf')
@@ -125,6 +123,6 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
         path = mdFileName+'.pdf'
         webbrowser.open_new(path)
 
-        os.system("rm ./Figures/*.md ./Figures/*.html")
+        os.system("rm ./*.md ./*.html ./*.png")
     
     return

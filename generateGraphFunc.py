@@ -165,7 +165,7 @@ def generateGraphGene(show,save):
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/barGene.png")
+          plt.savefig("./barGene.png")
           plt.close()
      return
 
@@ -189,7 +189,7 @@ def generateGraphInter(show,save):
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/barInter.png")
+          plt.savefig("./barInter.png")
           plt.close()
      return
 
@@ -213,7 +213,7 @@ def generateGraphExon (show,save):
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/barExon.png")
+          plt.savefig("./barExon.png")
           plt.close()
      return
 
@@ -236,7 +236,7 @@ def generateGraphIntron(show,save):
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/barIntron.png")
+          plt.savefig("./barIntron.png")
           plt.close()
      return
 
@@ -258,7 +258,7 @@ def generatePiechartGenesIntergenes (show,save):
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/pieGeneInter.png")
+          plt.savefig("./pieGeneInter.png")
           plt.close()
      return
 
@@ -280,7 +280,7 @@ def generatePiechartExonsIntrons (show,save):
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/pieExonsIntrons.png")
+          plt.savefig("./pieExonsIntrons.png")
           plt.close()
      return
 
@@ -303,7 +303,7 @@ def generateBoxplot1(show,save) :
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/box1.png")
+          plt.savefig("./box1.png")
           plt.close()
      return 
 
@@ -327,7 +327,7 @@ def generateBoxplot2(show,save) :
      if show == 1 :
           plt.show()
      if save == 1 : 
-          plt.savefig("./Figures/box2.png")
+          plt.savefig("./box2.png")
           plt.close()
      return
 

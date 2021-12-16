@@ -131,7 +131,7 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           
           window.geometry("730x420+350+0")
 
-          graphTitle = ttk.Label(resultsFrame,text="Statistiques (Tailles en acides aminés)",foreground="black")
+          graphTitle = ttk.Label(resultsFrame,text="Statistiques (Tailles en acides nucleiques)",foreground="black")
           graphTitle.grid(column=0,row=0,pady=15,columnspan=4)
           
 
