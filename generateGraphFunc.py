@@ -12,32 +12,30 @@ from matplotlib import pylab
 import seaborn as sns
 
 
-def calculGenes() :
+def calculFeature(feature) :
      """
-     Calculates the position and length of each gene and retrieves the sum of all the genes present in the chromosome
+     Calculates the position and length of each feature and retrieves the sum of all the features present in the chromosome
      """
 
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
 
-     geneT= cur.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     featureT= cur.execute("SELECT end-start from features WHERE featuretype = '%s' and seqid='%s' and start >=%s and end<=%s"%(feature,rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
 
-     geneTInt = []
-     for geneLength in geneT :
-          geneTInt.append(geneLength[0])
+     featureTInt = []
+     for featureLength in featureT :
+          featureTInt.append(featureLength[0])
 
-     genePositions = []
-     for position in range(1,len(geneT)+1): 
-          genePositions.append(position)
+     featurePositions = [*range(1,len(featureT)+1)]
 
-     sumGenes = 0
-     for g in geneTInt :
-          sumGenes+= g
+     sumFeatures = 0
+     for g in featureTInt :
+          sumFeatures+= g
 
      con.commit()
      cur.close()
      con.close()
-     return geneTInt,genePositions,sumGenes
+     return featureTInt,featurePositions,sumFeatures
 
 def calculIntergenes() :
      """
@@ -81,69 +79,13 @@ def calculIntergenes() :
      for v in interListBoth :
           sumInter+= v
  
-     interPositionsBoth = []
-     for i in range(1,len(interListBoth)+1) : 
-          interPositionsBoth.append(i)
+     interPositionsBoth = [*range(1,len(interListBoth)+1)]
 
 
      con.commit()
      cur.close()
      con.close()
      return interListBoth,sumInter,interPositionsBoth
-
-def calculExons() :
-     """
-     Calculates the position and length of each exon and retrieves the sum of all the exons present in the chromosome
-     """
-
-     con = sqlite3.connect(fs.dbName)
-     cur = con.cursor()
-
-     exonT= cur.execute("SELECT end-start from features WHERE featuretype = 'exon' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          
-     exonTInt = []
-     for exonLength in exonT :
-          exonTInt.append(exonLength[0])
-
-     exonPositions = []
-     for position in range(1,len(exonT)+1): 
-          exonPositions.append(position)
-
-     sumExons = 0
-     for e in exonTInt :
-          sumExons += e
-
-     con.commit()
-     cur.close()
-     con.close()     
-     return exonTInt,exonPositions,sumExons 
-
-def calculIntrons() :
-     """
-     Calculates the position and length of each intron and retrieves the sum of all the introns present in the chromosome
-     """
-
-     con = sqlite3.connect(fs.dbName)
-     cur = con.cursor()
-
-     intronT= cur.execute("SELECT end-start from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-
-     intronTInt = []
-     for intronLength in intronT :
-          intronTInt.append(intronLength[0])
-          
-     intronPositions = []
-     for position in range(1,len(intronT)+1): 
-          intronPositions.append(position)
-
-     sumIntrons = 0
-     for s in intronTInt :
-          sumIntrons += s 
-
-     con.commit()
-     cur.close()
-     con.close() 
-     return intronTInt,intronPositions,sumIntrons
 
 
 def generateGraphGene(show,save):
@@ -152,7 +94,7 @@ def generateGraphGene(show,save):
      """
 
      plt.figure(figsize=(7, 5))
-     geneTInt,genePositions,sumGenes=calculGenes()
+     geneTInt,genePositions,sumGenes=calculFeature("gene")
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
      fig2 = pylab.gcf()
@@ -199,7 +141,7 @@ def generateGraphExon (show,save):
      """
 
      plt.figure(figsize=(7, 5))
-     exonTInt,exonPositions,sumExons=calculExons()
+     exonTInt,exonPositions,sumExons=calculFeature("exon")
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
      fig1 = pylab.gcf()
@@ -223,7 +165,7 @@ def generateGraphIntron(show,save):
      """
 
      plt.figure(figsize=(7, 5))
-     intronTInt,intronPositions,sumIntrons=calculIntrons()
+     intronTInt,intronPositions,sumIntrons=calculFeature("intron")
      mpl.rcParams['axes.spines.right'] = False
      mpl.rcParams['axes.spines.top'] = False
      fig3 = pylab.gcf()
@@ -246,7 +188,7 @@ def generatePiechartGenesIntergenes (show,save):
      """
 
      plt.figure(figsize=(7, 5))
-     geneTInt,genePositions,sumGenes=calculGenes()
+     geneTInt,genePositions,sumGenes=calculFeature("gene")
      interListBoth,sumInter,interPositionsBoth=calculIntergenes()
      values1 = [sumGenes,sumInter]
      Names1 = ["Genes","Intergenes"]
@@ -268,8 +210,8 @@ def generatePiechartExonsIntrons (show,save):
      """
 
      plt.figure(figsize=(7, 5))
-     intronTInt,intronPositions,sumIntrons=calculIntrons()
-     exonTInt,exonPositions,sumExons=calculExons()
+     intronTInt,intronPositions,sumIntrons=calculFeature("intron")
+     exonTInt,exonPositions,sumExons=calculFeature("exon")
      values = [sumIntrons,sumExons]
      Names = ["Introns","Exons"]
      col=['firebrick','darksalmon']
@@ -290,7 +232,7 @@ def generateBoxplot1(show,save) :
      """
 
      plt.figure(figsize=(7, 5))
-     geneTInt,genePositions,sumGenes=calculGenes()
+     geneTInt,genePositions,sumGenes=calculFeature("gene")
      interListBoth,sumInter,interPositionsBoth=calculIntergenes()
      figB1 = pylab.gcf()
      figB1.canvas.manager.set_window_title('Boxplot des genes et des intergenes')
@@ -314,8 +256,8 @@ def generateBoxplot2(show,save) :
      """
 
      plt.figure(figsize=(7, 5))
-     exonTInt,exonPositions,sumExons=calculExons()
-     intronTInt,intronPositions,sumIntrons=calculIntrons()
+     exonTInt,exonPositions,sumExons=calculFeature("exon")
+     intronTInt,intronPositions,sumIntrons=calculFeature("intron")
      figB2 = pylab.gcf()
      figB2.canvas.manager.set_window_title('Boxplot des exons et des introns')
      c = pd.DataFrame({ '' : np.repeat('Exons',len(exonTInt)), 'Taille (acide nucleique)': exonTInt })

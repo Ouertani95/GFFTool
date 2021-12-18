@@ -39,7 +39,7 @@ def windowGFFTool ():
     selectOnline.grid(column=0,row=3,padx=90,pady=5,sticky="W")
 
     pdfButton = ttk.Button(selectionFrame,text="Générer pdf", width=15,
-    command= lambda : pdfGenerator(window,resultsFrame,selectedRegion))
+    command= lambda : pdfGenerator(selectedRegion))
     pdfButton.grid(column=0,row=4,padx=74,pady=5,sticky="W")
 
 

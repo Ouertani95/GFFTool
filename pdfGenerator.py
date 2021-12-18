@@ -7,7 +7,7 @@ import os
 import pdfkit
 import webbrowser
 
-def pdfGenerator (window,resultsFrame,selectedRegion) : 
+def pdfGenerator (selectedRegion) : 
     if selectedRegion.cget("text") == "Aucune région sélectionnée" or selectedRegion.cget("text") == "" : 
           messagebox.showwarning("Selection de région","Veuillez sélectionner une région")
     else :
@@ -21,8 +21,8 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
 
             print("<h2>Nombres de genes,exons et introns :</h2><br />",file=f)
 
-            plusGenes,plusExons,plusIntrons=ge.getPlus()
-            minusGenes,minusExons,minusIntrons=ge.getMinus()
+            plusGenes,plusExons,plusIntrons=ge.getStrand("+")
+            minusGenes,minusExons,minusIntrons=ge.getStrand("-")
             bothGenes,bothExons,bothIntrons=ge.getBoth()
 
             print("<center><table border = '2' width = '70%' style='border-style: solid ; border-color: #000000'>\n",file=f)
@@ -58,9 +58,9 @@ def pdfGenerator (window,resultsFrame,selectedRegion) :
 
             print("<h2>Statistiques (Tailles en acides nucleiques) :</h2><br />",file=f)
 
-            geneMin,geneMax,geneAllMean=gs.resultGene()
-            exonMin,exonMax,exonAllMean=gs.resultExon()
-            intronMin,intronMax,intronAllMean=gs.resultIntron() 
+            geneMin,geneMax,geneAllMean=gs.resultFeature("gene")
+            exonMin,exonMax,exonAllMean=gs.resultFeature("exon")
+            intronMin,intronMax,intronAllMean=gs.resultFeature("intron") 
             intergenesMin,intergenesMax,intergenesAllMean=gs.resultIntergenes()
             
             print("<center><table border = '2' width = '70%' style='border-style: solid ; border-color: #000000'>\n",file=f)

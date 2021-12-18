@@ -6,42 +6,21 @@ from fileSelectFunc import *
 import tkinter.ttk as ttk
 from tkinter import messagebox
 
-def getPlus():
+def getStrand(strand):
      """
-     Retrieves numbers of genes, exons and introns in the + strand inside selected chromosome region from the database.
+     Retrieves numbers of genes, exons and introns in the strand inside selected chromosome region from the database.
      """
 
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
 
-     numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and strand = '%s' and seqid = '%s' and start>=%s and end <=%s"%(strand,rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberGenes = numberGenesList[0][0]
   
-     numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and strand = '%s' and seqid = '%s' and start>=%s and end <=%s"%(strand,rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberExons = numberExonsList[0][0]
          
-     numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and strand = '+' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     numberIntrons = numberIntronsList[0][0]
-
-     con.commit()
-     cur.close()
-     con.close()
-     return numberGenes,numberExons,numberIntrons
-
-def getMinus():
-     """
-     Retrieves numbers of genes, exons and introns in the - strand inside selected chromosome region from the database.
-     """
-     con = sqlite3.connect(fs.dbName)
-     cur = con.cursor()
-
-     numberGenesList = cur.execute("SELECT count(start) FROM features WHERE featuretype='gene' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     numberGenes = numberGenesList[0][0]
-
-     numberExonsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='exon' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-     numberExons = numberExonsList[0][0]
-
-     numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and strand = '-' and seqid = '%s' and start>=%s and end <=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     numberIntronsList = cur.execute("SELECT count(start) FROM features WHERE featuretype='intron' and strand = '%s' and seqid = '%s' and start>=%s and end <=%s"%(strand,rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
      numberIntrons = numberIntronsList[0][0]
 
      con.commit()
@@ -86,8 +65,8 @@ def genesExonsFunc(window,resultsFrame,selectedRegion):
           genesExonsTitle = ttk.Label(resultsFrame,text="Nombres de gènes, exons et introns ",foreground="black")
           genesExonsTitle.grid(column=0,row=0,pady=15,columnspan=4)
 
-          plusGenes,plusExons,plusIntrons=getPlus()
-          minusGenes,minusExons,minusIntrons=getMinus()
+          plusGenes,plusExons,plusIntrons=getStrand("+")
+          minusGenes,minusExons,minusIntrons=getStrand("-")
           bothGenes,bothExons,bothIntrons=getBoth()
 
           #Create treeview widget

@@ -9,23 +9,23 @@ from tkinter import messagebox
 
 
 
-def resultGene() :
+def resultFeature(feature) :
      """
-     Retrieves all the genes present in the chromosome in an array and then calculates the mean,minimum,and maximum
+     Retrieves all the features present in the chromosome in an array and then calculates the mean,minimum,and maximum
      """
 
      con = sqlite3.connect(fs.dbName)
      cur = con.cursor()
 
-     geneAll = cur.execute("SELECT end-start from features WHERE featuretype = 'gene' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
+     featureAll = cur.execute("SELECT end-start from features WHERE featuretype = '%s' and seqid='%s' and start >=%s and end<=%s"%(feature,rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
           
-     geneAllArray = np.array(geneAll)
-     if len(geneAllArray) !=0 :
-          geneAllMean = round(geneAllArray.mean(),2)
+     featureAllArray = np.array(featureAll)
+     if len(featureAllArray) !=0 :
+          geneAllMean = round(featureAllArray.mean(),2)
 
-          geneMin = geneAllArray.min()
+          geneMin = featureAllArray.min()
 
-          geneMax = geneAllArray.max()
+          geneMax = featureAllArray.max()
      else :
           geneAllMean=0
           geneMin=0
@@ -35,65 +35,6 @@ def resultGene() :
      cur.close()
      con.close()
      return geneMin,geneMax,geneAllMean
-
-
-
-def resultExon() :
-     """
-     Retrieves all the exons present in the chromosome in an array and then calculates the mean,minimum,and maximum
-     """
-     
-     con = sqlite3.connect(fs.dbName)
-     cur = con.cursor()
-
-     exonAll = cur.execute("SELECT end-start from features WHERE featuretype = 'exon'and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          
-     exonAllArray = np.array(exonAll)
-     if len(exonAllArray) !=0 :
-          exonAllMean = round(exonAllArray.mean(),2)
-
-          exonMin = exonAllArray.min()
-
-          exonMax = exonAllArray.max()
-     else :
-          exonAllMean=0
-          exonMin=0
-          exonMax=0
-
-     con.commit()
-     cur.close()
-     con.close()
-     return exonMin,exonMax,exonAllMean
-
-
-def resultIntron() : 
-     """
-     Retrieves all the introns present in the chromosome in an array and then calculates the mean,minimum,and maximum
-     """
-
-     con = sqlite3.connect(fs.dbName)
-     cur = con.cursor()
-
-
-     intronAll= cur.execute("SELECT end-start from features WHERE featuretype ='intron' and seqid='%s' and start >=%s and end<=%s"%(rf.chrSelected,rf.startSelected,rf.endSelected)).fetchall()
-          
-     intronAllArray = np.array(intronAll)
-     if len(intronAllArray) !=0 :
-
-          intronAllMean = round(intronAllArray.mean(),2)
-
-          intronMin = intronAllArray.min()
-
-          intronMax = intronAllArray.max()
-     else : 
-          intronAllMean=0
-          intronMin=0
-          intronMax=0
-
-     con.commit()
-     cur.close()
-     con.close()  
-     return intronMin,intronMax,intronAllMean  
 
 
 def resultIntergenes():
@@ -137,9 +78,9 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
 
           statsTab = ttk.Treeview(resultsFrame,height=4)
 
-          geneMin,geneMax,geneAllMean=resultGene()
-          exonMin,exonMax,exonAllMean=resultExon()
-          intronMin,intronMax,intronAllMean=resultIntron() 
+          geneMin,geneMax,geneAllMean=resultFeature("gene")
+          exonMin,exonMax,exonAllMean=resultFeature("exon")
+          intronMin,intronMax,intronAllMean=resultFeature("intron") 
           intergenesMin,intergenesMax,intergenesAllMean=resultIntergenes()
 
           
@@ -164,5 +105,3 @@ def generateStatFunc(window,resultsFrame,selectedRegion):
           statsTab.grid(column=0,row=1,rowspan=1,columnspan=4)
 
      return    
-
-     

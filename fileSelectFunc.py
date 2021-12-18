@@ -52,6 +52,4 @@ def fileSelectFunc(window,selectedFile,resultsFrame,selectedRegion) :
           cur.close()
           con.close()
 
-
      return
-
